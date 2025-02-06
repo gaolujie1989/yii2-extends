@@ -102,6 +102,8 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Filter results by folder ID. Expected format: ee2be9db-82c0-441b-98cb-5e11e34b549e
      *      - *with* - array - optional
      *          - Appends relations to conversations. Expected values: ['messages']
+     *      - *owners* - string - optional
+     *          - Filter results by conversation owners. Multiple values can be provided, separated by comma. Expected format: 1, 9, 15
      * @return array
      */
     public function getConversations(array $query = []): array
@@ -153,6 +155,7 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Array with all message bodies stripped of tags
      *      - *messagesTags* - array
      *          - Array with all tag ID's from all messages
+     *      - *replyTo* - array
      *      - *messagesPaths* - array
      *          - Array with s3 messages paths
      *      - *messagesIds* - array
@@ -161,6 +164,14 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Flag that indicates if the conversation is synced to ES (used during messenger migration to new structure)
      *      - *isArchived* - boolean
      *          - Flag that indicates if the conversation is archived
+     *      - *conversationPreview* - string
+     *          - Strip last the message from messagesBodies to 200 characters, used for preview.
+     *      - *categoryId* - integer
+     *          - Flag that indicates if the conversation is archived
+     *      - *linkedFolders* - array
+     *          - List of linked folders
+     *      - *marketplacesMetadata* - array
+     *          - marketplaces Meta data
      */
     public function createConversation(): array
     {
@@ -213,6 +224,317 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function updateConversationsBatchRestoreConversation(array $query)
     {
         return $this->api(array_merge(["/rest/conversations/batchRestoreConversations"], $query), 'PUT');
+    }
+                    
+    /**
+     * @description Update batch of conversations
+     * @tag Messenger
+     * @return array
+     *      - *uuid* - string
+     *          - The UUID of the conversation
+     *      - *shortId* - string
+     *          - The Short ID of the Conversation
+     *      - *plentyIdHash* - string
+     *          - The plentyIdHash
+     *      - *plentyId* - integer
+     *          - The plentyId of the relation contact
+     *      - *inboxId* - string
+     *          - The inboxId from the assistant
+     *      - *title* - string
+     *          - The Title of the Conversation
+     *      - *tagIds* - array
+     *          - Array of tag IDs
+     *      - *isClosed* - boolean
+     *          - Boolean that indicates if the conversation is closed
+     *      - *isDeleted* - boolean
+     *          - Boolean that indicates if the conversation is deleted
+     *      - *readBy* - array
+     *          - Array of user ids (int)
+     *      - ** - boolean
+     *          - validRelation Conversation has the relations validated
+     *      - *priorityId* - string
+     *          - The Priority of the Conversation
+     *      - *typeId* - integer
+     *          - ID of conversation type
+     *      - *typePosition* - integer
+     *          - Sort order of conversation type
+     *      - *statusId* - integer
+     *          - ID of conversation status
+     *      - *statusPosition* - integer
+     *          - Sort order of conversation status
+     *      - *hasWhisperedMessages* - boolean
+     *          - Flag that indicates if a conversation contains whispered messages
+     *      - *messagesTitles* - array
+     *          - Array of all message titles
+     *      - *messagesBodies* - array
+     *          - Array with all message bodies stripped of tags
+     *      - *messagesTags* - array
+     *          - Array with all tag ID's from all messages
+     *      - *replyTo* - array
+     *      - *messagesPaths* - array
+     *          - Array with s3 messages paths
+     *      - *messagesIds* - array
+     *          - Array with all messages UUID's
+     *      - *isMigratedToEs* - integer
+     *          - Flag that indicates if the conversation is synced to ES (used during messenger migration to new structure)
+     *      - *isArchived* - boolean
+     *          - Flag that indicates if the conversation is archived
+     *      - *conversationPreview* - string
+     *          - Strip last the message from messagesBodies to 200 characters, used for preview.
+     *      - *categoryId* - integer
+     *          - Flag that indicates if the conversation is archived
+     *      - *linkedFolders* - array
+     *          - List of linked folders
+     *      - *marketplacesMetadata* - array
+     *          - marketplaces Meta data
+     */
+    public function updateConversationsBatchUpdateConversation(): array
+    {
+        return $this->api("/rest/conversations/batch_update_conversations", 'PUT');
+    }
+                    
+    /**
+     * @description Deletes a batch of categories
+     * @tag Messenger
+     * @param array $query
+     *      - *ids* - array - required
+     *          - Array of conversation categories ID's. Expected values: [1, 2]
+     */
+    public function deleteConversationsCategory(array $query)
+    {
+        return $this->api(array_merge(["/rest/conversations/categories"], $query), 'DELETE');
+    }
+            
+    /**
+     * @description Returns a paginated result object will list of conversation categories
+     * @tag Messenger
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to id). Expected values: id/position
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to asc).
+     *      - *isDeleted* - boolean - optional
+     *          - Filter results by deleted flag.
+     *      - *name* - string - optional
+     *          - Filter results by type name.
+     *      - *id* - int - optional
+     *          - Filter results by type ID.
+     * @return Iterator
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of ConversationCategory
+     */
+    public function eachConversationsCategories(array $query = []): Iterator
+    {
+        return $this->eachInternal('getConversationsCategories', func_get_args());
+    }
+        
+    /**
+     * @description Returns a paginated result object will list of conversation categories
+     * @tag Messenger
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to id). Expected values: id/position
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to asc).
+     *      - *isDeleted* - boolean - optional
+     *          - Filter results by deleted flag.
+     *      - *name* - string - optional
+     *          - Filter results by type name.
+     *      - *id* - int - optional
+     *          - Filter results by type ID.
+     * @return Iterator
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of ConversationCategory
+     */
+    public function batchConversationsCategories(array $query = []): Iterator
+    {
+        return $this->batchInternal('getConversationsCategories', func_get_args());
+    }
+    
+    /**
+     * @description Returns a paginated result object will list of conversation categories
+     * @tag Messenger
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to id). Expected values: id/position
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to asc).
+     *      - *isDeleted* - boolean - optional
+     *          - Filter results by deleted flag.
+     *      - *name* - string - optional
+     *          - Filter results by type name.
+     *      - *id* - int - optional
+     *          - Filter results by type ID.
+     * @return array
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of ConversationCategory
+     */
+    public function getConversationsCategories(array $query = []): array
+    {
+        return $this->api(array_merge(["/rest/conversations/categories"], $query));
+    }
+                
+    /**
+     * @description Creates a new category
+     * @tag Messenger
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the type
+     *      - *position* - integer
+     *          - The position of the type (used in sorting)
+     *      - *userId* - integer
+     *          - The user ID which performed the last update
+     *      - *icon* - string
+     *          - The icon for messenger tab
+     *      - *iconType* - string
+     *          - The icon type
+     *      - *isDeleted* - boolean
+     *          - Flag that indicates if the type was deleted
+     *      - *isEnabled* - boolean
+     *          - Flag that indicates if the type is enabled
+     */
+    public function createConversationsCategory(): array
+    {
+        return $this->api("/rest/conversations/categories", 'POST');
+    }
+                    
+    /**
+     * @description Deletes a single category (soft delete, type will be flagged as deleted)
+     * @tag Messenger
+     * @param int $id 
+     */
+    public function deleteConversationsCategoryById(int $id)
+    {
+        return $this->api("/rest/conversations/categories/{$id}", 'DELETE');
+    }
+                
+    /**
+     * @description Retrieves a single category based on ID
+     * @tag Messenger
+     * @param int $id 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the type
+     *      - *position* - integer
+     *          - The position of the type (used in sorting)
+     *      - *userId* - integer
+     *          - The user ID which performed the last update
+     *      - *icon* - string
+     *          - The icon for messenger tab
+     *      - *iconType* - string
+     *          - The icon type
+     *      - *isDeleted* - boolean
+     *          - Flag that indicates if the type was deleted
+     *      - *isEnabled* - boolean
+     *          - Flag that indicates if the type is enabled
+     */
+    public function getConversationsCategoryById(int $id): array
+    {
+        return $this->api("/rest/conversations/categories/{$id}");
+    }
+                
+    /**
+     * @description Updates an existing category
+     * @tag Messenger
+     * @param int $id 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the type
+     *      - *position* - integer
+     *          - The position of the type (used in sorting)
+     *      - *userId* - integer
+     *          - The user ID which performed the last update
+     *      - *icon* - string
+     *          - The icon for messenger tab
+     *      - *iconType* - string
+     *          - The icon type
+     *      - *isDeleted* - boolean
+     *          - Flag that indicates if the type was deleted
+     *      - *isEnabled* - boolean
+     *          - Flag that indicates if the type is enabled
+     */
+    public function updateConversationsCategoryById(int $id): array
+    {
+        return $this->api("/rest/conversations/categories/{$id}", 'PUT');
+    }
+                    
+    /**
+     * @description Updates category status
+     * @tag Messenger
+     * @param int $id 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the type
+     *      - *position* - integer
+     *          - The position of the type (used in sorting)
+     *      - *userId* - integer
+     *          - The user ID which performed the last update
+     *      - *icon* - string
+     *          - The icon for messenger tab
+     *      - *iconType* - string
+     *          - The icon type
+     *      - *isDeleted* - boolean
+     *          - Flag that indicates if the type was deleted
+     *      - *isEnabled* - boolean
+     *          - Flag that indicates if the type is enabled
+     */
+    public function updateConversationsCategoriesStatusById(int $id): array
+    {
+        return $this->api("/rest/conversations/categories/{$id}/status", 'PUT');
     }
                     
     /**
@@ -276,11 +598,11 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *filter* - string - optional
      *          - Filter results by event filters. Expected values: conversation_age / conversation_deadline /
      * conversation_from_user / conversation_priority / conversation_type_status / conversation_referrer_type / conversation_inbox / conversation_last_change /
-     * conversation_tag / conversation_guest_order / conversation_is_lead / conversation_is_opportunity / contact_client / contact_class / contact_type /
+     * conversation_tag / conversation_guest_order / conversation_is_lead / conversation_is_opportunity / contact_client / contact_class / contact_type / contact_tag
      * contact_language
      *      - *action* - string - optional
      *          - Filter results by event actions. Expected values: add_reply / send_email / update_deadline /
-     * add_subscriber / change_priority / change_type_and_status / add_to_folder / remove_from_folder / add_tags / remove_tags
+     * add_subscriber / change_priority / change_type_and_status / add_to_folder / remove_from_folder / add_tags / remove_tags/ add_contact_tags/ remove_contact_tags
      *      - *trigger* - string - optional
      *          - Filter results by event triggers. Expected values: new_conversation / new_reply_to_conversation /
      * new_email_from_customer / new_reply_from_customer / conversation_deadline_changed / conversation_priority_changed / conversation_status_changed /
@@ -333,11 +655,11 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *filter* - string - optional
      *          - Filter results by event filters. Expected values: conversation_age / conversation_deadline /
      * conversation_from_user / conversation_priority / conversation_type_status / conversation_referrer_type / conversation_inbox / conversation_last_change /
-     * conversation_tag / conversation_guest_order / conversation_is_lead / conversation_is_opportunity / contact_client / contact_class / contact_type /
+     * conversation_tag / conversation_guest_order / conversation_is_lead / conversation_is_opportunity / contact_client / contact_class / contact_type / contact_tag
      * contact_language
      *      - *action* - string - optional
      *          - Filter results by event actions. Expected values: add_reply / send_email / update_deadline /
-     * add_subscriber / change_priority / change_type_and_status / add_to_folder / remove_from_folder / add_tags / remove_tags
+     * add_subscriber / change_priority / change_type_and_status / add_to_folder / remove_from_folder / add_tags / remove_tags/ add_contact_tags/ remove_contact_tags
      *      - *trigger* - string - optional
      *          - Filter results by event triggers. Expected values: new_conversation / new_reply_to_conversation /
      * new_email_from_customer / new_reply_from_customer / conversation_deadline_changed / conversation_priority_changed / conversation_status_changed /
@@ -390,11 +712,11 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *      - *filter* - string - optional
      *          - Filter results by event filters. Expected values: conversation_age / conversation_deadline /
      * conversation_from_user / conversation_priority / conversation_type_status / conversation_referrer_type / conversation_inbox / conversation_last_change /
-     * conversation_tag / conversation_guest_order / conversation_is_lead / conversation_is_opportunity / contact_client / contact_class / contact_type /
+     * conversation_tag / conversation_guest_order / conversation_is_lead / conversation_is_opportunity / contact_client / contact_class / contact_type / contact_tag
      * contact_language
      *      - *action* - string - optional
      *          - Filter results by event actions. Expected values: add_reply / send_email / update_deadline /
-     * add_subscriber / change_priority / change_type_and_status / add_to_folder / remove_from_folder / add_tags / remove_tags
+     * add_subscriber / change_priority / change_type_and_status / add_to_folder / remove_from_folder / add_tags / remove_tags/ add_contact_tags/ remove_contact_tags
      *      - *trigger* - string - optional
      *          - Filter results by event triggers. Expected values: new_conversation / new_reply_to_conversation /
      * new_email_from_customer / new_reply_from_customer / conversation_deadline_changed / conversation_priority_changed / conversation_status_changed /
@@ -748,6 +1070,31 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
+     * @description Update follow up date for a batch of conversations
+     * @tag Messenger
+     * @param array $query
+     *      - *followUpDate* - string - required
+     *          - The new follow up date. Expected format: 2023/01/31
+     *      - *uuids* - array - required
+     *          - The list of conversations UUID's to update deadline. Expected values: ['24810ce7-4b75-45d0-8610-7fb07ede0d86']
+     */
+    public function updateConversationsFollowUpDate(array $query)
+    {
+        return $this->api(array_merge(["/rest/conversations/followUpDate"], $query), 'PUT');
+    }
+                    
+    /**
+     * @description Retrieves history for a conversation
+     * @tag Messenger
+     * @param int $uuid5 
+     * @return array
+     */
+    public function getConversationsHistoryByUuid5(int $uuid5): array
+    {
+        return $this->api("/rest/conversations/history/{$uuid5}");
+    }
+                    
+    /**
      * @description Returns a list with all configured inboxes (only active ones)
      * @tag Messenger
      * @return array
@@ -755,6 +1102,16 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function getConversationsInboxes(): array
     {
         return $this->api("/rest/conversations/inboxes");
+    }
+                    
+    /**
+     * @description Update owner roles for specific conversation id/ids
+     * @tag Messenger
+
+     */
+    public function updateConversationsOwner()
+    {
+        return $this->api("/rest/conversations/owner", 'PUT');
     }
                     
     /**
@@ -785,6 +1142,273 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function updateConversationsRead(array $query)
     {
         return $this->api(array_merge(["/rest/conversations/read"], $query), 'PUT');
+    }
+                    
+    /**
+     * @description Remove conversation relation
+     * @tag Messenger
+
+     */
+    public function deleteConversationsRemoveRelation()
+    {
+        return $this->api("/rest/conversations/removeRelation", 'DELETE');
+    }
+                    
+    /**
+     * @description Delete a batch of roles
+     * @tag Messenger
+     * @param array $query
+     *      - *ids* - array - required
+     *          - Array of conversation roles ID's. Expected values: [1, 2]
+     */
+    public function deleteConversationsRole(array $query)
+    {
+        return $this->api(array_merge(["/rest/conversations/roles"], $query), 'DELETE');
+    }
+            
+    /**
+     * @description Returns a paginated result object with list of roles
+     * @tag Messenger
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to id). Expected values: id or position
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to asc).
+     * @return Iterator
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of ConversationRole
+     */
+    public function eachConversationsRoles(array $query = []): Iterator
+    {
+        return $this->eachInternal('getConversationsRoles', func_get_args());
+    }
+        
+    /**
+     * @description Returns a paginated result object with list of roles
+     * @tag Messenger
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to id). Expected values: id or position
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to asc).
+     * @return Iterator
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of ConversationRole
+     */
+    public function batchConversationsRoles(array $query = []): Iterator
+    {
+        return $this->batchInternal('getConversationsRoles', func_get_args());
+    }
+    
+    /**
+     * @description Returns a paginated result object with list of roles
+     * @tag Messenger
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to id). Expected values: id or position
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to asc).
+     * @return array
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of ConversationRole
+     */
+    public function getConversationsRoles(array $query = []): array
+    {
+        return $this->api(array_merge(["/rest/conversations/roles"], $query));
+    }
+                
+    /**
+     * @description Crete new role
+     * @tag Messenger
+     * @return array
+     *      - *id* - integer
+     *      - *position* - integer
+     *      - *userId* - integer
+     *      - *isDeleted* - boolean
+     */
+    public function createConversationsRole(): array
+    {
+        return $this->api("/rest/conversations/roles", 'POST');
+    }
+                    
+    /**
+     * @description Delete a role by ID
+     * @tag Messenger
+     * @param int $id 
+     */
+    public function deleteConversationsRoleById(int $id)
+    {
+        return $this->api("/rest/conversations/roles/{$id}", 'DELETE');
+    }
+                
+    /**
+     * @description Retrieves a role object based on role id
+     * @tag Messenger
+     * @param int $id 
+     * @return array
+     *      - *id* - integer
+     *      - *position* - integer
+     *      - *userId* - integer
+     *      - *isDeleted* - boolean
+     */
+    public function getConversationsRoleById(int $id): array
+    {
+        return $this->api("/rest/conversations/roles/{$id}");
+    }
+                
+    /**
+     * @description Updates an existing role
+     * @tag Messenger
+     * @param int $id 
+     * @return array
+     *      - *id* - integer
+     *      - *position* - integer
+     *      - *userId* - integer
+     *      - *isDeleted* - boolean
+     */
+    public function updateConversationsRoleById(int $id): array
+    {
+        return $this->api("/rest/conversations/roles/{$id}", 'PUT');
+    }
+                    
+    /**
+     * @description Search conversation based on provided parameters
+     * @tag Messenger
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to createdAt).
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to desc).
+     *      - *title* - string - optional
+     *          - Filter results by conversation title (searched string must be contained in title).
+     *      - *message* - string - optional
+     *          - Filter results by message body (searched string must be contained in one of the converesation messages).
+     *      - *fromDate* - string - optional
+     *          - Filter results by conversation creation date. Conversation must be created after this date. Expected format: 2023-01-31T00:00:00+03:00
+     *      - *toDate* - string - optional
+     *          - Filter results by conversation creation date. Conversation must be created before this date. Expected format: 2023-01-31T00:00:00+03:00
+     *      - *updateFromDate* - string - optional
+     *          - Filter results by conversation update date. Conversation must be updated after this date. Expected format: 2023-01-31T00:00:00+03:00
+     *      - *updateToDate* - string - optional
+     *          - Filter results by conversation update date. Conversation must be updated before this date. Expected format: 2023-01-31T00:00:00+03:00
+     *      - *tagIds* - string - optional
+     *          - Filter results by conversation tags. Multiple values can be provided, separated by comma. Expected format: 1, 9, 15
+     *      - *isDone* - boolean - optional
+     *          - Filter results by conversation state. Expected values: true/false
+     *      - *referrer* - string - optional
+     *          - Filter results by conversation referrer (referrer of first message of the conversation). Expected values: system/backend/rest/plugin/email
+     *      - *shortId* - int - optional
+     *          - Filter results by conversation short ID.
+     *      - *hasAttachments* - boolean - optional
+     *          - Filter results by conversation that contain at least one message with one attachment. Expected values: true
+     *      - *hasBilledMsg* - boolean - optional
+     *          - Filter results by conversation that contain at least one billed message. Expected values: true
+     *      - *orderIds* - string - optional
+     *          - Filter results by conversation relation type order. Multiple values can be provided, separated by comma. Expected format: 1, 9, 15
+     *      - *contactIds* - string - optional
+     *          - Filter results by conversation relation type contact. Multiple values can be provided, separated by comma. Expected format: 1, 9, 15
+     *      - *emails* - string - optional
+     *          - Filter results by conversation relation type email. Multiple values can be provided, separated by comma. Expected format: email1@plentymarkets.com, email2@plentymarkets.com
+     *      - *paymentIds* - string - optional
+     *          - Filter results by conversation relation type payment. Multiple values can be provided, separated by comma. Expected format: 1, 9, 15
+     *      - *subscribersUsers* - string - optional
+     *          - Filter results by conversation subscribers. Multiple values can be provided, separated by comma. Expected format: 1, 9, 15
+     *      - *fromValue* - string - optional
+     *          - Filter results by conversation sender (sender of the first message of tehr conversation).
+     * The searched value can be and user ID or an email. Multiple values can be provided, separated by comma. This filter only works if the fromType filter is also provided. Expected format: 1, 5
+     *      - *fromType* - string - optional
+     *          - Filter results by conversation sender type (sender type of the first message of the conversation). Expected values: user/email
+     *      - *priorityId* - int - optional
+     *          - Filter results by conversation priority. Expected values: 1/2/3/4/5
+     *      - *inboxId* - int - optional
+     *          - Filter results by conversation inbox ID. Expected format: 1
+     *      - *deadline* - string - optional
+     *          - Filter results by conversation deadline ID. Expected values: yesterday/today/tomorrow/exceeded/in_the_future
+     *      - *statusId* - int - optional
+     *          - Filter results by conversation status ID
+     *      - *typeId* - int - optional
+     *          - Filter results by conversation type ID
+     *      - *isDeleted* - int - optional
+     *          - Filter results by conversation deleted flag. Expected values: 0/1
+     *      - *deletedAtBefore* - string - optional
+     *          - Filter results by conversation deleted date. Conversation must be deleted before this date. Expected format: 2023-01-31T00:00:00+03:00
+     *      - *isArchived* - string - optional
+     *          - Filter results from main index or from archive. Expected value: true/false (defaults to false)
+     *      - *isRead* - boolean - optional
+     *          - Filter results by conversation read status. This filter will take effect only in combination with readById filter. Expected value: true/false
+     *      - *readById* - int - optional
+     *          - Filter results by conversation read status for the provided user ID. This filter will take effect only in combination with isRead filter. Expected format: 1
+     *      - *uuids* - string - optional
+     *          - Filter results by conversation ID's. Multiple values can be provided, separated by comma. Expected format: ee2be9db-82c0-441b-98cb-5e11e34b549e, 24810ce7-4b75-45d0-8610-7fb07ede0d86
+     *      - *folderId* - string - optional
+     *          - Filter results by folder ID. Expected format: ee2be9db-82c0-441b-98cb-5e11e34b549e
+     *      - *with* - array - optional
+     *          - Appends relations to conversations. Expected values: ['messages']
+     *      - *owners* - string - optional
+     *          - Filter results by conversation owners. Multiple values can be provided, separated by comma. Expected format: 1, 9, 15
+     * @return array
+     */
+    public function createConversationsSearch(array $query = []): array
+    {
+        return $this->api(array_merge(["/rest/conversations/search"], $query), 'POST');
     }
                     
     /**
@@ -1218,6 +1842,8 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The suer ID which performed the last update
      *      - *isDeleted* - boolean
      *          - Flag that indicates if the type was deleted
+     *      - *categoryId* - boolean
+     *          - The ID of the parent category
      */
     public function createConversationsType(): array
     {
@@ -1247,6 +1873,8 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The suer ID which performed the last update
      *      - *isDeleted* - boolean
      *          - Flag that indicates if the type was deleted
+     *      - *categoryId* - boolean
+     *          - The ID of the parent category
      */
     public function getConversationsTypeById(int $id): array
     {
@@ -1266,6 +1894,8 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The suer ID which performed the last update
      *      - *isDeleted* - boolean
      *          - Flag that indicates if the type was deleted
+     *      - *categoryId* - boolean
+     *          - The ID of the parent category
      */
     public function updateConversationsTypeById(int $id): array
     {
@@ -1339,6 +1969,7 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Array with all message bodies stripped of tags
      *      - *messagesTags* - array
      *          - Array with all tag ID's from all messages
+     *      - *replyTo* - array
      *      - *messagesPaths* - array
      *          - Array with s3 messages paths
      *      - *messagesIds* - array
@@ -1347,6 +1978,14 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Flag that indicates if the conversation is synced to ES (used during messenger migration to new structure)
      *      - *isArchived* - boolean
      *          - Flag that indicates if the conversation is archived
+     *      - *conversationPreview* - string
+     *          - Strip last the message from messagesBodies to 200 characters, used for preview.
+     *      - *categoryId* - integer
+     *          - Flag that indicates if the conversation is archived
+     *      - *linkedFolders* - array
+     *          - List of linked folders
+     *      - *marketplacesMetadata* - array
+     *          - marketplaces Meta data
      */
     public function getConversationByUuid5(int $uuid5): array
     {
@@ -1398,6 +2037,7 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Array with all message bodies stripped of tags
      *      - *messagesTags* - array
      *          - Array with all tag ID's from all messages
+     *      - *replyTo* - array
      *      - *messagesPaths* - array
      *          - Array with s3 messages paths
      *      - *messagesIds* - array
@@ -1406,6 +2046,14 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - Flag that indicates if the conversation is synced to ES (used during messenger migration to new structure)
      *      - *isArchived* - boolean
      *          - Flag that indicates if the conversation is archived
+     *      - *conversationPreview* - string
+     *          - Strip last the message from messagesBodies to 200 characters, used for preview.
+     *      - *categoryId* - integer
+     *          - Flag that indicates if the conversation is archived
+     *      - *linkedFolders* - array
+     *          - List of linked folders
+     *      - *marketplacesMetadata* - array
+     *          - marketplaces Meta data
      */
     public function updateConversationByUuid5(int $uuid5): array
     {
@@ -1505,6 +2153,16 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date the message was deleted
      *      - *deletedBy* - integer
      *          - The ID of the user who deleted the message
+     *      - *categoryId* - integer
+     *          - The categoryID of the message/conversation
+     *      - *typeId* - integer
+     *          - The typeID of the conversation
+     *      - *typePosition* - integer
+     *          - The typePosition of the typeID
+     *      - *statusId* - integer
+     *          - The statusID of the conversation
+     *      - *statusPosition* - integer
+     *          - The statusPosition of statusID
      */
     public function createMessage(array $data): array
     {
@@ -1637,6 +2295,16 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date the message was deleted
      *      - *deletedBy* - integer
      *          - The ID of the user who deleted the message
+     *      - *categoryId* - integer
+     *          - The categoryID of the message/conversation
+     *      - *typeId* - integer
+     *          - The typeID of the conversation
+     *      - *typePosition* - integer
+     *          - The typePosition of the typeID
+     *      - *statusId* - integer
+     *          - The statusID of the conversation
+     *      - *statusPosition* - integer
+     *          - The statusPosition of statusID
      */
     public function updateMessagesControlByUuid5(int $uuid5, array $data): array
     {
@@ -1712,6 +2380,16 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date the message was deleted
      *      - *deletedBy* - integer
      *          - The ID of the user who deleted the message
+     *      - *categoryId* - integer
+     *          - The categoryID of the message/conversation
+     *      - *typeId* - integer
+     *          - The typeID of the conversation
+     *      - *typePosition* - integer
+     *          - The typePosition of the typeID
+     *      - *statusId* - integer
+     *          - The statusID of the conversation
+     *      - *statusPosition* - integer
+     *          - The statusPosition of statusID
      */
     public function updateMessagesTagByUuid5(string $uuid5, array $query): array
     {
@@ -1728,6 +2406,77 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function updateMessagesVisibilityByUuid5(string $uuid5, array $data): array
     {
         return $this->api("/rest/messages/{$uuid5}/visibility", 'PUT', $data);
+    }
+                    
+    /**
+     * @description Create new Ebay account
+     * @tag Messenger
+     * @return array
+     *      - *id* - integer
+     *          - The id of the messenger ebay settings account
+     *      - *ebayAccountId* - integer
+     *          - The id of the ebay account
+     *      - *name* - string
+     *          - The name of the ebay account
+     *      - *isEnabled* - boolean
+     *          - The status of the messenger ebay settings account
+     *      - *isDeleted* - boolean
+     *          - The deleted status of the messenger ebay settings account
+     */
+    public function createMessengerMarketplacesEbay(): array
+    {
+        return $this->api("/rest/messenger/marketplaces/ebay", 'POST');
+    }
+                
+    /**
+     * @description Update an existing array of Ebay account settings
+     * @tag Messenger
+
+     */
+    public function updateMessengerMarketplacesEbay()
+    {
+        return $this->api("/rest/messenger/marketplaces/ebay", 'PUT');
+    }
+                    
+    /**
+     * @description Get the list of ebay accounts
+     * @tag Messenger
+
+     */
+    public function getMessengerMarketplacesEbayAll()
+    {
+        return $this->api("/rest/messenger/marketplaces/ebay/all");
+    }
+                    
+    /**
+     * @description Mark as deleted an Ebay account.
+     * @tag Messenger
+     * @param int $id 
+     */
+    public function deleteMessengerMarketplacesEbayById(int $id)
+    {
+        return $this->api("/rest/messenger/marketplaces/ebay/{$id}", 'DELETE');
+    }
+                
+    /**
+     * @description Retrieves an Ebay account object
+     * @tag Messenger
+     * @param int $id 
+     * @return array
+     *      - *id* - integer
+     *          - The id of the messenger ebay settings account
+     *      - *ebayAccountId* - integer
+     *          - The id of the ebay account
+     *      - *name* - string
+     *          - The name of the ebay account
+     *      - *isEnabled* - boolean
+     *          - The status of the messenger ebay settings account
+     *      - *isDeleted* - boolean
+     *          - The deleted status of the messenger ebay settings account
+     */
+    public function getMessengerMarketplacesEbayById(int $id): array
+    {
+        return $this->api("/rest/messenger/marketplaces/ebay/{$id}");
     }
                     
     /**
@@ -1748,6 +2497,16 @@ class Messenger extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function updateMessengerSetting()
     {
         return $this->api("/rest/messenger/settings", 'PUT');
+    }
+                    
+    /**
+     * @description Retrieves the default value for whisper mode
+     * @tag Messenger
+
+     */
+    public function getMessengerSettingsGetDefaultWhisperMode()
+    {
+        return $this->api("/rest/messenger/settings/getDefaultWhisperMode");
     }
     
 }

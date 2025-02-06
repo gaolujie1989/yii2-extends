@@ -21,6 +21,7 @@ class Sync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The storage key of the object to get from sync documents.
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string
@@ -43,6 +44,7 @@ class Sync extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The storage key for the file to upload
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string

@@ -1332,7 +1332,18 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
-     * @description Create a company contact relation. The ID of the account contact relation must be specified. An account is equivalent to a company.
+     * @description Deletes multiple companies based on their IDs. The IDs of the companies must be specified.
+     * @tag Account
+
+     */
+    public function deleteAccountsBatchDelete()
+    {
+        return $this->api("/rest/accounts/batchDelete", 'DELETE');
+    }
+                    
+    /**
+     * @description Create a company contact relation. The ID of the account contact relation must be specified.
+An account is equivalent to a company.
      * @tag Account
      * @param array $query
      *      - *accountId* - int - required
@@ -1353,7 +1364,8 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
-     * @description Deletes a company contact relation. The ID of the account contact relation must be specified. An account is equivalent to a company.
+     * @description Deletes a company contact relation. The ID of the account contact relation must be specified.
+An account is equivalent to a company.
      * @tag Account
      * @param int $accountContactRelationId The ID of the company contact relation
      */
@@ -1363,7 +1375,8 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                 
     /**
-     * @description Gets a company contact relation. The ID of the account contact relation must be specified. An account is equivalent to a company.
+     * @description Gets a company contact relation. The ID of the account contact relation must be specified.
+An account is equivalent to a company.
      * @tag Account
      * @param int $accountContactRelationId The ID of the company contact relation
      * @return array
@@ -1377,6 +1390,27 @@ class Account extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function getAccountsContactRelationByAccountContactRelationId(int $accountContactRelationId): array
     {
         return $this->api("/rest/accounts/contact_relations/{$accountContactRelationId}");
+    }
+                    
+    /**
+     * @description Update an account contact relation isPrimary field. The ID of the account contact relation must be specified.
+An account is equivalent to a company.
+     * @tag Account
+     * @param int $accountContactRelationId The ID of the company contact relation
+     * @param array $query
+     *      - *isPrimary* - boolean - required
+     *          - Sets one contact per account as the primary contact.
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the account contact relation
+     *      - *accountId* - integer
+     *          - The ID of the foreign key account
+     *      - *contactId* - integer
+     *          - The ID of the foreign key contact
+     */
+    public function updateAccountsContactRelationsPrimaryByAccountContactRelationId(int $accountContactRelationId, array $query): array
+    {
+        return $this->api(array_merge(["/rest/accounts/contact_relations/{$accountContactRelationId}/primary"], $query), 'PUT');
     }
                 
     /**
@@ -1906,6 +1940,8 @@ the debtor number in your financial accounting.
      *          - The number of days since the current lead status has been set
      *      - *leadStatusUpdateAt* - string
      *          - DEPRECATED - See leadStatusUpdatedAt
+     *      - *position_id* - integer
+     *          - The job position ID of the contact
      */
     public function createAccountsContact(array $data): array
     {
@@ -2077,6 +2113,19 @@ the debtor number in your financial accounting.
     }
                     
     /**
+     * @description Updates a batch of contacts.
+     * @tag Account
+     * @param array $query
+     *      - *tagRelationships* - array - optional
+     *          - When this parameter is used, the current relations between contacts and tags
+     *     will be deleted and replaced by the given ones. If the parameter is not used, the current relations remain.
+     */
+    public function updateAccountsContactsBatchUpdate(array $query = [])
+    {
+        return $this->api(array_merge(["/rest/accounts/contacts/batch_update"], $query), 'PUT');
+    }
+                    
+    /**
      * @description Lists the contact classes.
      * @tag Account
      * @return array
@@ -2085,15 +2134,238 @@ the debtor number in your financial accounting.
     {
         return $this->api("/rest/accounts/contacts/classes");
     }
+                
+    /**
+     * @description Creates a contact class
+     * @tag Account
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the contact class
+     *      - *name* - string
+     *      - *priceColumn* - integer
+     *      - *showPrice* - integer
+     *          - Flag to display price in the online store as Gross(1) or Net(2)
+     *      - *discountType* - integer
+     *      - *position* - integer
+     *      - *pqsQuantity1* - number
+     *      - ** - number
+     *          - pqsDiscount10
+     *      - *pqsQuantity2* - number
+     *      - *pqsQuantity3* - number
+     *      - *pqsQuantity4* - number
+     *      - *pqsQuantity5* - number
+     *      - *pqsQuantity6* - number
+     *      - *pqsQuantity7* - number
+     *      - *pqsQuantity8* - number
+     *      - *pqsQuantity9* - number
+     *      - *pqsQuantity10* - number
+     *      - *pnsQuantity1* - number
+     *      - *pnsDiscount1* - number
+     *      - *pnsQuantity2* - number
+     *      - *pnsDiscount2* - number
+     *      - *pnsQuantity3* - number
+     *      - *pnsDiscount3* - number
+     *      - *pnsQuantity4* - number
+     *      - *pnsDiscount4* - number
+     *      - *pnsQuantity5* - number
+     *      - *pnsDiscount5* - number
+     *      - *pmsMop* - string
+     *      - *pmsDiscount* - number
+     *      - *paqsDiscount* - number
+     *      - *payableDueWithin* - integer
+     *      - *minQuantity* - integer
+     *      - *dontUseItemPriceRebates* - integer
+     *      - *customerId* - integer
+     *      - *allowedMops* - string
+     *          - The list of allowed payment methods
+     *      - *pdwQuantity1* - number
+     *      - *pdwDays1* - integer
+     *      - *pdwQuantity2* - number
+     *      - *pdwDays2* - integer
+     *      - *pdwQuantity3* - number
+     *      - *pdwDays3* - integer
+     *      - *pdwQuantity4* - number
+     *      - *pdwDays4* - integer
+     *      - *pdwQuantity5* - number
+     *      - *pdwDays5* - integer
+     *      - *customerGroupsPaymentNotice* - string
+     *      - *earlyPaymentDiscount* - number
+     *      - *earlyPaymentDiscountDays* - number
+     *      - *valuta* - integer
+     *      - *manualDiscount* - number
+     *      - *allowedMethodOfPaymentIdsList* - array
+     */
+    public function createAccountsContactsClass(): array
+    {
+        return $this->api("/rest/accounts/contacts/classes", 'POST');
+    }
                     
     /**
-     * @description Gets a contact class. The ID of the contact class must be specified.
+     * @description Lists the contact classes paginated
      * @tag Account
-     * @param int $contactClassId The ID of the contact class
+     * @return array
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - 
      */
-    public function getAccountsContactsClassByContactClassId(int $contactClassId)
+    public function getAccountsContactsClassesPaginated(): array
+    {
+        return $this->api("/rest/accounts/contacts/classes/paginated");
+    }
+                    
+    /**
+     * @description Deletes a contact class
+     * @tag Account
+     * @param int $contactClassId 
+     */
+    public function deleteAccountsContactsClassByContactClassId(int $contactClassId)
+    {
+        return $this->api("/rest/accounts/contacts/classes/{$contactClassId}", 'DELETE');
+    }
+                
+    /**
+     * @description Returns contact class model based on ID
+     * @tag Account
+     * @param int $contactClassId 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the contact class
+     *      - *name* - string
+     *      - *priceColumn* - integer
+     *      - *showPrice* - integer
+     *          - Flag to display price in the online store as Gross(1) or Net(2)
+     *      - *discountType* - integer
+     *      - *position* - integer
+     *      - *pqsQuantity1* - number
+     *      - ** - number
+     *          - pqsDiscount10
+     *      - *pqsQuantity2* - number
+     *      - *pqsQuantity3* - number
+     *      - *pqsQuantity4* - number
+     *      - *pqsQuantity5* - number
+     *      - *pqsQuantity6* - number
+     *      - *pqsQuantity7* - number
+     *      - *pqsQuantity8* - number
+     *      - *pqsQuantity9* - number
+     *      - *pqsQuantity10* - number
+     *      - *pnsQuantity1* - number
+     *      - *pnsDiscount1* - number
+     *      - *pnsQuantity2* - number
+     *      - *pnsDiscount2* - number
+     *      - *pnsQuantity3* - number
+     *      - *pnsDiscount3* - number
+     *      - *pnsQuantity4* - number
+     *      - *pnsDiscount4* - number
+     *      - *pnsQuantity5* - number
+     *      - *pnsDiscount5* - number
+     *      - *pmsMop* - string
+     *      - *pmsDiscount* - number
+     *      - *paqsDiscount* - number
+     *      - *payableDueWithin* - integer
+     *      - *minQuantity* - integer
+     *      - *dontUseItemPriceRebates* - integer
+     *      - *customerId* - integer
+     *      - *allowedMops* - string
+     *          - The list of allowed payment methods
+     *      - *pdwQuantity1* - number
+     *      - *pdwDays1* - integer
+     *      - *pdwQuantity2* - number
+     *      - *pdwDays2* - integer
+     *      - *pdwQuantity3* - number
+     *      - *pdwDays3* - integer
+     *      - *pdwQuantity4* - number
+     *      - *pdwDays4* - integer
+     *      - *pdwQuantity5* - number
+     *      - *pdwDays5* - integer
+     *      - *customerGroupsPaymentNotice* - string
+     *      - *earlyPaymentDiscount* - number
+     *      - *earlyPaymentDiscountDays* - number
+     *      - *valuta* - integer
+     *      - *manualDiscount* - number
+     *      - *allowedMethodOfPaymentIdsList* - array
+     */
+    public function getAccountsContactsClassByContactClassId(int $contactClassId): array
     {
         return $this->api("/rest/accounts/contacts/classes/{$contactClassId}");
+    }
+                
+    /**
+     * @description Updates a contact class
+     * @tag Account
+     * @param int $contactClassId 
+     * @param array $data 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the contact class
+     *      - *name* - string
+     *      - *priceColumn* - integer
+     *      - *showPrice* - integer
+     *          - Flag to display price in the online store as Gross(1) or Net(2)
+     *      - *discountType* - integer
+     *      - *position* - integer
+     *      - *pqsQuantity1* - number
+     *      - ** - number
+     *          - pqsDiscount10
+     *      - *pqsQuantity2* - number
+     *      - *pqsQuantity3* - number
+     *      - *pqsQuantity4* - number
+     *      - *pqsQuantity5* - number
+     *      - *pqsQuantity6* - number
+     *      - *pqsQuantity7* - number
+     *      - *pqsQuantity8* - number
+     *      - *pqsQuantity9* - number
+     *      - *pqsQuantity10* - number
+     *      - *pnsQuantity1* - number
+     *      - *pnsDiscount1* - number
+     *      - *pnsQuantity2* - number
+     *      - *pnsDiscount2* - number
+     *      - *pnsQuantity3* - number
+     *      - *pnsDiscount3* - number
+     *      - *pnsQuantity4* - number
+     *      - *pnsDiscount4* - number
+     *      - *pnsQuantity5* - number
+     *      - *pnsDiscount5* - number
+     *      - *pmsMop* - string
+     *      - *pmsDiscount* - number
+     *      - *paqsDiscount* - number
+     *      - *payableDueWithin* - integer
+     *      - *minQuantity* - integer
+     *      - *dontUseItemPriceRebates* - integer
+     *      - *customerId* - integer
+     *      - *allowedMops* - string
+     *          - The list of allowed payment methods
+     *      - *pdwQuantity1* - number
+     *      - *pdwDays1* - integer
+     *      - *pdwQuantity2* - number
+     *      - *pdwDays2* - integer
+     *      - *pdwQuantity3* - number
+     *      - *pdwDays3* - integer
+     *      - *pdwQuantity4* - number
+     *      - *pdwDays4* - integer
+     *      - *pdwQuantity5* - number
+     *      - *pdwDays5* - integer
+     *      - *customerGroupsPaymentNotice* - string
+     *      - *earlyPaymentDiscount* - number
+     *      - *earlyPaymentDiscountDays* - number
+     *      - *valuta* - integer
+     *      - *manualDiscount* - number
+     *      - *allowedMethodOfPaymentIdsList* - array
+     */
+    public function updateAccountsContactsClassByContactClassId(int $contactClassId, array $data): array
+    {
+        return $this->api("/rest/accounts/contacts/classes/{$contactClassId}", 'PUT', $data);
     }
                     
     /**
@@ -3001,9 +3273,9 @@ The following types are available by default and cannot be deleted:
     /**
      * @description Lists all contact types.
      * @tag Account
-     * @return array
+
      */
-    public function getAccountsContactsTypes(): array
+    public function getAccountsContactsTypes()
     {
         return $this->api("/rest/accounts/contacts/types");
     }
@@ -3239,6 +3511,8 @@ the debtor number in your financial accounting.
      *          - The number of days since the current lead status has been set
      *      - *leadStatusUpdateAt* - string
      *          - DEPRECATED - See leadStatusUpdatedAt
+     *      - *position_id* - integer
+     *          - The job position ID of the contact
      */
     public function getAccountsContactByContactId(int $contactId, array $query = []): array
     {
@@ -3375,6 +3649,8 @@ the debtor number in your financial accounting.
      *          - The number of days since the current lead status has been set
      *      - *leadStatusUpdateAt* - string
      *          - DEPRECATED - See leadStatusUpdatedAt
+     *      - *position_id* - integer
+     *          - The job position ID of the contact
      */
     public function updateAccountsContactByContactId(int $contactId, array $data, array $query = []): array
     {
@@ -3984,6 +4260,8 @@ the debtor number in your financial accounting.
      *          - The number of days since the current lead status has been set
      *      - *leadStatusUpdateAt* - string
      *          - DEPRECATED - See leadStatusUpdatedAt
+     *      - *position_id* - integer
+     *          - The job position ID of the contact
      */
     public function updateAccountsContactsAnonymizeByContactId(int $contactId): array
     {
@@ -4138,6 +4416,7 @@ the debtor number in your financial accounting.
      *          - The storage key of the object to get from contact documents.
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string
@@ -4161,6 +4440,7 @@ the debtor number in your financial accounting.
      *          - The storage key for the file to upload
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string
@@ -4186,6 +4466,7 @@ the debtor number in your financial accounting.
      *          - An alternative title for the link
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string
@@ -4198,6 +4479,33 @@ the debtor number in your financial accounting.
     public function createAccountsContactsDocumentLinkByContactId(int $contactId, array $query): array
     {
         return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/document/link"], $query), 'POST');
+    }
+                    
+    /**
+     * @description Update an existing document link. The ID of the contact must be specified also the document id.
+     * @tag Account
+     * @param string $documentId The ID of the document link
+     * @param int $contactId The ID of the contact
+     * @param array $query
+     *      - *link* - string - required
+     *          - The external link
+     *      - *title* - string - optional
+     *          - An alternative title for the link
+     * @return array
+     *      - *key* - string
+     *      - *path* - string
+     *      - *lastModified* - string
+     *      - *metaData* - array
+     *      - *eTag* - string
+     *      - *size* - integer
+     *      - *storageClass* - string
+     *      - *body* - string
+     *      - *contentType* - string
+     *      - *contentLength* - string
+     */
+    public function updateAccountsContactsDocumentLinkByDocumentIdContactId(string $documentId, int $contactId, array $query): array
+    {
+        return $this->api(array_merge(["/rest/accounts/contacts/{$contactId}/document/link/{$documentId}"], $query), 'PUT');
     }
                     
     /**
@@ -4426,6 +4734,8 @@ the debtor number in your financial accounting.
      *          - The number of days since the current lead status has been set
      *      - *leadStatusUpdateAt* - string
      *          - DEPRECATED - See leadStatusUpdatedAt
+     *      - *position_id* - integer
+     *          - The job position ID of the contact
      */
     public function getAccountsContactsRelatedDataByContactId(int $contactId): array
     {
@@ -4579,10 +4889,201 @@ the debtor number in your financial accounting.
      *          - The number of days since the current lead status has been set
      *      - *leadStatusUpdateAt* - string
      *          - DEPRECATED - See leadStatusUpdatedAt
+     *      - *position_id* - integer
+     *          - The job position ID of the contact
      */
     public function createAccountsGuestsConvert(array $query = []): array
     {
         return $this->api(array_merge(["/rest/accounts/guests/convert"], $query), 'POST');
+    }
+                
+    /**
+     * @description Get paginated list of jobs based on provided parameters
+     * @tag Account
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to createdAt).
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to desc).
+     *      - *id* - int - optional
+     *          - Filter results by job id.
+     *      - *name* - string - optional
+     *          - Filter results by job name.
+     *      - *with* - array - optional
+     *          - Job relations, array or string (comma separated)
+     * @return Iterator
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of Job
+     */
+    public function eachAccountsJobs(array $query = []): Iterator
+    {
+        return $this->eachInternal('getAccountsJobs', func_get_args());
+    }
+        
+    /**
+     * @description Get paginated list of jobs based on provided parameters
+     * @tag Account
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to createdAt).
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to desc).
+     *      - *id* - int - optional
+     *          - Filter results by job id.
+     *      - *name* - string - optional
+     *          - Filter results by job name.
+     *      - *with* - array - optional
+     *          - Job relations, array or string (comma separated)
+     * @return Iterator
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of Job
+     */
+    public function batchAccountsJobs(array $query = []): Iterator
+    {
+        return $this->batchInternal('getAccountsJobs', func_get_args());
+    }
+    
+    /**
+     * @description Get paginated list of jobs based on provided parameters
+     * @tag Account
+     * @param array $query
+     *      - *page* - int - optional
+     *          - The page number (defaults to 1).
+     *      - *itemsPerPage* - int - optional
+     *          - The number of results per page (defaults to 50).
+     *      - *sortBy* - string - optional
+     *          - The sorting column (defaults to createdAt).
+     *      - *sortOrder* - string - optional
+     *          - The sorting direction (defaults to desc).
+     *      - *id* - int - optional
+     *          - Filter results by job id.
+     *      - *name* - string - optional
+     *          - Filter results by job name.
+     *      - *with* - array - optional
+     *          - Job relations, array or string (comma separated)
+     * @return array
+     *      - *page* - integer
+     *          - Current page of the response
+     *      - *totalsCount* - integer
+     *          - The total number of entries in the response
+     *      - *isLastPage* - boolean
+     *          - Flag that indicates if the page shown is the last page of the response
+     *      - *lastPageNumber* - integer
+     *          - The last page number
+     *      - *firstOnPage* - integer
+     *          - The index of the first item of the current page result
+     *      - *lastOnPage* - integer
+     *          - The index of the last item of the current page result
+     *      - *itemsPerPage* - integer
+     *          - The requested amount of items per result page
+     *      - *entries* - array
+     *          - List of Job
+     */
+    public function getAccountsJobs(array $query = []): array
+    {
+        return $this->api(array_merge(["/rest/accounts/jobs"], $query));
+    }
+                
+    /**
+     * @description Create a job with given data
+     * @tag Account
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the job
+     *      - *position* - integer
+     *          - The position ID
+     *      - *createdAt* - string
+     *          - The date the contact was created
+     *      - *updatedAt* - string
+     *          - The date the contact was last updated
+     */
+    public function createAccountsJob(): array
+    {
+        return $this->api("/rest/accounts/jobs", 'POST');
+    }
+                    
+    /**
+     * @description Delete a job by a given id. Hard delete, it will be entirely removed.
+     * @tag Account
+     * @param int $jobId 
+     */
+    public function deleteAccountsJobByJobId(int $jobId)
+    {
+        return $this->api("/rest/accounts/jobs/{$jobId}", 'DELETE');
+    }
+                
+    /**
+     * @description Get single job by id
+     * @tag Account
+     * @param int $jobId 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the job
+     *      - *position* - integer
+     *          - The position ID
+     *      - *createdAt* - string
+     *          - The date the contact was created
+     *      - *updatedAt* - string
+     *          - The date the contact was last updated
+     */
+    public function getAccountsJobByJobId(int $jobId): array
+    {
+        return $this->api("/rest/accounts/jobs/{$jobId}");
+    }
+                
+    /**
+     * @description Update a job names with given data. The id of the job must be specified.
+     * @tag Account
+     * @param int $jobId 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the job
+     *      - *position* - integer
+     *          - The position ID
+     *      - *createdAt* - string
+     *          - The date the contact was created
+     *      - *updatedAt* - string
+     *          - The date the contact was last updated
+     */
+    public function updateAccountsJobByJobId(int $jobId): array
+    {
+        return $this->api("/rest/accounts/jobs/{$jobId}", 'PUT');
     }
                     
     /**

@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -554,33 +554,33 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "backendName": "fa15fb8e-bb45-386c-ac6f-4817d62f3eba",
-                                        "position": 2,
+                                        "backendName": "01a782e0-1de9-3a38-b620-1fdba1167e68",
+                                        "position": 5,
                                         "isSurchargePercental": false,
                                         "isLinkableToImage": true,
-                                        "amazonAttribute": "Delectus dolore incidunt molestias ut tempora quaerat.",
+                                        "amazonAttribute": "Minima qui officia labore. Fugit eveniet dolores accusamus ea ea voluptas ducimus odit.",
                                         "fruugoAttribute": "null",
-                                        "pixmaniaAttribute": 2,
-                                        "ottoAttribute": "none",
+                                        "pixmaniaAttribute": 4,
+                                        "ottoAttribute": "Dimension2",
                                         "googleShoppingAttribute": "pattern",
-                                        "neckermannAtEpAttribute": 7,
-                                        "typeOfSelectionInOnlineStore": "image",
-                                        "laRedouteAttribute": 9,
+                                        "neckermannAtEpAttribute": 1,
+                                        "typeOfSelectionInOnlineStore": "box",
+                                        "laRedouteAttribute": 5,
                                         "isGroupable": true
                                     },
                                     {
-                                        "backendName": "10d357bb-128a-39a6-b562-6385066808b3",
-                                        "position": 6,
+                                        "backendName": "1c905dad-8547-3466-b889-09e55f9364a7",
+                                        "position": 7,
                                         "isSurchargePercental": false,
                                         "isLinkableToImage": false,
-                                        "amazonAttribute": "Consequatur minus velit quas veniam et. Ut odio est qui eum aliquid eaque.",
-                                        "fruugoAttribute": "size",
-                                        "pixmaniaAttribute": 6,
-                                        "ottoAttribute": "Dimension2",
-                                        "googleShoppingAttribute": "none",
+                                        "amazonAttribute": "Magni molestiae facilis alias quibusdam odio asperiores suscipit.",
+                                        "fruugoAttribute": "null",
+                                        "pixmaniaAttribute": 1,
+                                        "ottoAttribute": "Dimension3",
+                                        "googleShoppingAttribute": "size",
                                         "neckermannAtEpAttribute": 3,
-                                        "typeOfSelectionInOnlineStore": "box",
-                                        "laRedouteAttribute": 6,
+                                        "typeOfSelectionInOnlineStore": "image",
+                                        "laRedouteAttribute": 5,
                                         "isGroupable": false
                                     }
                                 ],
@@ -932,14 +932,14 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "attributeId": 259,
-                                        "lang": "gn",
-                                        "name": "Abagail Flats"
+                                        "attributeId": 1784,
+                                        "lang": "su",
+                                        "name": "Cronin Street"
                                     },
                                     {
-                                        "attributeId": 260,
-                                        "lang": "pt",
-                                        "name": "Wuckert Meadow"
+                                        "attributeId": 1785,
+                                        "lang": "co",
+                                        "name": "Mueller Rapid"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -1166,30 +1166,30 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "attributeId": 257,
-                                        "backendName": "Tristian Squares",
-                                        "position": 8,
-                                        "image": "attr_3.png",
-                                        "comment": "Ratione nemo aperiam non in possimus perspiciatis quae laboriosam autem provident in eos.",
-                                        "amazonValue": "reiciendis",
-                                        "ottoValue": "dolores",
-                                        "neckermannAtEpValue": "excepturi",
-                                        "laRedouteValue": "explicabo",
-                                        "tracdelightValue": "deserunt",
-                                        "percentageDistribution": 15
+                                        "attributeId": 1782,
+                                        "backendName": "Leatha Coves",
+                                        "position": 7,
+                                        "image": "attr_6.png",
+                                        "comment": "Nostrum ab voluptatem ad quia aut et suscipit quaerat quam commodi et blanditiis nulla enim reprehenderit itaque voluptatibus voluptatibus non voluptatibus quas.",
+                                        "amazonValue": "ea",
+                                        "ottoValue": "cumque",
+                                        "neckermannAtEpValue": "error",
+                                        "laRedouteValue": "saepe",
+                                        "tracdelightValue": "repudiandae",
+                                        "percentageDistribution": 17
                                     },
                                     {
-                                        "attributeId": 258,
-                                        "backendName": "Janiya River",
-                                        "position": 7,
-                                        "image": "attr_5.png",
-                                        "comment": "Sit laborum rerum doloremque nesciunt quisquam nisi amet mollitia dolores veniam hic qui quia dolores dolorem et facilis.",
-                                        "amazonValue": "ea",
-                                        "ottoValue": "velit",
-                                        "neckermannAtEpValue": "consequatur",
-                                        "laRedouteValue": "est",
-                                        "tracdelightValue": "repellat",
-                                        "percentageDistribution": 87
+                                        "attributeId": 1783,
+                                        "backendName": "Wiegand Club",
+                                        "position": 3,
+                                        "image": "attr_8.png",
+                                        "comment": "Quos dolorum aperiam qui atque assumenda qui est deleniti inventore provident provident quod eos aliquam dolore voluptatum fugiat aperiam id animi.",
+                                        "amazonValue": "minus",
+                                        "ottoValue": "maiores",
+                                        "neckermannAtEpValue": "ducimus",
+                                        "laRedouteValue": "voluptas",
+                                        "tracdelightValue": "ut",
+                                        "percentageDistribution": 6
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -1394,14 +1394,14 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "valueId": 214,
-                                        "lang": "qu",
-                                        "name": "Royce Track"
+                                        "valueId": 1494,
+                                        "lang": "cu",
+                                        "name": "Gislason Run"
                                     },
                                     {
-                                        "valueId": 215,
-                                        "lang": "xh",
-                                        "name": "Hauck Plains"
+                                        "valueId": 1495,
+                                        "lang": "kn",
+                                        "name": "Ankunding Causeway"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -1563,17 +1563,17 @@
                         },
                         "examples": {
                             "application/json": {
-                                "attributeId": 256,
-                                "backendName": "Gutmann Island",
-                                "position": 9,
-                                "image": "attr_6.png",
-                                "comment": "Quas omnis voluptas omnis perferendis harum et assumenda exercitationem enim distinctio voluptas deleniti quia voluptatem quibusdam magnam pariatur eius quasi aut ea et quam sequi.",
-                                "amazonValue": "excepturi",
-                                "ottoValue": "est",
-                                "neckermannAtEpValue": "sed",
-                                "laRedouteValue": "et",
-                                "tracdelightValue": "et",
-                                "percentageDistribution": 11
+                                "attributeId": 1781,
+                                "backendName": "Lee Forks",
+                                "position": 1,
+                                "image": "attr_4.png",
+                                "comment": "Accusantium consequatur aut fugiat laudantium saepe ut qui eaque accusamus nihil expedita totam quidem eligendi aut fugit quos.",
+                                "amazonValue": "sunt",
+                                "ottoValue": "ea",
+                                "neckermannAtEpValue": "voluptatem",
+                                "laRedouteValue": "molestiae",
+                                "tracdelightValue": "distinctio",
+                                "percentageDistribution": 32
                             }
                         }
                     },
@@ -1613,18 +1613,18 @@
                         },
                         "examples": {
                             "application/json": {
-                                "backendName": "85e1653a-ff97-333a-b044-6dfc3ff60b2b",
-                                "position": 9,
+                                "backendName": "821d6744-fde8-3e83-97bd-088a1282e7ae",
+                                "position": 1,
                                 "isSurchargePercental": false,
                                 "isLinkableToImage": false,
-                                "amazonAttribute": "Placeat quam qui adipisci voluptas voluptate.",
+                                "amazonAttribute": "Cupiditate distinctio error eos qui temporibus officia. Ullam quo ut ipsam quis.",
                                 "fruugoAttribute": "null",
-                                "pixmaniaAttribute": 9,
-                                "ottoAttribute": "Dimension2",
-                                "googleShoppingAttribute": "pattern",
-                                "neckermannAtEpAttribute": 9,
+                                "pixmaniaAttribute": 0,
+                                "ottoAttribute": "Dimension3",
+                                "googleShoppingAttribute": "none",
+                                "neckermannAtEpAttribute": 8,
                                 "typeOfSelectionInOnlineStore": "image",
-                                "laRedouteAttribute": 8,
+                                "laRedouteAttribute": 0,
                                 "isGroupable": false
                             }
                         }
@@ -1730,12 +1730,12 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "name": "gzemlak",
-                                        "type": "UPC"
+                                        "name": "jazlyn72",
+                                        "type": "GTIN_128"
                                     },
                                     {
-                                        "name": "sabina35",
-                                        "type": "GTIN_14"
+                                        "name": "hschneider",
+                                        "type": "ISBN"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -2108,18 +2108,18 @@
                                 "entries": [
                                     {
                                         "parentCategoryId": null,
-                                        "level": 4,
+                                        "level": 1,
                                         "type": "container",
-                                        "linklist": "N",
-                                        "right": "all",
+                                        "linklist": "Y",
+                                        "right": "customer",
                                         "sitemap": "N"
                                     },
                                     {
                                         "parentCategoryId": null,
-                                        "level": 2,
+                                        "level": 1,
                                         "type": "container",
-                                        "linklist": "N",
-                                        "right": "all",
+                                        "linklist": "Y",
+                                        "right": "customer",
                                         "sitemap": "Y"
                                     }
                                 ],
@@ -2296,22 +2296,22 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "categoryId": 3,
-                                        "category1Id": 9,
-                                        "category2Id": 2,
-                                        "category3Id": 4,
-                                        "category4Id": 1,
+                                        "categoryId": 2,
+                                        "category1Id": 2,
+                                        "category2Id": 7,
+                                        "category3Id": 1,
+                                        "category4Id": 7,
                                         "category5Id": 8,
                                         "category6Id": 3
                                     },
                                     {
-                                        "categoryId": 3,
-                                        "category1Id": 9,
-                                        "category2Id": 6,
-                                        "category3Id": 7,
+                                        "categoryId": 8,
+                                        "category1Id": 5,
+                                        "category2Id": 0,
+                                        "category3Id": 1,
                                         "category4Id": 6,
-                                        "category5Id": 3,
-                                        "category6Id": 3
+                                        "category5Id": 5,
+                                        "category6Id": 6
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -2399,10 +2399,10 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "plentyId": 794
+                                        "plentyId": 64487
                                     },
                                     {
-                                        "plentyId": 794
+                                        "plentyId": 64487
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -2506,54 +2506,54 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "categoryId": 9,
-                                        "lang": "wf",
-                                        "name": "et",
-                                        "description": "Perferendis consequatur animi veritatis animi est odit aut sunt. Rerum veritatis vel velit expedita repellat recusandae. Debitis consequatur molestias quasi veniam. Incidunt delectus veniam aliquid non nesciunt. Ipsum accusamus explicabo beatae exercitationem.",
-                                        "description2": "Magnam molestiae sint soluta quis perspiciatis. Occaecati consequatur aut facere qui. Nostrum dolores maiores asperiores nulla et. Aut sint laboriosam nesciunt enim est nostrum doloribus. Aut explicabo non et ratione placeat quasi dolorem.",
-                                        "shortDescription": "Nemo qui tempora velit similique placeat.",
-                                        "metaKeywords": "sed, omnis, architecto",
-                                        "metaDescription": "Quam modi reprehenderit voluptates illum deserunt cum.",
-                                        "nameUrl": "ab",
-                                        "metaTitle": "necessitatibus",
-                                        "position": 16,
-                                        "itemListView": "ItemViewCategoriesList4",
-                                        "singleItemView": "ItemViewSingleItem5",
+                                        "categoryId": 5,
+                                        "lang": "fm",
+                                        "name": "placeat",
+                                        "description": "Illo nobis nulla alias voluptatem omnis ut voluptatem. Qui amet debitis ut iusto ut et. Consequatur optio veniam dolorum cumque magnam.",
+                                        "description2": "Impedit et quia quae magnam illo molestias. Eaque voluptate ut et eos nesciunt. Quisquam rerum provident asperiores a quia. Dolores quasi corrupti aut perspiciatis velit.",
+                                        "shortDescription": "Nam impedit impedit nesciunt est qui asperiores quis.",
+                                        "metaKeywords": "illo, distinctio, aliquid",
+                                        "metaDescription": "Autem autem velit culpa et.",
+                                        "nameUrl": "non",
+                                        "metaTitle": "aspernatur",
+                                        "position": 45,
+                                        "itemListView": "ItemViewCategoriesList7",
+                                        "singleItemView": "ItemViewSingleItem4",
+                                        "pageView": "PageDesignContent",
+                                        "fulltext": "Y",
+                                        "metaRobots": "NOINDEX_NOFOLLOW",
+                                        "canonicalLink": "http://russel.info/quae-aut-maxime-ipsum-aspernatur-nisi.html",
+                                        "updatedBy": "guy78",
+                                        "image": null,
+                                        "imagePath": null,
+                                        "image2": null,
+                                        "image2Path": null,
+                                        "plentyId": 64487
+                                    },
+                                    {
+                                        "categoryId": 5,
+                                        "lang": "dt",
+                                        "name": "voluptate",
+                                        "description": "Ullam sapiente illo enim qui ratione hic tempora ut. Soluta iste illo quod. Dicta provident facere rem enim facere assumenda qui.",
+                                        "description2": "Tempore numquam corporis quia sit vel id. Neque est aut impedit officia autem et. Molestiae impedit sint laudantium. Rem minima omnis et voluptas eum.",
+                                        "shortDescription": "Est autem sed facilis et saepe odit molestiae.",
+                                        "metaKeywords": "ad, nihil, fuga",
+                                        "metaDescription": "In accusamus culpa consequatur non est inventore ut ipsum.",
+                                        "nameUrl": "ratione",
+                                        "metaTitle": "laudantium",
+                                        "position": 18,
+                                        "itemListView": "ItemViewCategoriesList7",
+                                        "singleItemView": "ItemViewSingleItem",
                                         "pageView": "PageDesignCustom2",
                                         "fulltext": "Y",
                                         "metaRobots": "NOFOLLOW",
-                                        "canonicalLink": "http://www.hand.biz/consectetur-labore-dolorem-optio-quo-sunt",
-                                        "updatedBy": "price.keegan",
+                                        "canonicalLink": "http://jacobson.org/magni-temporibus-sed-neque-corrupti-debitis-explicabo-voluptas",
+                                        "updatedBy": "kraynor",
                                         "image": null,
                                         "imagePath": null,
                                         "image2": null,
                                         "image2Path": null,
-                                        "plentyId": 794
-                                    },
-                                    {
-                                        "categoryId": 7,
-                                        "lang": "ay",
-                                        "name": "praesentium",
-                                        "description": "Beatae similique consequatur velit voluptas corrupti. Libero illo voluptatibus omnis. Et libero provident soluta rerum atque. Vel molestiae magni sed nisi vitae assumenda quia non.",
-                                        "description2": "Porro sed est id rerum. Maiores dolorem necessitatibus sit aut et. Aperiam repudiandae voluptate ea quo. Nobis rem velit odit est.",
-                                        "shortDescription": "Ullam provident beatae pariatur deserunt vero.",
-                                        "metaKeywords": "enim, earum, illum",
-                                        "metaDescription": "Et ad illum voluptas unde tempore et id suscipit.",
-                                        "nameUrl": "aperiam",
-                                        "metaTitle": "quos",
-                                        "position": 26,
-                                        "itemListView": "ItemViewCategoriesList2",
-                                        "singleItemView": "ItemViewSingleItem5",
-                                        "pageView": "PageDesignContent",
-                                        "fulltext": "Y",
-                                        "metaRobots": "NOINDEX",
-                                        "canonicalLink": "http://lesch.net/",
-                                        "updatedBy": "neil12",
-                                        "image": null,
-                                        "imagePath": null,
-                                        "image2": null,
-                                        "image2Path": null,
-                                        "plentyId": 794
+                                        "plentyId": 64487
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -2752,11 +2752,11 @@
                         "examples": {
                             "application/json": {
                                 "parentCategoryId": null,
-                                "level": 4,
+                                "level": 1,
                                 "type": "content",
-                                "linklist": "Y",
+                                "linklist": "N",
                                 "right": "all",
-                                "sitemap": "N"
+                                "sitemap": "Y"
                             }
                         }
                     },
@@ -2861,18 +2861,18 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "orderId": 359,
-                                        "orderItemId": 930,
-                                        "itemId": 8075,
-                                        "serialNumber": "250463536124",
-                                        "createdAt": "2021-05-24T11:28:04+02:00"
+                                        "orderId": 852,
+                                        "orderItemId": 924,
+                                        "itemId": 7182,
+                                        "serialNumber": "626084914925",
+                                        "createdAt": "1977-07-14T20:01:00+01:00"
                                     },
                                     {
-                                        "orderId": 294,
-                                        "orderItemId": 336,
-                                        "itemId": 1774,
-                                        "serialNumber": "706486873891",
-                                        "createdAt": "2002-11-02T01:32:19+01:00"
+                                        "orderId": 285,
+                                        "orderItemId": 904,
+                                        "itemId": 3145,
+                                        "serialNumber": "295654911632",
+                                        "createdAt": "1992-08-27T21:53:02+02:00"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -3263,21 +3263,21 @@
                                 "entries": [
                                     {
                                         "position": 13,
-                                        "minimumOrderQuantity": 58.16,
+                                        "minimumOrderQuantity": 2.78,
+                                        "type": "default",
+                                        "isCustomerPrice": false,
+                                        "isDisplayedByDefault": true,
+                                        "isLiveConversion": true,
+                                        "interval": "weekly"
+                                    },
+                                    {
+                                        "position": 80,
+                                        "minimumOrderQuantity": 19.31,
                                         "type": "rrp",
                                         "isCustomerPrice": false,
                                         "isDisplayedByDefault": true,
                                         "isLiveConversion": false,
-                                        "interval": "none"
-                                    },
-                                    {
-                                        "position": 60,
-                                        "minimumOrderQuantity": 21.83,
-                                        "type": "specialOffer",
-                                        "isCustomerPrice": true,
-                                        "isDisplayedByDefault": false,
-                                        "isLiveConversion": true,
-                                        "interval": "daily"
+                                        "interval": "semi-annual"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -3317,7 +3317,7 @@
                         "in": "query"
                     },
                     {
-                        "name": "customerClass",
+                        "name": "customerClassId",
                         "type": "integer",
                         "required": false,
                         "description": "Filter restricts the result to sales prices with the specified customer class.",
@@ -3333,7 +3333,7 @@
                         "in": "query"
                     },
                     {
-                        "name": "country",
+                        "name": "countryId",
                         "type": "integer",
                         "required": false,
                         "description": "Filter restricts the result to sales prices with the specified country.",
@@ -3349,7 +3349,7 @@
                         "in": "query"
                     },
                     {
-                        "name": "referrer",
+                        "name": "referrerId",
                         "type": "integer",
                         "required": false,
                         "description": "Filter restricts the result to sales prices with the specified referrer.",
@@ -3667,13 +3667,13 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 63,
-                                "minimumOrderQuantity": 51.26,
+                                "position": 60,
+                                "minimumOrderQuantity": 17.79,
                                 "type": "specialOffer",
                                 "isCustomerPrice": true,
                                 "isDisplayedByDefault": true,
-                                "isLiveConversion": false,
-                                "interval": "quarterly"
+                                "isLiveConversion": true,
+                                "interval": "semi-annual"
                             }
                         }
                     },
@@ -3921,44 +3921,605 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "exception": "Since fakerphp/faker 1.14: Accessing property \"username\" is deprecated, use \"username()\" instead.",
-                                        "categories": [],
-                                        "barcodes": [],
-                                        "additionalSkus": [],
-                                        "attributeValues": [],
-                                        "bundleComponents": [],
-                                        "clients": [],
-                                        "defaultCategories": [],
-                                        "images": [],
-                                        "marketIdentNumbers": [],
-                                        "markets": [],
-                                        "salesPrices": [],
-                                        "skus": [],
-                                        "supplier": [],
-                                        "warehouses": [],
-                                        "properties": [],
-                                        "tags": [],
-                                        "comments": []
+                                        "id": 61949,
+                                        "base": {
+                                            "isMain": true,
+                                            "itemId": 1706,
+                                            "position": 27,
+                                            "isActive": false,
+                                            "number": "G-228922",
+                                            "model": "vel",
+                                            "externalId": null,
+                                            "availability": 1,
+                                            "estimatedAvailableAt": "2024-10-17T20:40:44+0200",
+                                            "purchasePrice": 17.43,
+                                            "createdAt": "2023-12-24T02:03:56+0100",
+                                            "updatedAt": "2024-09-28T15:06:53+0200",
+                                            "relatedUpdatedAt": "2024-09-26T17:57:25+0200",
+                                            "priceCalculationId": null,
+                                            "picking": null,
+                                            "stockLimitation": 0,
+                                            "isVisibleIfNetStockIsPositive": false,
+                                            "isInvisibleIfNetStockIsNotPositive": false,
+                                            "isAvailableIfNetStockIsPositive": false,
+                                            "isUnavailableIfNetStockIsNotPositive": false,
+                                            "mainWarehouseId": 1575,
+                                            "maximumOrderQuantity": 83.63,
+                                            "minimumOrderQuantity": 20.91,
+                                            "intervalOrderQuantity": 51.43,
+                                            "availableUntil": "2024-10-18T09:55:06+0200",
+                                            "releasedAt": "2024-09-29T01:21:42+0200",
+                                            "name": "jbrekke",
+                                            "weightG": 7,
+                                            "weightNetG": 9,
+                                            "widthMM": 3,
+                                            "lengthMM": 4,
+                                            "heightMM": 4,
+                                            "extraShippingCharge1": 37.1,
+                                            "extraShippingCharge2": 95.93,
+                                            "unitsContained": 3,
+                                            "palletTypeId": 6,
+                                            "packingUnits": 9,
+                                            "packingUnitTypeId": 7,
+                                            "transportationCosts": 25.83,
+                                            "storageCosts": 52.54,
+                                            "customs": 6.71,
+                                            "operatingCosts": 84.65,
+                                            "vatId": 1,
+                                            "bundleType": null,
+                                            "automaticClientVisibility": true,
+                                            "isHiddenInCategoryList": true
+                                        },
+                                        "additionalSkus": [
+                                            {
+                                                "marketId": 4.02,
+                                                "marketAccountId": 7448,
+                                                "sku": "9040378606"
+                                            },
+                                            {
+                                                "marketId": 104.19,
+                                                "marketAccountId": 88698,
+                                                "sku": "6750391370"
+                                            }
+                                        ],
+                                        "attributeValues": [
+                                            {
+                                                "attributeId": 1773,
+                                                "attributeValueSetId": 113,
+                                                "valueId": 1486
+                                            },
+                                            {
+                                                "attributeId": 1774,
+                                                "attributeValueSetId": 54,
+                                                "valueId": 1487
+                                            }
+                                        ],
+                                        "barcodes": [
+                                            {
+                                                "barcodeId": 184,
+                                                "code": "8671361184504"
+                                            },
+                                            {
+                                                "barcodeId": 185,
+                                                "code": "6747671574815"
+                                            }
+                                        ],
+                                        "bundleComponents": [
+                                            {
+                                                "componentVariationId": 2197,
+                                                "componentQuantity": 10
+                                            },
+                                            {
+                                                "componentVariationId": 2198,
+                                                "componentQuantity": 10
+                                            }
+                                        ],
+                                        "categories": [
+                                            {
+                                                "categoryId": 38,
+                                                "position": 4,
+                                                "isNeckermannPrimary": true
+                                            },
+                                            {
+                                                "categoryId": 14,
+                                                "position": 7,
+                                                "isNeckermannPrimary": false
+                                            }
+                                        ],
+                                        "clients": [
+                                            {
+                                                "plentyId": 16611
+                                            },
+                                            {
+                                                "plentyId": 10505
+                                            }
+                                        ],
+                                        "comments": [
+                                            {
+                                                "id": 727,
+                                                "userId": null,
+                                                "text": "Consequuntur dicta doloribus nobis perferendis minima architecto labore quaerat dolorem ex temporibus ea sint.",
+                                                "isVisibleForContact": true
+                                            },
+                                            {
+                                                "id": 353,
+                                                "userId": null,
+                                                "text": "Qui minima voluptatem architecto dolor aliquid aperiam.",
+                                                "isVisibleForContact": true
+                                            }
+                                        ],
+                                        "defaultCategories": [
+                                            {
+                                                "branchId": 9,
+                                                "manually": false,
+                                                "plentyId": 12073
+                                            },
+                                            {
+                                                "branchId": 45,
+                                                "manually": true,
+                                                "plentyId": 11439
+                                            }
+                                        ],
+                                        "images": [
+                                            {
+                                                "imageId": 137
+                                            },
+                                            {
+                                                "imageId": 138
+                                            }
+                                        ],
+                                        "markets": [
+                                            {
+                                                "marketId": 61.25
+                                            },
+                                            {
+                                                "marketId": 45.25
+                                            }
+                                        ],
+                                        "marketIdentNumbers": [
+                                            {
+                                                "id": 808,
+                                                "countryId": 5,
+                                                "type": "asin",
+                                                "position": 2,
+                                                "value": "2600589953"
+                                            },
+                                            {
+                                                "id": 195,
+                                                "countryId": 2,
+                                                "type": "epid",
+                                                "position": 9,
+                                                "value": "9456552934"
+                                            }
+                                        ],
+                                        "properties": [
+                                            {
+                                                "propertyId": 1060,
+                                                "value": null
+                                            },
+                                            {
+                                                "propertyId": 1061,
+                                                "value": "est"
+                                            }
+                                        ],
+                                        "salesPrices": [
+                                            {
+                                                "salesPriceId": 18,
+                                                "price": 280.29
+                                            },
+                                            {
+                                                "salesPriceId": 54,
+                                                "price": 831.26
+                                            }
+                                        ],
+                                        "skus": [
+                                            {
+                                                "marketId": 137,
+                                                "accountId": 4,
+                                                "initialSku": "",
+                                                "sku": "7159773713",
+                                                "parentSku": "937",
+                                                "isActive": true,
+                                                "status": "ACTIVE",
+                                                "additionalInformation": "non"
+                                            },
+                                            {
+                                                "marketId": 139,
+                                                "accountId": 7,
+                                                "initialSku": "",
+                                                "sku": "8775561522",
+                                                "parentSku": "126",
+                                                "isActive": false,
+                                                "status": "ACTIVE",
+                                                "additionalInformation": "nam"
+                                            }
+                                        ],
+                                        "supplier": [
+                                            {
+                                                "supplierId": 61,
+                                                "purchasePrice": 0.0432,
+                                                "minimumPurchase": 8,
+                                                "itemNumber": "9798247868934",
+                                                "lastPriceQuery": "2015-07-19",
+                                                "deliveryTimeInDays": 8,
+                                                "discount": 191256387.60882,
+                                                "isDiscountable": true,
+                                                "packagingUnit": 56
+                                            },
+                                            {
+                                                "supplierId": 69,
+                                                "purchasePrice": 867444.84019385,
+                                                "minimumPurchase": 1,
+                                                "itemNumber": "9799356534642",
+                                                "lastPriceQuery": "2001-02-25T00:00:00+01:00",
+                                                "deliveryTimeInDays": 8,
+                                                "discount": 4,
+                                                "isDiscountable": false,
+                                                "packagingUnit": 47303
+                                            }
+                                        ],
+                                        "tags": [
+                                            {
+                                                "tagId": 93
+                                            },
+                                            {
+                                                "tagId": 94
+                                            }
+                                        ],
+                                        "timestamps": {
+                                            "availability": "2024-09-30T01:53:58+02:00",
+                                            "additionalSku": "2024-10-01T22:40:27+02:00",
+                                            "barcode": "2024-10-02T17:17:23+02:00",
+                                            "base": "2024-10-03T04:48:33+02:00",
+                                            "bundleComponent": "2024-09-27T05:26:49+02:00",
+                                            "category": "2024-09-26T18:14:10+02:00",
+                                            "client": "2024-09-29T17:54:12+02:00",
+                                            "defaultCategory": "2024-09-30T23:46:30+02:00",
+                                            "image": "2024-10-02T14:32:25+02:00",
+                                            "market": "2024-09-28T04:04:58+02:00",
+                                            "marketIdentNumber": "2024-09-27T20:12:35+02:00",
+                                            "related": "2024-09-27T18:34:37+02:00",
+                                            "salesPrice": "2024-10-02T15:04:45+02:00",
+                                            "sku": "2024-09-27T07:07:36+02:00",
+                                            "supplier": "2024-10-02T14:28:02+02:00",
+                                            "property": "2024-09-30T18:30:24+02:00",
+                                            "warehouse": "2024-09-27T16:57:27+02:00",
+                                            "tag": "2024-10-02T02:34:26+02:00",
+                                            "comment": "2024-10-03T01:00:45+02:00",
+                                            "createdAt": "2024-09-30T00:32:53+02:00"
+                                        },
+                                        "unit": {
+                                            "unitId": 1353,
+                                            "unitCombinationId": 446,
+                                            "content": 50
+                                        },
+                                        "warehouses": [
+                                            {
+                                                "warehouseId": 1578,
+                                                "zoneId": 2,
+                                                "storageLocationType": "small",
+                                                "reorderLevel": 9,
+                                                "maximumStock": 6,
+                                                "stockTurnoverInDays": 2,
+                                                "storageLocation": 8,
+                                                "stockBuffer": 7,
+                                                "isBatch": true,
+                                                "isBestBeforeDate": true
+                                            },
+                                            {
+                                                "warehouseId": 1579,
+                                                "zoneId": 7,
+                                                "storageLocationType": "none",
+                                                "reorderLevel": 6,
+                                                "maximumStock": 9,
+                                                "stockTurnoverInDays": 8,
+                                                "storageLocation": 1,
+                                                "stockBuffer": 1,
+                                                "isBatch": false,
+                                                "isBestBeforeDate": false
+                                            }
+                                        ]
                                     },
                                     {
-                                        "exception": "Since fakerphp/faker 1.14: Accessing property \"username\" is deprecated, use \"username()\" instead.",
-                                        "categories": [],
-                                        "barcodes": [],
-                                        "additionalSkus": [],
-                                        "attributeValues": [],
-                                        "bundleComponents": [],
-                                        "clients": [],
-                                        "defaultCategories": [],
-                                        "images": [],
-                                        "marketIdentNumbers": [],
-                                        "markets": [],
-                                        "salesPrices": [],
-                                        "skus": [],
-                                        "supplier": [],
-                                        "warehouses": [],
-                                        "properties": [],
-                                        "tags": [],
-                                        "comments": []
+                                        "id": 72243,
+                                        "base": {
+                                            "isMain": true,
+                                            "itemId": 1709,
+                                            "position": 63,
+                                            "isActive": false,
+                                            "number": "X-989792",
+                                            "model": "omnis",
+                                            "externalId": null,
+                                            "availability": 1,
+                                            "estimatedAvailableAt": "2024-10-19T23:06:43+0200",
+                                            "purchasePrice": 0.61,
+                                            "createdAt": "2024-06-13T19:40:54+0200",
+                                            "updatedAt": "2024-09-29T20:08:13+0200",
+                                            "relatedUpdatedAt": "2024-09-29T05:58:31+0200",
+                                            "priceCalculationId": null,
+                                            "picking": null,
+                                            "stockLimitation": 1,
+                                            "isVisibleIfNetStockIsPositive": false,
+                                            "isInvisibleIfNetStockIsNotPositive": true,
+                                            "isAvailableIfNetStockIsPositive": true,
+                                            "isUnavailableIfNetStockIsNotPositive": true,
+                                            "mainWarehouseId": 1580,
+                                            "maximumOrderQuantity": 99.53,
+                                            "minimumOrderQuantity": 20.04,
+                                            "intervalOrderQuantity": 35.91,
+                                            "availableUntil": "2024-10-22T06:45:30+0200",
+                                            "releasedAt": "2024-10-01T07:58:43+0200",
+                                            "name": "elbert60",
+                                            "weightG": 2,
+                                            "weightNetG": 6,
+                                            "widthMM": 5,
+                                            "lengthMM": 7,
+                                            "heightMM": 8,
+                                            "extraShippingCharge1": 14.12,
+                                            "extraShippingCharge2": 73.56,
+                                            "unitsContained": 1,
+                                            "palletTypeId": 4,
+                                            "packingUnits": 4,
+                                            "packingUnitTypeId": 1,
+                                            "transportationCosts": 63.6,
+                                            "storageCosts": 12.12,
+                                            "customs": 92.38,
+                                            "operatingCosts": 33.71,
+                                            "vatId": 2,
+                                            "bundleType": "bundle",
+                                            "automaticClientVisibility": true,
+                                            "isHiddenInCategoryList": true
+                                        },
+                                        "additionalSkus": [
+                                            {
+                                                "marketId": 4.09,
+                                                "marketAccountId": 61120,
+                                                "sku": "0541288954"
+                                            },
+                                            {
+                                                "marketId": 104.02,
+                                                "marketAccountId": 61016,
+                                                "sku": "103947747X"
+                                            }
+                                        ],
+                                        "attributeValues": [
+                                            {
+                                                "attributeId": 1777,
+                                                "attributeValueSetId": 633,
+                                                "valueId": 1490
+                                            },
+                                            {
+                                                "attributeId": 1778,
+                                                "attributeValueSetId": 698,
+                                                "valueId": 1491
+                                            }
+                                        ],
+                                        "barcodes": [
+                                            {
+                                                "barcodeId": 186,
+                                                "code": "8550305249724"
+                                            },
+                                            {
+                                                "barcodeId": 187,
+                                                "code": "0421837157680"
+                                            }
+                                        ],
+                                        "bundleComponents": [
+                                            {
+                                                "componentVariationId": 2199,
+                                                "componentQuantity": 8
+                                            },
+                                            {
+                                                "componentVariationId": 2200,
+                                                "componentQuantity": 2
+                                            }
+                                        ],
+                                        "categories": [
+                                            {
+                                                "categoryId": 48,
+                                                "position": 2,
+                                                "isNeckermannPrimary": true
+                                            },
+                                            {
+                                                "categoryId": 55,
+                                                "position": 9,
+                                                "isNeckermannPrimary": false
+                                            }
+                                        ],
+                                        "clients": [
+                                            {
+                                                "plentyId": 10380
+                                            },
+                                            {
+                                                "plentyId": 19743
+                                            }
+                                        ],
+                                        "comments": [
+                                            {
+                                                "id": 692,
+                                                "userId": 173,
+                                                "text": "Voluptas vel sunt voluptatem rem animi qui.",
+                                                "isVisibleForContact": false
+                                            },
+                                            {
+                                                "id": 767,
+                                                "userId": 174,
+                                                "text": "Facere saepe quas quod eaque non nisi enim laborum quasi tenetur quis quasi.",
+                                                "isVisibleForContact": false
+                                            }
+                                        ],
+                                        "defaultCategories": [
+                                            {
+                                                "branchId": 63,
+                                                "manually": true,
+                                                "plentyId": 10070
+                                            },
+                                            {
+                                                "branchId": 84,
+                                                "manually": false,
+                                                "plentyId": 15328
+                                            }
+                                        ],
+                                        "images": [
+                                            {
+                                                "imageId": 139
+                                            },
+                                            {
+                                                "imageId": 140
+                                            }
+                                        ],
+                                        "markets": [
+                                            {
+                                                "marketId": 9.61
+                                            },
+                                            {
+                                                "marketId": 61.49
+                                            }
+                                        ],
+                                        "marketIdentNumbers": [
+                                            {
+                                                "id": 396,
+                                                "countryId": 10,
+                                                "type": "asin",
+                                                "position": 8,
+                                                "value": "5042037969"
+                                            },
+                                            {
+                                                "id": 133,
+                                                "countryId": 2,
+                                                "type": "epid",
+                                                "position": 1,
+                                                "value": "6549963567"
+                                            }
+                                        ],
+                                        "properties": [
+                                            {
+                                                "propertyId": 1062,
+                                                "value": null,
+                                                "selectionValues": null
+                                            },
+                                            {
+                                                "propertyId": 1065,
+                                                "value": null
+                                            }
+                                        ],
+                                        "salesPrices": [
+                                            {
+                                                "salesPriceId": 42,
+                                                "price": 537.82
+                                            },
+                                            {
+                                                "salesPriceId": 27,
+                                                "price": 965.38
+                                            }
+                                        ],
+                                        "skus": [
+                                            {
+                                                "marketId": 134,
+                                                "accountId": 5,
+                                                "initialSku": "",
+                                                "sku": "2196454427",
+                                                "parentSku": "677",
+                                                "isActive": true,
+                                                "status": "SENT",
+                                                "additionalInformation": "ut"
+                                            },
+                                            {
+                                                "marketId": 115,
+                                                "accountId": 9,
+                                                "initialSku": "",
+                                                "sku": "6619280889",
+                                                "parentSku": "414",
+                                                "isActive": true,
+                                                "status": "ERROR",
+                                                "additionalInformation": "aliquam"
+                                            }
+                                        ],
+                                        "supplier": [
+                                            {
+                                                "supplierId": 73,
+                                                "purchasePrice": 7518669.01766,
+                                                "minimumPurchase": 4,
+                                                "itemNumber": "9780702295706",
+                                                "lastPriceQuery": "1994-08-19",
+                                                "deliveryTimeInDays": 8,
+                                                "discount": 26806.7204449,
+                                                "isDiscountable": true,
+                                                "packagingUnit": 64
+                                            },
+                                            {
+                                                "supplierId": 53,
+                                                "purchasePrice": 35423989.62565,
+                                                "minimumPurchase": 4,
+                                                "itemNumber": "9798851692093",
+                                                "lastPriceQuery": "1978-04-13T00:00:00+01:00",
+                                                "deliveryTimeInDays": 4,
+                                                "discount": 1434.97,
+                                                "isDiscountable": false,
+                                                "packagingUnit": 1
+                                            }
+                                        ],
+                                        "tags": [
+                                            {
+                                                "tagId": 95
+                                            },
+                                            {
+                                                "tagId": 96
+                                            }
+                                        ],
+                                        "timestamps": {
+                                            "availability": "2024-09-29T22:10:36+02:00",
+                                            "additionalSku": "2024-10-02T20:19:42+02:00",
+                                            "barcode": "2024-09-27T16:23:08+02:00",
+                                            "base": "2024-09-29T21:18:05+02:00",
+                                            "bundleComponent": "2024-10-01T12:23:02+02:00",
+                                            "category": "2024-09-30T17:34:21+02:00",
+                                            "client": "2024-09-30T22:05:18+02:00",
+                                            "defaultCategory": "2024-09-29T12:32:22+02:00",
+                                            "image": "2024-10-01T12:47:48+02:00",
+                                            "market": "2024-10-02T12:17:00+02:00",
+                                            "marketIdentNumber": "2024-10-01T02:23:43+02:00",
+                                            "related": "2024-10-01T03:59:17+02:00",
+                                            "salesPrice": "2024-09-30T14:55:35+02:00",
+                                            "sku": "2024-10-01T01:38:55+02:00",
+                                            "supplier": "2024-09-29T19:27:46+02:00",
+                                            "property": "2024-09-28T02:31:32+02:00",
+                                            "warehouse": "2024-09-28T09:03:07+02:00",
+                                            "tag": "2024-10-01T11:10:19+02:00",
+                                            "comment": "2024-10-01T12:20:03+02:00",
+                                            "createdAt": "2024-10-01T19:22:16+02:00"
+                                        },
+                                        "unit": {
+                                            "unitId": 1356,
+                                            "unitCombinationId": 675,
+                                            "content": 39335762.9
+                                        },
+                                        "warehouses": [
+                                            {
+                                                "warehouseId": 1583,
+                                                "zoneId": 6,
+                                                "storageLocationType": "none",
+                                                "reorderLevel": 1,
+                                                "maximumStock": 1,
+                                                "stockTurnoverInDays": 3,
+                                                "storageLocation": 6,
+                                                "stockBuffer": 7,
+                                                "isBatch": true,
+                                                "isBestBeforeDate": true
+                                            },
+                                            {
+                                                "warehouseId": 1584,
+                                                "zoneId": 4,
+                                                "storageLocationType": "none",
+                                                "reorderLevel": 2,
+                                                "maximumStock": 4,
+                                                "stockTurnoverInDays": 9,
+                                                "storageLocation": 4,
+                                                "stockBuffer": 7,
+                                                "isBatch": false,
+                                                "isBestBeforeDate": false
+                                            }
+                                        ]
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -4594,6 +5155,14 @@
                         "type": "string",
                         "required": false,
                         "description": "Filter restricts the list of results to variations whose warehouse has been updated in the specified time frame. The from and to parameter should be separated by a comma. If there is no to value, the current time is used instead.",
+                        "format": "string",
+                        "in": "query"
+                    },
+                    {
+                        "name": "relatedUpdatedAt",
+                        "type": "string",
+                        "required": false,
+                        "description": "Filter restricts the list of results to variations whose relations (any) has been updated in the specified time frame. The from and to parameter should be separated by a coma. If there is no to value, The current time is used instead.",
                         "format": "string",
                         "in": "query"
                     },
@@ -5984,6 +6553,14 @@
                         "in": "query"
                     },
                     {
+                        "name": "relatedUpdatedAt",
+                        "type": "string",
+                        "required": false,
+                        "description": "Filter restricts the list of results to variations whose relations (any) has been updated in the specified time frame. The from and to parameter should be separated by a coma. If there is no to value, The current time is used instead.",
+                        "format": "string",
+                        "in": "query"
+                    },
+                    {
                         "name": "hasLowestPrice",
                         "type": "boolean",
                         "required": false,
@@ -6988,6 +7565,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -7076,9 +7657,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -7300,6 +8095,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -7350,6 +8149,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -8305,6 +9125,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -8373,6 +9197,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -8796,10 +9624,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -8888,6 +9712,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -8903,12 +9732,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -8964,6 +9838,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -9007,48 +9902,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -9074,6 +9931,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -10243,6 +11121,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -11105,6 +12015,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -12474,6 +13388,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -12498,6 +13432,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -12554,7 +13503,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -12592,6 +13541,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -12716,6 +13690,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -13334,6 +14409,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -14156,6 +15239,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -15787,6 +16874,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

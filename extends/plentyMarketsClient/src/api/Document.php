@@ -85,6 +85,31 @@ class Document extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
+     * @description Generates a receipt that contains a least information about a stockIntake.
+Therefore at least the "receiptId" must be specified.
+     * @tag Document
+
+     */
+    public function createDocumentsIncomingItemsReceiptGenerate()
+    {
+        return $this->api("/rest/documents/incoming_items_receipt/generate", 'POST');
+    }
+                    
+    /**
+     * @description Currently only supports generating the document as html.
+     * @tag Document
+     * @return array
+     *      - *hash* - string
+     *      - *content* - string
+     *      - *status* - integer
+     *      - *orderId* - integer
+     */
+    public function createDocumentsIncomingItemsReceiptGeneratePreview(): array
+    {
+        return $this->api("/rest/documents/incoming_items_receipt/generate/preview", 'POST');
+    }
+                    
+    /**
      * @description Generates a preview of a document. The type of the preview must be specified.
      * @tag Document
      * @param int $previewType 

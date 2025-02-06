@@ -287,6 +287,41 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/accounting/locations/{$locationId}/debtor_account_configurations");
     }
+                
+    /**
+     * @description Updates the debtor account configuration of an accounting location. The ID of the accounting location has to be specified.
+     * @tag Accounting
+     * @param int $locationId The ID of the accounting location.
+     * @param array $data 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the debtor account configuration
+     *      - *locationId* - integer
+     *          - The ID of the accounting location that the debtor account is associated with.
+     *      - *mode* - string
+     *          - The mode describes the criteria based on which pending amounts are assigned to a debtor account. The following modes are available:
+<ul>
+<li>character        = The debtor accounts are selected based on the first character of customer information. The information and the order of the information that will be used are defined with the sequence. There are 3 different sequences available.</li>
+<li>payment          = The debtor accounts are selected based on the payment method.</li>
+<li>country          = The debtor accounts are selected based on the country of delivery.</li>
+<li>country_payment  = The debtor accounts are selected based on two criteria. The first criteria is the country and if the country is same as the country of the accounting location then the payment method is used to select the deptor account.</li>
+</ul>
+     *      - *sequence* - string
+     *          - The sequence defines the order in which customer information will be used for the debtor account assignment if the character made has been chosen. The following sequences are available:
+<ul>
+<li>FNV = stands for the sequence: company, lastname, firstname</li>
+<li>NVF = stands for the sequence: lastname, firstname, company</li>
+<li>NFV = stands for the sequence: lastname, company, firstname</li>
+</ul>
+     *      - *standard* - string
+     *          - The standard debtor account that will be used if no matching debtor account can be found.
+     *      - *save* - boolean
+     *          - Flag that indicates if the debtor account shall be saved within the contact data.
+     */
+    public function updateAccountingLocationsDebtorAccountConfigurationByLocationId(int $locationId, array $data): array
+    {
+        return $this->api("/rest/accounting/locations/{$locationId}/debtor_account_configurations", 'PUT', $data);
+    }
                     
     /**
      * @description Lists the debtor accounts of an accounting location by mode. The ID of the accounting location and the mode have to be specified.
@@ -328,6 +363,20 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api("/rest/accounting/locations/{$locationId}/posting_key_configurations");
     }
+                
+    /**
+     * @description Updates a posting key configuration of an accounting location. The ID of the accounting location has to be specified.
+     * @tag Accounting
+     * @param int $locationId The ID of the accounting location.
+     * @param array $data 
+     * @return array
+     *      - *locationId* - integer
+     *          - The ID of the accounting location that the configuration belongs to
+     */
+    public function updateAccountingLocationsPostingKeyConfigurationByLocationId(int $locationId, array $data): array
+    {
+        return $this->api("/rest/accounting/locations/{$locationId}/posting_key_configurations", 'PUT', $data);
+    }
                     
     /**
      * @description Gets the revenue account configuration of an accounting location. A revenue account location configuration contains several revenue accounts. The ID of the accounting location has to be specified.
@@ -346,6 +395,26 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function getAccountingLocationsRevenueAccountConfigurationsByLocationId(int $locationId): array
     {
         return $this->api("/rest/accounting/locations/{$locationId}/revenue_account_configurations");
+    }
+                
+    /**
+     * @description Updates the revenue account configuration of an accounting location. The ID of the accounting location has to be specified.
+     * @tag Accounting
+     * @param int $locationId The ID of the accounting location.
+     * @param array $data 
+     * @return array
+     *      - *id* - integer
+     *          - The ID of the revenue account configuration
+     *      - *locationId* - integer
+     *          - The ID of the accounting location that the configuration belongs to
+     *      - *accountEu* - string
+     *          - The account used for revenues that are exempt from VAT and that were sold within the European Union
+     *      - *accountExport* - string
+     *          - The account used for revenues that are exempt from VAT and that were sold to outside the European Union
+     */
+    public function updateAccountingLocationsRevenueAccountConfigurationByLocationId(int $locationId, array $data): array
+    {
+        return $this->api("/rest/accounting/locations/{$locationId}/revenue_account_configurations", 'PUT', $data);
     }
                     
     /**
@@ -373,6 +442,34 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function getAccountingLocationsSettingsByLocationId(int $locationId): array
     {
         return $this->api("/rest/accounting/locations/{$locationId}/settings");
+    }
+                
+    /**
+     * @description Updates accounting location settings. The ID of the accounting location must be specified.
+     * @tag Accounting
+     * @param int $locationId The ID of the accounting location
+     * @param array $data 
+     * @return array
+     *      - *locationId* - integer
+     *          - The ID of the accounting location
+     *      - *isInvoiceEUNet* - boolean
+     *          - Is the invoice net for EU?
+     *      - *isInvoiceExportNet* - boolean
+     *          - Is the invoice net for export?
+     *      - *showShippingVat* - boolean
+     *          - Show the vat for shipping costs on the invoice?
+     *      - *isSmallBusiness* - boolean
+     *          - Is it a small business?
+     *      - *numberOfDecimalPlaces* - integer
+     *          - The number of decimal places for prices
+     *      - *roundTotalsOnly* - boolean
+     *          - Do only round totals?
+     *      - *isReverseCharge* - boolean
+     *          - Is the reverse charge method activated?
+     */
+    public function updateAccountingLocationsSettingByLocationId(int $locationId, array $data): array
+    {
+        return $this->api("/rest/accounting/locations/{$locationId}/settings", 'PUT', $data);
     }
                     
     /**
@@ -579,6 +676,8 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date at which the VAT configuration was created.
      *      - *updatedAt* - string
      *          - The date that the VAT configuration was last updated.
+     *      - *isActive* - boolean
+     *          - Is this the active VAT configuration for this location and country? (read-only)
      */
     public function createVat(array $data): array
     {
@@ -653,6 +752,8 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date at which the VAT configuration was created.
      *      - *updatedAt* - string
      *          - The date that the VAT configuration was last updated.
+     *      - *isActive* - boolean
+     *          - Is this the active VAT configuration for this location and country? (read-only)
      */
     public function getVatLocationsCountriesDateByLocationIdCountryIdDate(int $locationId, int $countryId, int $date, array $query): array
     {
@@ -690,12 +791,24 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date at which the VAT configuration was created.
      *      - *updatedAt* - string
      *          - The date that the VAT configuration was last updated.
+     *      - *isActive* - boolean
+     *          - Is this the active VAT configuration for this location and country? (read-only)
      */
     public function getVatStandard(array $query = []): array
     {
         return $this->api(array_merge(["/rest/vat/standard"], $query));
     }
                     
+    /**
+     * @description Deletes a VAT configuration. The VAT ID must be specified.
+     * @tag Accounting
+     * @param int $vatId 
+     */
+    public function deleteVatByVatId(int $vatId)
+    {
+        return $this->api("/rest/vat/{$vatId}", 'DELETE');
+    }
+                
     /**
      * @description Get a VAT configuration by id.
      * @tag Accounting
@@ -723,6 +836,8 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date at which the VAT configuration was created.
      *      - *updatedAt* - string
      *          - The date that the VAT configuration was last updated.
+     *      - *isActive* - boolean
+     *          - Is this the active VAT configuration for this location and country? (read-only)
      */
     public function getVatByVatId(int $vatId): array
     {
@@ -757,6 +872,8 @@ class Accounting extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The date at which the VAT configuration was created.
      *      - *updatedAt* - string
      *          - The date that the VAT configuration was last updated.
+     *      - *isActive* - boolean
+     *          - Is this the active VAT configuration for this location and country? (read-only)
      */
     public function updateVatByVatId(int $vatId, array $data): array
     {

@@ -612,6 +612,10 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      *          - The number of items per page. The default number per page is 50.
      *      - *columns* - array - optional
      *          - The properties to be loaded
+     *      - *processRowType* - int - optional
+     *          - The type of the process, 2=order
+     *      - *orderId* - int - optional
+     *          - The id of the order
      * @return Iterator
      *      - *page* - integer
      *          - Current page of the response
@@ -659,6 +663,10 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      *          - The number of items per page. The default number per page is 50.
      *      - *columns* - array - optional
      *          - The properties to be loaded
+     *      - *processRowType* - int - optional
+     *          - The type of the process, 2=order
+     *      - *orderId* - int - optional
+     *          - The id of the order
      * @return Iterator
      *      - *page* - integer
      *          - Current page of the response
@@ -706,6 +714,10 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
      *          - The number of items per page. The default number per page is 50.
      *      - *columns* - array - optional
      *          - The properties to be loaded
+     *      - *processRowType* - int - optional
+     *          - The type of the process, 2=order
+     *      - *orderId* - int - optional
+     *          - The id of the order
      * @return array
      *      - *page* - integer
      *          - Current page of the response
@@ -897,7 +909,7 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
     <ul>
     <li>'storageLocation' = The storageLocation this stock information belongs to.</li>
     </ul>
-    Example: <code>?with[]=storageLocation</code>
+    Example: <code>?with[]=warehouseLocation</code>
      * @return Iterator
      *      - *page* - integer
      *          - Current page of the response
@@ -945,7 +957,7 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
     <ul>
     <li>'storageLocation' = The storageLocation this stock information belongs to.</li>
     </ul>
-    Example: <code>?with[]=storageLocation</code>
+    Example: <code>?with[]=warehouseLocation</code>
      * @return Iterator
      *      - *page* - integer
      *          - Current page of the response
@@ -993,7 +1005,7 @@ NOTE: You can either get archive entries or non-archive entries. You can not get
     <ul>
     <li>'storageLocation' = The storageLocation this stock information belongs to.</li>
     </ul>
-    Example: <code>?with[]=storageLocation</code>
+    Example: <code>?with[]=warehouseLocation</code>
      * @return array
      *      - *page* - integer
      *          - Current page of the response

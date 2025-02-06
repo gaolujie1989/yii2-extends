@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -523,9 +523,9 @@
                                                 "value": "none"
                                             }
                                         ],
-                                        "itemId": 10,
+                                        "itemId": 1,
                                         "unitCombinationId": 1,
-                                        "typeId": 2,
+                                        "typeId": 1,
                                         "stockDependenceTypeId": 1
                                     },
                                     {
@@ -546,10 +546,10 @@
                                                 "value": "none"
                                             }
                                         ],
-                                        "itemId": 2,
+                                        "itemId": 10,
                                         "unitCombinationId": 1,
-                                        "typeId": 1,
-                                        "stockDependenceTypeId": 3
+                                        "typeId": 2,
+                                        "stockDependenceTypeId": 4
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -669,7 +669,7 @@
                                         "value": "none"
                                     }
                                 ],
-                                "itemId": 0,
+                                "itemId": 5,
                                 "unitCombinationId": 1,
                                 "typeId": 3,
                                 "stockDependenceTypeId": 3
@@ -927,18 +927,18 @@
                                         "prices": [],
                                         "dates": [],
                                         "referrerId": 104,
-                                        "listingId": 4,
-                                        "variationId": 3,
-                                        "credentialsId": 7
+                                        "listingId": 10,
+                                        "variationId": 2,
+                                        "credentialsId": 6
                                     },
                                     {
                                         "properties": [],
                                         "prices": [],
                                         "dates": [],
-                                        "referrerId": 125,
+                                        "referrerId": 104,
                                         "listingId": 2,
-                                        "variationId": 8,
-                                        "credentialsId": 6
+                                        "variationId": 7,
+                                        "credentialsId": 10
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -1145,18 +1145,18 @@
                                     "prices": [],
                                     "dates": [],
                                     "referrerId": 104,
-                                    "listingId": 2,
-                                    "variationId": 8,
-                                    "credentialsId": 5
+                                    "listingId": 10,
+                                    "variationId": 3,
+                                    "credentialsId": 6
                                 },
                                 {
                                     "properties": [],
                                     "prices": [],
                                     "dates": [],
                                     "referrerId": 125,
-                                    "listingId": 4,
+                                    "listingId": 9,
                                     "variationId": 1,
-                                    "credentialsId": 1
+                                    "credentialsId": 9
                                 }
                             ]
                         }
@@ -1517,18 +1517,18 @@
                                         "prices": [],
                                         "dates": [],
                                         "referrerId": 104,
-                                        "listingId": 5,
-                                        "variationId": 10,
-                                        "credentialsId": 6
+                                        "listingId": 9,
+                                        "variationId": 9,
+                                        "credentialsId": 10
                                     },
                                     {
                                         "properties": [],
                                         "prices": [],
                                         "dates": [],
                                         "referrerId": 125,
-                                        "listingId": 6,
-                                        "variationId": 10,
-                                        "credentialsId": 10
+                                        "listingId": 1,
+                                        "variationId": 2,
+                                        "credentialsId": 6
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -1707,7 +1707,7 @@
                                         "quantitySold": 1,
                                         "quantitySoldDelta": 0,
                                         "statusId": 1,
-                                        "price": 12.59,
+                                        "price": 29.8,
                                         "sku": "#MLID#137"
                                     },
                                     {
@@ -1719,7 +1719,7 @@
                                         "currency": "",
                                         "listingMarketId": 137,
                                         "referrerId": [
-                                            2.08
+                                            104
                                         ],
                                         "externalId": "110189750971",
                                         "quantity": 50,
@@ -1727,7 +1727,7 @@
                                         "quantitySold": 1,
                                         "quantitySoldDelta": 0,
                                         "statusId": 1,
-                                        "price": 7.59,
+                                        "price": 27.79,
                                         "sku": "#MLID#137"
                                     }
                                 ],
@@ -2172,7 +2172,7 @@
                                 "currency": "",
                                 "listingMarketId": 137,
                                 "referrerId": [
-                                    125
+                                    2.08
                                 ],
                                 "externalId": "110189750971",
                                 "quantity": 50,
@@ -2180,7 +2180,7 @@
                                 "quantitySold": 1,
                                 "quantitySoldDelta": 0,
                                 "statusId": 1,
-                                "price": 10.63,
+                                "price": 28.63,
                                 "sku": "#MLID#137"
                             }
                         }
@@ -2275,15 +2275,15 @@
                                 "entries": [
                                     {
                                         "listingMarketId": null,
-                                        "type": "error",
-                                        "code": 7946,
+                                        "type": "warning",
+                                        "code": 9636,
                                         "message": "Some message",
                                         "createdAt": "1970-01-01T01:00:00+01:00"
                                     },
                                     {
                                         "listingMarketId": null,
-                                        "type": "warning",
-                                        "code": 7,
+                                        "type": "info",
+                                        "code": 3834427,
                                         "message": "Some message",
                                         "createdAt": "1970-01-01T01:00:00+01:00"
                                     }
@@ -2766,16 +2766,16 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "lang": "de",
-                                        "title": "Ut et cum pariatur tempora.",
-                                        "subtitle": "Ut nesciunt.",
-                                        "description": "Rerum reprehenderit laudantium excepturi quos error dolorum voluptatem. Consequatur dolor ullam quidem. Hic est laborum beatae hic. Totam molestias ut eius minus omnis veritatis inventore. Sint numquam omnis ad sint omnis corrupti. Voluptatum odio non qui excepturi totam quas. Tempore in molestias dolores est exercitationem earum accusantium. Explicabo beatae animi non eum sed quia quos. Fugit et quae aut aliquam veritatis aspernatur culpa. Maiores doloremque soluta autem sapiente alias quis vel quasi. Sapiente eligendi accusamus id veritatis aliquam amet. Non sit vel qui impedit. Voluptatum soluta consequatur molestiae quia adipisci sit nobis totam. Minus voluptatum incidunt assumenda dolore. Et maxime natus nobis consequatur et pariatur. Sunt ratione et et dolores tenetur recusandae aut. Totam perspiciatis nobis voluptatum qui aut animi. Magnam molestiae rerum velit molestiae."
+                                        "lang": "sk",
+                                        "title": "Sit sit quibusdam voluptatem quisquam.",
+                                        "subtitle": "Voluptatem est molestiae.",
+                                        "description": "Optio voluptatibus velit incidunt aspernatur. Eos reprehenderit impedit enim facilis ipsum omnis. Enim id ut corrupti quia quis hic. Perferendis laboriosam magnam amet rerum maiores ab. Alias qui sunt nisi est et ullam quidem. Qui sint molestiae architecto quisquam dolore eos dolorem quis. Non quis rerum officiis quis odio quod id. Molestiae est sed et eaque provident aut saepe. Numquam quia magni libero ipsam cumque est. Dicta saepe ex fugiat consequatur. Doloribus ut dolores repellat tenetur dolores aliquid illum et. Placeat harum fugit reiciendis exercitationem dolor illum quia. Deleniti aliquid vero voluptatum labore. Et incidunt exercitationem iusto et mollitia ut. In dolorum magni labore ea inventore. Voluptatum itaque dolor quia sit vitae facere adipisci. Commodi atque error tempora. Et aut rem est adipisci eos. Incidunt velit molestias laborum omnis dignissimos. Officia ut debitis doloremque."
                                     },
                                     {
-                                        "lang": "fr",
-                                        "title": "Temporibus consequatur soluta adipisci optio.",
-                                        "subtitle": "Velit modi rem illum.",
-                                        "description": "Consequuntur pariatur beatae qui in mollitia fugit. Tenetur quis voluptatem quia dolores in consequatur voluptas. Qui sed voluptas iusto est libero laboriosam et est. Aut tempora suscipit facilis et qui rerum qui. Dicta ducimus voluptas quaerat sed. Id neque minus neque quo eaque occaecati cumque aut. Ut voluptate voluptas quibusdam suscipit soluta repudiandae distinctio officia. Quae cumque tempore aut consequatur ipsam. Qui veniam animi omnis illum distinctio nostrum. Tempora consequuntur ipsum rem enim voluptates eveniet doloremque. Repudiandae nisi magni laudantium eius. Voluptatum ut ipsa et eveniet. Sint quaerat illo harum quae animi. Et et ut doloremque magnam non. Et voluptatem laborum iure dolore repellat. Odio consequatur qui minima aut. Officia amet ut voluptates voluptas quod illo. Quibusdam ea nihil tenetur accusamus quos rerum nostrum. Molestiae ea voluptatem non. Dicta suscipit cumque illo voluptas voluptas numquam. Id et perspiciatis ut."
+                                        "lang": "cz",
+                                        "title": "Ea delectus repellendus aut fugit quas eum dignissimos sint.",
+                                        "subtitle": "Necessitatibus deserunt fugit qui.",
+                                        "description": "Consequatur vel corrupti dolores enim ipsam a. Rerum voluptatem perspiciatis accusamus molestiae similique quis qui. Beatae quia aliquid iusto quidem fugiat. Aut qui eos sed doloremque a impedit placeat perferendis. Facere cupiditate quo aut officia architecto. Quo error dolor magnam ipsum sunt. Iure explicabo deserunt ullam deleniti vitae. Inventore nisi voluptatem et est. Nisi cum quia sequi dignissimos. Repudiandae eaque aut et nisi nam recusandae at. Odio debitis voluptas aspernatur reprehenderit vero velit quidem. Officia cumque delectus ipsum hic minus. Tempore dicta commodi voluptas et. Enim non nam blanditiis maiores non omnis voluptatem. Modi commodi et consequatur ducimus consequatur. Quia et cum beatae et eos quo qui. Sit rem quae dicta ut. Nostrum facere nisi sequi exercitationem. Est et vitae est repudiandae quis. Earum blanditiis eius natus corporis facilis voluptas architecto. Commodi in nemo voluptatum nemo aut."
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -2859,10 +2859,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "cn",
-                                "title": "Tempora voluptas possimus sunt velit iste recusandae exercitationem repellat.",
-                                "subtitle": "Sequi id saepe modi.",
-                                "description": "Voluptatem adipisci aut esse est commodi dolor dolor. Quaerat aut vitae saepe eum dolor qui dolorem. Doloremque eum odit dolores ipsam aut. Ex atque corporis enim rerum aut voluptatum repellat culpa. Nemo harum ut assumenda. Vitae magni aut corrupti explicabo voluptas et temporibus eos. Cupiditate rerum magnam suscipit iste. Dicta porro quibusdam molestiae et quam aliquid et assumenda. Commodi quae est libero porro. Qui assumenda molestiae sit illo modi veritatis excepturi. Quo illum voluptatem amet voluptatem illum aut magnam. Et porro totam distinctio quam velit ad eius. Consequatur quia non explicabo quia. Itaque sequi perferendis vel aut. Accusantium ut facere est illum numquam expedita optio totam. Est facere natus mollitia. Ut sed quia aspernatur quos dolores esse est. Est excepturi autem molestiae tempore quis quos reprehenderit. Et facilis odio non et."
+                                "lang": "de",
+                                "title": "Culpa voluptatem dicta mollitia voluptate tempore dolorum.",
+                                "subtitle": "Numquam tempora earum repudiandae.",
+                                "description": "Atque ab consectetur provident fugiat debitis. Qui voluptatum culpa ut aperiam. Quis quisquam error voluptas est quisquam. Ipsum laborum et et. Dolorum id nulla quisquam dolores quo inventore et porro. Sint ut consectetur et excepturi ea cupiditate autem. Qui ab cupiditate accusantium atque voluptas tenetur sed ut. Nobis aliquam porro adipisci voluptatem eos rerum culpa. Aspernatur mollitia neque eum tempora ipsam. Qui corrupti repellat autem quisquam. Pariatur est ad rerum aut repellendus porro. Et blanditiis pariatur sequi et et. Quasi eveniet quia culpa itaque occaecati ex iure. Non pariatur ratione ipsam nihil. Fugit natus similique in consectetur natus enim placeat repellat. Sint dolor quisquam aliquam. Sit voluptatem aliquam recusandae dicta in. Eos sed amet sequi temporibus optio. Quae quod hic dignissimos sequi. Itaque praesentium eius rem illum sed aut. Vitae eos quam aut est repudiandae."
                             }
                         }
                     },
@@ -2980,10 +2980,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "tr",
-                                "title": "Dolore ut eum similique harum omnis quis.",
-                                "subtitle": "Cupiditate aut reiciendis alias.",
-                                "description": "Repellat dicta vel quo velit ut. Iure et quibusdam dolorem quae ut illum sed. Nihil ut commodi qui officia rerum est libero. Cumque et et dolores nihil sed vero. Magni ut deleniti quo mollitia quos cum animi ut. Rerum nulla temporibus sed. Omnis quasi eius sed totam qui cupiditate. Nulla dolores itaque non rem exercitationem quae. Excepturi eius rerum qui recusandae natus. Tempora nostrum nihil at ut perspiciatis. Dolore in dignissimos hic cum eum aut numquam facere. Facilis atque delectus dicta eum voluptates quae et. Sit sequi cumque quia. Est ad expedita corporis. Officia error nesciunt ea non iste tenetur. Quam ipsum omnis dolorum ipsum. Quia voluptas hic aut. Sint quaerat facilis repellat ducimus est qui. Tempora officiis accusamus ut. Et modi sed nihil neque. Similique sint laborum magni voluptas. Dolores minus libero molestias quia dolores sit vel."
+                                "lang": "en",
+                                "title": "Quia et et magnam commodi.",
+                                "subtitle": "Assumenda vitae fugit possimus.",
+                                "description": "Occaecati corporis consequatur quo doloremque. Repudiandae quibusdam nihil accusamus. Fuga nobis rerum id modi optio. Sit iste velit in. Et ipsum aperiam vel dolorum quibusdam. Accusantium debitis et velit. Consequatur aut porro animi et. Eligendi iure repellendus hic quod odit. Autem expedita aut delectus molestiae molestiae ratione. Velit rerum in recusandae. Sint omnis id eligendi voluptatem quam eligendi voluptates fugiat. Laboriosam sed nihil deleniti recusandae impedit est ex. Illo eos dicta enim exercitationem odit voluptatem consectetur. Amet repellat similique ea ut nulla voluptas commodi. Earum omnis nihil quis et rem aspernatur. Voluptates magni ex vel. Eos ratione laborum voluptatibus sit odit et. Unde qui non accusantium nostrum iure est impedit quos. Velit quis quam quidem nam voluptatibus. Odit asperiores non sed in et. Consequatur id et adipisci."
                             }
                         }
                     },
@@ -3023,10 +3023,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "lang": "it",
-                                "title": "Rerum qui expedita saepe beatae cumque.",
-                                "subtitle": "Adipisci exercitationem velit.",
-                                "description": "Eos doloremque vitae exercitationem aut sint asperiores fugiat. Libero qui at voluptate molestias eum quis. Quas excepturi sed non laudantium adipisci quas deleniti. Id rem qui delectus numquam possimus. Aut atque rerum minus placeat tenetur impedit enim. At et placeat molestias sequi repudiandae dolore. Omnis rerum sit eius rerum. Et velit illum voluptatum laboriosam. Minima pariatur aliquid dolor consequatur voluptatibus est aut autem. Recusandae saepe rerum ut fuga voluptatum. Ea aspernatur autem ullam maiores vero. Rem quia natus fuga. Aut molestiae dignissimos tempora eaque sequi. Et debitis exercitationem eaque voluptas harum rerum. Maxime dolores cumque consequuntur enim eveniet beatae perspiciatis adipisci. Unde rerum sed cum velit. Reprehenderit dolore omnis modi odit qui. Id ut quis libero dicta nostrum dolorem. Illo ut praesentium libero aut. Vitae sit officiis illo rerum."
+                                "lang": "pl",
+                                "title": "Saepe eum doloribus qui aut suscipit sunt.",
+                                "subtitle": "Qui cumque placeat voluptas.",
+                                "description": "Ipsam velit earum ut repellendus non id eos. Odio voluptas ea saepe impedit et. Itaque maiores voluptatum aspernatur cupiditate. Maxime ipsum vel molestiae dolore consectetur doloribus quas minima. Soluta iste quaerat qui asperiores corporis molestiae. Aliquam placeat fugit architecto quae qui et. Velit ut voluptatum eius dolor consequuntur optio et aut. Est est id eius. Ratione ullam culpa voluptate explicabo dolor delectus. Quam molestiae necessitatibus ab error. Et assumenda soluta quod laudantium sint. Quis amet magni optio molestiae quo quam. Excepturi maxime ea iure distinctio inventore. Dolorem et consequatur eos et repellendus accusamus. Voluptatem illo ab et. Quo suscipit itaque provident incidunt tempora ipsum consequuntur. Voluptatem quam delectus cupiditate modi qui. Voluptas quod sapiente veritatis. Repellendus quo est rerum."
                             }
                         }
                     },
@@ -3182,10 +3182,10 @@
                                 "properties": [],
                                 "prices": [],
                                 "dates": [],
-                                "referrerId": 125,
+                                "referrerId": 104,
                                 "listingId": 7,
-                                "variationId": 9,
-                                "credentialsId": 4
+                                "variationId": 5,
+                                "credentialsId": 7
                             }
                         }
                     },
@@ -3237,10 +3237,10 @@
                                 "properties": [],
                                 "prices": [],
                                 "dates": [],
-                                "referrerId": 104,
-                                "listingId": 8,
-                                "variationId": 5,
-                                "credentialsId": 7
+                                "referrerId": 2.08,
+                                "listingId": 6,
+                                "variationId": 9,
+                                "credentialsId": 8
                             }
                         }
                     },
@@ -3408,7 +3408,7 @@
                                         ]
                                     }
                                 ],
-                                "name": "cumque"
+                                "name": "et"
                             }
                         }
                     },
@@ -3599,7 +3599,7 @@
                                         ]
                                     }
                                 ],
-                                "name": "maxime"
+                                "name": "sed"
                             }
                         }
                     },
@@ -3706,7 +3706,7 @@
                                         ]
                                     }
                                 ],
-                                "name": "sint"
+                                "name": "pariatur"
                             }
                         }
                     },
@@ -3814,15 +3814,15 @@
                                 "entries": [
                                     {
                                         "name": "quia",
-                                        "credentialsId": 8,
+                                        "credentialsId": 1,
                                         "referrerId": 2.08,
                                         "createdBy": "customer",
                                         "isDefault": false,
                                         "extendedData": []
                                     },
                                     {
-                                        "name": "est",
-                                        "credentialsId": 3,
+                                        "name": "et",
+                                        "credentialsId": 5,
                                         "referrerId": 2.08,
                                         "createdBy": "customer",
                                         "isDefault": false,
@@ -3904,7 +3904,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "deleniti",
+                                "name": "voluptatum",
                                 "credentialsId": 5,
                                 "referrerId": 2.08,
                                 "createdBy": "customer",
@@ -4002,13 +4002,13 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "id": 9,
-                                        "position": 7,
+                                        "id": 6,
+                                        "position": 9,
                                         "isErasable": false
                                     },
                                     {
-                                        "id": 7,
-                                        "position": 2,
+                                        "id": 8,
+                                        "position": 8,
                                         "isErasable": false
                                     }
                                 ],
@@ -4074,8 +4074,8 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 0,
-                                "position": 4,
+                                "id": 8,
+                                "position": 6,
                                 "isErasable": false
                             }
                         }
@@ -4169,11 +4169,11 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "position": 1,
-                                        "isErasable": false
+                                        "position": 6,
+                                        "isErasable": true
                                     },
                                     {
-                                        "position": 9,
+                                        "position": 1,
                                         "isErasable": true
                                     }
                                 ],
@@ -4228,7 +4228,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "position": 5,
+                                "position": 10,
                                 "isErasable": true
                             }
                         }
@@ -4332,8 +4332,8 @@
                                 ],
                                 "itemId": 4,
                                 "unitCombinationId": 1,
-                                "typeId": 1,
-                                "stockDependenceTypeId": 2
+                                "typeId": 3,
+                                "stockDependenceTypeId": 4
                             }
                         }
                     },
@@ -4399,10 +4399,10 @@
                                         "value": "none"
                                     }
                                 ],
-                                "itemId": 5,
+                                "itemId": 2,
                                 "unitCombinationId": 1,
-                                "typeId": 1,
-                                "stockDependenceTypeId": 2
+                                "typeId": 3,
+                                "stockDependenceTypeId": 1
                             }
                         }
                     },
@@ -5245,6 +5245,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -5333,9 +5337,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -5557,6 +5775,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -5607,6 +5829,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -6562,6 +6805,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -6630,6 +6877,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -7053,10 +7304,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -7145,6 +7392,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -7160,12 +7412,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -7221,6 +7518,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -7264,48 +7582,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -7331,6 +7611,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -8500,6 +8801,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -9362,6 +9695,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -10731,6 +11068,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -10755,6 +11112,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -10811,7 +11183,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -10849,6 +11221,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -10973,6 +11370,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -11591,6 +12089,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -12413,6 +12919,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -14044,6 +14554,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

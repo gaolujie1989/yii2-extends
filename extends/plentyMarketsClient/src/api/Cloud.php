@@ -12,19 +12,6 @@ use Iterator;
 class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
 {
 
-                
-    /**
-     * @description Remove a single object from frontend storage.
-     * @tag Cloud
-     * @param array $query
-     *      - *key* - string - required
-     *          - The key of the object to delete.
-     */
-    public function deleteStorageFrontendFile(array $query)
-    {
-        return $this->api(array_merge(["/rest/storage/frontend/file"], $query), 'DELETE');
-    }
-                
     /**
      * @description Get file information for a single object in frontend storage. Append public cloudfront url to retrieved object.
      * @tag Cloud
@@ -37,7 +24,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/file"], $query));
     }
-                
+
     /**
      * @description If file is an image, generate a thumbnail and store dimensions in metadata.
      * @tag Cloud
@@ -52,7 +39,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/file"], $query), 'POST');
     }
-                
+
     /**
      * @description If file is an image, generate a thumbnail and store dimensions in metadata.
      * @tag Cloud
@@ -67,7 +54,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/file"], $query), 'PUT');
     }
-                    
+
     /**
      * @description Get assigned metadata for a single storage object
      * @tag Cloud
@@ -80,7 +67,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/file/metadata"], $query));
     }
-                
+
     /**
      * @description Update metadata of an storage object.
      * @tag Cloud
@@ -95,7 +82,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/file/metadata"], $query), 'POST');
     }
-                    
+
     /**
      * @description Deletes a list of files from frontend storage. A list of storage keys must be specified.
      * @tag Cloud
@@ -107,7 +94,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/files"], $query), 'DELETE');
     }
-                
+
     /**
      * @description List files from frontend storage. Append public cloudfront url to each retrieved object.
      * @tag Cloud
@@ -120,7 +107,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/files"], $query));
     }
-                    
+
     /**
      * @description Gets the URL of a layout document. The storage key must be specified. The returned URL expires after 10 minutes.
      * @tag Cloud
@@ -132,7 +119,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/frontend/object-url"], $query));
     }
-                    
+
     /**
      * @description Deletes a list of layout documents from storage. A list of storage keys must be specified.
      * @tag Cloud
@@ -144,7 +131,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/layout"], $query), 'DELETE');
     }
-                
+
     /**
      * @description Uploads a layout document to storage. The storage key (i.e. file path) must be specified.
      * @tag Cloud
@@ -153,6 +140,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The storage key for the layout document to upload. Include the storage key (i.e. file path) in the request in a <code>key</code> field.
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string
@@ -166,7 +154,7 @@ class Cloud extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     {
         return $this->api(array_merge(["/rest/storage/layout"], $query), 'POST');
     }
-                    
+
     /**
      * @description Lists up to 1000 layout documents per request. If more than 1000 layout documents are available,
 a <code>nextContinuationToken</code> is returned. Use this token to get the next (up to) 1000 layout documents.
@@ -189,7 +177,7 @@ results.
     {
         return $this->api(array_merge(["/rest/storage/layout/list"], $query));
     }
-                    
+
     /**
      * @description Gets the URL of a layout document. The storage key must be specified. The returned URL expires after 10 minutes.
      * @tag Cloud
@@ -201,7 +189,7 @@ results.
     {
         return $this->api(array_merge(["/rest/storage/layout/object-url"], $query));
     }
-                    
+
     /**
      * @description Gets the URL of a order property file. The storage key must be specified. The returned URL expires after 10
 minutes.
@@ -216,7 +204,7 @@ minutes.
     {
         return $this->api(array_merge(["/rest/storage/order-properties/object-url"], $query));
     }
-                    
+
     /**
      * @description Deletes a list of files from the inbox. A list of storage keys must be specified.
      * @tag Cloud
@@ -228,7 +216,7 @@ minutes.
     {
         return $this->api(array_merge(["/rest/storage/plugins/inbox"], $query), 'DELETE');
     }
-                
+
     /**
      * @description Uploads a file to the inbox. The storage key (i.e. file path) must be specified.
      * @tag Cloud
@@ -237,6 +225,7 @@ minutes.
      *          - The storage key for the file to upload. Include the storage key in the request in a <code>key</code> field.
      * @return array
      *      - *key* - string
+     *      - *path* - string
      *      - *lastModified* - string
      *      - *metaData* - array
      *      - *eTag* - string
@@ -250,7 +239,7 @@ minutes.
     {
         return $this->api(array_merge(["/rest/storage/plugins/inbox"], $query), 'POST');
     }
-                    
+
     /**
      * @description Commits all plugin changes.
      * @tag Cloud
@@ -260,7 +249,7 @@ minutes.
     {
         return $this->api("/rest/storage/plugins/inbox/commit", 'POST');
     }
-                    
+
     /**
      * @description Lists all files of all plugins stored in the inbox. A prefix can be specified to list all files of a specific
 plugin folder only.
@@ -277,7 +266,7 @@ plugin folder only.
     {
         return $this->api(array_merge(["/rest/storage/plugins/inbox/list"], $query));
     }
-                    
+
     /**
      * @description Gets the content of a file stored in the inbox. The storage key (i.e. file path) must be specified.
      * @tag Cloud
@@ -289,7 +278,7 @@ plugin folder only.
     {
         return $this->api(array_merge(["/rest/storage/plugins/inbox/object-url"], $query));
     }
-                    
+
     /**
      * @description Get the cloud metrics for this system
      * @tag Cloud
@@ -302,16 +291,16 @@ plugin folder only.
     {
         return $this->api("/rest/system/cloud/metrics");
     }
-                    
+
     /**
      * @description Supply usage data for given plentymarkets system
      * @tag Cloud
-     * @param int $plentyId 
-     * @param int $date 
+     * @param int $plentyId
+     * @param int $date
      */
     public function getSystemMetricByPlentyIdDate(int $plentyId, int $date)
     {
         return $this->api("/rest/system/metrics/{$plentyId}/{$date}");
     }
-    
+
 }

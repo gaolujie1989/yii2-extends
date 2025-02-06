@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -464,10 +464,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "Svalbard & Jan Mayen Islands",
-                                "clientId": 6956546,
-                                "countryId": 324,
-                                "plentyId": 17117
+                                "name": "Portugal",
+                                "clientId": 1043573,
+                                "countryId": 488,
+                                "plentyId": 12158
                             }
                         }
                     },
@@ -709,16 +709,16 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "id": 51022,
+                                        "id": 330227280,
                                         "locationId": 1,
-                                        "accountEu": "3306",
-                                        "accountExport": "3571"
+                                        "accountEu": "8650",
+                                        "accountExport": "227"
                                     },
                                     {
-                                        "id": 4233,
+                                        "id": 480775205,
                                         "locationId": 1,
-                                        "accountEu": "8207",
-                                        "accountExport": "7354"
+                                        "accountEu": "1773",
+                                        "accountExport": "4226"
                                     }
                                 ],
                                 "lastPageNumber": 1,
@@ -802,10 +802,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "Pakistan",
-                                "clientId": 6609370,
-                                "countryId": 319,
-                                "plentyId": 12147
+                                "name": "Haiti",
+                                "clientId": 8349546,
+                                "countryId": 483,
+                                "plentyId": 12326
                             }
                         }
                     },
@@ -843,10 +843,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "Guatemala",
-                                "clientId": 9986452,
-                                "countryId": 325,
-                                "plentyId": 11263
+                                "name": "American Samoa",
+                                "clientId": 6384490,
+                                "countryId": 489,
+                                "plentyId": 14700
                             }
                         }
                     },
@@ -899,32 +899,32 @@
                         },
                         "examples": {
                             "application/json": {
-                                "countryId": 244,
-                                "revenueAccountLocationId": 345,
+                                "countryId": 371,
+                                "revenueAccountLocationId": 514,
                                 "revenueAccounts": [
                                     {
                                         "id": 0,
-                                        "account": 86392
+                                        "account": 74056
                                     },
                                     {
                                         "id": 1,
-                                        "account": 98831
+                                        "account": 77919
                                     },
                                     {
                                         "id": 2,
-                                        "account": 60251
+                                        "account": 87256
                                     },
                                     {
                                         "id": 3,
-                                        "account": 17458
+                                        "account": 5051
                                     },
                                     {
                                         "id": 4,
-                                        "account": 67484
+                                        "account": 89793
                                     },
                                     {
                                         "id": 5,
-                                        "account": 21758
+                                        "account": 74943
                                     }
                                 ]
                             }
@@ -974,11 +974,11 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 907,
+                                "id": 2,
                                 "locationId": 1,
-                                "mode": "country_payment",
-                                "sequence": "FNV",
-                                "standard": "8445",
+                                "mode": "character",
+                                "sequence": "NFV",
+                                "standard": "97",
                                 "save": true
                             }
                         }
@@ -995,6 +995,78 @@
                         "description": "The ID of the accounting location.",
                         "format": "integer",
                         "in": "path"
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update debtor account configuration of an accounting location",
+                "description": "Updates the debtor account configuration of an accounting location. The ID of the accounting location has to be specified.",
+                "tags": [
+                    "Accounting"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/DebtorAccountConfiguration"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 2385661,
+                                "locationId": 1,
+                                "mode": "character",
+                                "sequence": "FNV",
+                                "standard": "6805",
+                                "save": true
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "locationId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "The ID of the accounting location.",
+                        "format": "integer",
+                        "in": "path"
+                    },
+                    {
+                        "in": "body",
+                        "name": "/rest/accounting/locations/{locationId}/debtor_account_configurations",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "mode": {
+                                    "type": "string",
+                                    "description": "The mode describes the criteria based on which pending amounts are assigned to a debtor account. The following modes are available:\n\ncharacter        = The debtor accounts are selected based on the first character of customer information. The information and the order of the information that will be used are defined with the sequence. There are 3 different sequences available.\npayment          = The debtor accounts are selected based on the payment method.\ncountry          = The debtor accounts are selected based on the country of delivery.\ncountry_payment  = The debtor accounts are selected based on two criteria. The first criteria is the country and if the country is same as the country of the accounting location then the payment method is used to select the deptor account.\n allowed values are character, payment, country, country_payment"
+                                },
+                                "sequence": {
+                                    "type": "string",
+                                    "description": "The sequence defines the order in which customer information will be used for the debtor account assignment if the character made has been chosen. The following sequences are available:\n\nFNV = stands for the sequence: company, lastname, firstname\nNVF = stands for the sequence: lastname, firstname, company\nNFV = stands for the sequence: lastname, company, firstname\n allowed values are FNV, NVF, NFV"
+                                },
+                                "standard": {
+                                    "type": "string",
+                                    "description": "The standard debtor account that will be used if no matching debtor account can be found."
+                                },
+                                "save": {
+                                    "type": "boolean",
+                                    "description": "Flag that indicates if the debtor account shall be saved within the contact data."
+                                },
+                                "accounts": {
+                                    "type": "array",
+                                    "items": []
+                                }
+                            }
+                        }
                     }
                 ]
             }
@@ -1113,6 +1185,52 @@
                         "in": "path"
                     }
                 ]
+            },
+            "put": {
+                "summary": "Update a posting key configuration of an accounting location",
+                "description": "Updates a posting key configuration of an accounting location. The ID of the accounting location has to be specified.",
+                "tags": [
+                    "Accounting"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PostingKeyConfiguration"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "locationId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "The ID of the accounting location.",
+                        "format": "integer",
+                        "in": "path"
+                    },
+                    {
+                        "in": "body",
+                        "name": "/rest/accounting/locations/{locationId}/posting_key_configurations",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "postingKeys": {
+                                    "type": "array",
+                                    "items": []
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         },
         "/rest/accounting/locations/{locationId}/revenue_account_configurations": {
@@ -1135,10 +1253,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "id": 6072,
+                                "id": 327479453,
                                 "locationId": 1,
-                                "accountEu": "3316",
-                                "accountExport": "1188"
+                                "accountEu": "584",
+                                "accountExport": "922"
                             }
                         }
                     },
@@ -1154,6 +1272,68 @@
                         "description": "The ID of the accounting location.",
                         "format": "integer",
                         "in": "path"
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the revenue account configuration of an accounting location",
+                "description": "Updates the revenue account configuration of an accounting location. The ID of the accounting location has to be specified.",
+                "tags": [
+                    "Accounting"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/RevenueAccountLocationConfiguration"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 50418,
+                                "locationId": 1,
+                                "accountEu": "4383",
+                                "accountExport": "4233"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "locationId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "The ID of the accounting location.",
+                        "format": "integer",
+                        "in": "path"
+                    },
+                    {
+                        "in": "body",
+                        "name": "/rest/accounting/locations/{locationId}/revenue_account_configurations",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "accountEu": {
+                                    "type": "string",
+                                    "description": "The account used for revenues that are exempt from VAT and that were sold within the European Union"
+                                },
+                                "accountExport": {
+                                    "type": "string",
+                                    "description": "The account used for revenues that are exempt from VAT and that were sold to outside the European Union"
+                                },
+                                "revenueAccountCountryConfigurations": {
+                                    "type": "array",
+                                    "items": []
+                                }
+                            }
+                        }
                     }
                 ]
             }
@@ -1189,6 +1369,72 @@
                         "description": "The ID of the accounting location",
                         "format": "integer",
                         "in": "path"
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update accounting location settings",
+                "description": "Updates accounting location settings. The ID of the accounting location must be specified.",
+                "tags": [
+                    "Accounting"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/AccountingLocationSettings"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "locationId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "The ID of the accounting location",
+                        "format": "integer",
+                        "in": "path"
+                    },
+                    {
+                        "in": "body",
+                        "name": "/rest/accounting/locations/{locationId}/settings",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "isInvoiceEUNet": {
+                                    "type": "boolean",
+                                    "description": "Is the invoice net for EU?"
+                                },
+                                "isInvoiceExportNet": {
+                                    "type": "boolean",
+                                    "description": "Is the invoice net for export?"
+                                },
+                                "showShippingVat": {
+                                    "type": "boolean",
+                                    "description": "Show the vat for shipping costs on the invoice?"
+                                },
+                                "isSmallBusiness": {
+                                    "type": "boolean",
+                                    "description": "Is it a small business?"
+                                },
+                                "numberOfDecimalPlaces": {
+                                    "type": "integer",
+                                    "description": "The number of decimal places for prices allowed values are 2, 4"
+                                },
+                                "roundTotalsOnly": {
+                                    "type": "boolean",
+                                    "description": "Do only round totals?"
+                                }
+                            }
+                        }
                     }
                 ]
             }
@@ -1317,16 +1563,16 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "name": "Argentina",
-                                    "clientId": 6279409,
-                                    "countryId": 322,
-                                    "plentyId": 12083
+                                    "name": "Bosnia and Herzegovina",
+                                    "clientId": 8862439,
+                                    "countryId": 486,
+                                    "plentyId": 18164
                                 },
                                 {
-                                    "name": "Cambodia",
-                                    "clientId": 6351263,
-                                    "countryId": 323,
-                                    "plentyId": 17508
+                                    "name": "Mauritius",
+                                    "clientId": 5415013,
+                                    "countryId": 487,
+                                    "plentyId": 18428
                                 }
                             ]
                         }
@@ -1361,16 +1607,16 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "name": "Eritrea",
-                                    "clientId": 9501170,
-                                    "countryId": 320,
-                                    "plentyId": 17065
+                                    "name": "Turkey",
+                                    "clientId": 3848779,
+                                    "countryId": 484,
+                                    "plentyId": 13440
                                 },
                                 {
-                                    "name": "Swaziland",
-                                    "clientId": 9807704,
-                                    "countryId": 321,
-                                    "plentyId": 18040
+                                    "name": "Mozambique",
+                                    "clientId": 6066407,
+                                    "countryId": 485,
+                                    "plentyId": 17161
                                 }
                             ]
                         }
@@ -1411,10 +1657,10 @@
                         },
                         "examples": {
                             "application/json": {
-                                "name": "Djibouti",
-                                "clientId": 5641515,
-                                "countryId": 318,
-                                "plentyId": 16205
+                                "name": "Jersey",
+                                "clientId": 7000219,
+                                "countryId": 482,
+                                "plentyId": 14903
                             }
                         }
                     },
@@ -1505,95 +1751,95 @@
                                 "entries": [
                                     {
                                         "taxIdNumber": "DE123456789",
-                                        "startedAt": "1999-11-18T00:00:00+01:00",
-                                        "invalidFrom": "1994-07-04T00:00:00+02:00",
+                                        "startedAt": "2016-11-27T00:00:00+01:00",
+                                        "invalidFrom": "1970-03-03T00:00:00+01:00",
                                         "isRestrictedToDigitalItems": false,
-                                        "marginScheme": "vat3",
-                                        "locationId": 24,
-                                        "countryId": 312,
+                                        "marginScheme": "vat2",
+                                        "locationId": 96,
+                                        "countryId": 476,
                                         "vatRates": [
                                             {
                                                 "id": 0,
-                                                "name": "necessitatibus",
-                                                "vatRate": 5.23,
-                                                "revenueAccount": "8169"
+                                                "name": "porro",
+                                                "vatRate": 17.46,
+                                                "revenueAccount": "7014"
                                             },
                                             {
                                                 "id": 1,
-                                                "name": "possimus",
-                                                "vatRate": 20.33,
-                                                "revenueAccount": "6962"
+                                                "name": "repellat",
+                                                "vatRate": 11.72,
+                                                "revenueAccount": "9731"
                                             },
                                             {
                                                 "id": 2,
-                                                "name": "tempore",
-                                                "vatRate": 8.49,
-                                                "revenueAccount": "4753"
+                                                "name": "qui",
+                                                "vatRate": 11.44,
+                                                "revenueAccount": "4835"
                                             },
                                             {
                                                 "id": 3,
-                                                "name": "quo",
-                                                "vatRate": 8.48,
-                                                "revenueAccount": "3760"
+                                                "name": "consequatur",
+                                                "vatRate": 24.62,
+                                                "revenueAccount": "3416"
                                             },
                                             {
                                                 "id": 4,
-                                                "name": "facilis",
-                                                "vatRate": 22.67,
-                                                "revenueAccount": "6693"
+                                                "name": "tenetur",
+                                                "vatRate": 20.96,
+                                                "revenueAccount": "7732"
                                             },
                                             {
                                                 "id": 5,
-                                                "name": "sunt",
-                                                "vatRate": 17.6,
-                                                "revenueAccount": "4185"
+                                                "name": "et",
+                                                "vatRate": 16.02,
+                                                "revenueAccount": "8185"
                                             }
                                         ]
                                     },
                                     {
                                         "taxIdNumber": "DE123456789",
-                                        "startedAt": "1976-10-11T00:00:00+01:00",
-                                        "invalidFrom": "1980-10-05T00:00:00+01:00",
+                                        "startedAt": "2008-05-31T00:00:00+02:00",
+                                        "invalidFrom": "2010-04-13T00:00:00+02:00",
                                         "isRestrictedToDigitalItems": false,
-                                        "marginScheme": "vat3",
-                                        "locationId": 25,
-                                        "countryId": 313,
+                                        "marginScheme": "vat4",
+                                        "locationId": 97,
+                                        "countryId": 477,
                                         "vatRates": [
                                             {
                                                 "id": 0,
-                                                "name": "vel",
-                                                "vatRate": 22.24,
-                                                "revenueAccount": "3725"
+                                                "name": "rerum",
+                                                "vatRate": 25.23,
+                                                "revenueAccount": "1026"
                                             },
                                             {
                                                 "id": 1,
-                                                "name": "est",
-                                                "vatRate": 14.16,
-                                                "revenueAccount": "5088"
+                                                "name": "omnis",
+                                                "vatRate": 12.28,
+                                                "revenueAccount": "6815"
                                             },
                                             {
                                                 "id": 2,
-                                                "name": "voluptatem",
-                                                "vatRate": 6.24,
-                                                "revenueAccount": "2729"
+                                                "name": "officia",
+                                                "vatRate": 29.48,
+                                                "revenueAccount": "7302"
                                             },
                                             {
                                                 "id": 3,
-                                                "name": "optio",
-                                                "vatRate": 21.6,
-                                                "revenueAccount": "9996"
+                                                "name": "omnis",
+                                                "vatRate": 24.82,
+                                                "revenueAccount": "2912"
                                             },
                                             {
                                                 "id": 4,
-                                                "name": "labore",
-                                                "vatRate": 25.43,
-                                                "revenueAccount": "5963"
+                                                "name": "doloremque",
+                                                "vatRate": 9.45,
+                                                "revenueAccount": "3281"
                                             },
                                             {
                                                 "id": 5,
-                                                "name": "facere",
-                                                "vatRate": 19.76,
-                                                "revenueAccount": "8459"
+                                                "name": "deserunt",
+                                                "vatRate": 14.88,
+                                                "revenueAccount": "4061"
                                             }
                                         ]
                                     }
@@ -1670,48 +1916,48 @@
                         "examples": {
                             "application/json": {
                                 "taxIdNumber": "DE123456789",
-                                "startedAt": "1982-07-11T00:00:00+02:00",
-                                "invalidFrom": "1984-09-01T00:00:00+02:00",
+                                "startedAt": "2016-07-25T00:00:00+02:00",
+                                "invalidFrom": "1985-08-09T00:00:00+02:00",
                                 "isRestrictedToDigitalItems": false,
-                                "marginScheme": "none",
-                                "locationId": 28,
-                                "countryId": 316,
+                                "marginScheme": "vat2",
+                                "locationId": 100,
+                                "countryId": 480,
                                 "vatRates": [
                                     {
                                         "id": 0,
-                                        "name": "autem",
-                                        "vatRate": 6.38,
-                                        "revenueAccount": "6255"
+                                        "name": "incidunt",
+                                        "vatRate": 27.19,
+                                        "revenueAccount": "8694"
                                     },
                                     {
                                         "id": 1,
-                                        "name": "optio",
-                                        "vatRate": 20.5,
-                                        "revenueAccount": "6206"
+                                        "name": "voluptatem",
+                                        "vatRate": 26.8,
+                                        "revenueAccount": "3710"
                                     },
                                     {
                                         "id": 2,
-                                        "name": "molestias",
-                                        "vatRate": 21.23,
-                                        "revenueAccount": "1640"
+                                        "name": "laboriosam",
+                                        "vatRate": 26.72,
+                                        "revenueAccount": "4929"
                                     },
                                     {
                                         "id": 3,
-                                        "name": "optio",
-                                        "vatRate": 13.52,
-                                        "revenueAccount": "5250"
+                                        "name": "sed",
+                                        "vatRate": 11.61,
+                                        "revenueAccount": "2488"
                                     },
                                     {
                                         "id": 4,
-                                        "name": "pariatur",
-                                        "vatRate": 9.35,
-                                        "revenueAccount": "1026"
+                                        "name": "vero",
+                                        "vatRate": 23.38,
+                                        "revenueAccount": "2293"
                                     },
                                     {
                                         "id": 5,
-                                        "name": "voluptatum",
-                                        "vatRate": 24.58,
-                                        "revenueAccount": "2101"
+                                        "name": "omnis",
+                                        "vatRate": 24.3,
+                                        "revenueAccount": "1096"
                                     }
                                 ]
                             }
@@ -1866,95 +2112,95 @@
                             "application/json": [
                                 {
                                     "taxIdNumber": "DE123456789",
-                                    "startedAt": "1983-02-21T00:00:00+01:00",
-                                    "invalidFrom": "2013-01-14T00:00:00+01:00",
+                                    "startedAt": "1985-03-19T00:00:00+01:00",
+                                    "invalidFrom": "2019-04-29T00:00:00+02:00",
                                     "isRestrictedToDigitalItems": false,
-                                    "marginScheme": "vat2",
-                                    "locationId": 21,
-                                    "countryId": 309,
+                                    "marginScheme": "none",
+                                    "locationId": 93,
+                                    "countryId": 473,
                                     "vatRates": [
                                         {
                                             "id": 0,
-                                            "name": "tempora",
-                                            "vatRate": 20.46,
-                                            "revenueAccount": "3618"
+                                            "name": "perspiciatis",
+                                            "vatRate": 27.35,
+                                            "revenueAccount": "8891"
                                         },
                                         {
                                             "id": 1,
-                                            "name": "ex",
-                                            "vatRate": 10.4,
-                                            "revenueAccount": "4755"
+                                            "name": "doloremque",
+                                            "vatRate": 7.04,
+                                            "revenueAccount": "8594"
                                         },
                                         {
                                             "id": 2,
-                                            "name": "maiores",
-                                            "vatRate": 6.08,
-                                            "revenueAccount": "1133"
+                                            "name": "quis",
+                                            "vatRate": 11.47,
+                                            "revenueAccount": "6691"
                                         },
                                         {
                                             "id": 3,
-                                            "name": "sed",
-                                            "vatRate": 27.05,
-                                            "revenueAccount": "7650"
+                                            "name": "fugit",
+                                            "vatRate": 11.38,
+                                            "revenueAccount": "2830"
                                         },
                                         {
                                             "id": 4,
-                                            "name": "quae",
-                                            "vatRate": 14.3,
-                                            "revenueAccount": "8358"
+                                            "name": "deleniti",
+                                            "vatRate": 28.59,
+                                            "revenueAccount": "4577"
                                         },
                                         {
                                             "id": 5,
-                                            "name": "error",
-                                            "vatRate": 16.5,
-                                            "revenueAccount": "2685"
+                                            "name": "quis",
+                                            "vatRate": 10.97,
+                                            "revenueAccount": "1776"
                                         }
                                     ]
                                 },
                                 {
                                     "taxIdNumber": "DE123456789",
-                                    "startedAt": "2005-02-06T00:00:00+01:00",
-                                    "invalidFrom": "2014-03-22T00:00:00+01:00",
+                                    "startedAt": "2002-03-01T00:00:00+01:00",
+                                    "invalidFrom": "2022-08-05T00:00:00+02:00",
                                     "isRestrictedToDigitalItems": false,
                                     "marginScheme": "vat0",
-                                    "locationId": 22,
-                                    "countryId": 310,
+                                    "locationId": 94,
+                                    "countryId": 474,
                                     "vatRates": [
                                         {
                                             "id": 0,
-                                            "name": "fugiat",
-                                            "vatRate": 20.12,
-                                            "revenueAccount": "7669"
+                                            "name": "soluta",
+                                            "vatRate": 5.62,
+                                            "revenueAccount": "4273"
                                         },
                                         {
                                             "id": 1,
-                                            "name": "occaecati",
-                                            "vatRate": 23.75,
-                                            "revenueAccount": "5792"
+                                            "name": "sit",
+                                            "vatRate": 20.46,
+                                            "revenueAccount": "8613"
                                         },
                                         {
                                             "id": 2,
-                                            "name": "temporibus",
-                                            "vatRate": 12.43,
-                                            "revenueAccount": "2644"
+                                            "name": "ut",
+                                            "vatRate": 20.7,
+                                            "revenueAccount": "9936"
                                         },
                                         {
                                             "id": 3,
-                                            "name": "et",
-                                            "vatRate": 12.5,
-                                            "revenueAccount": "8040"
+                                            "name": "deleniti",
+                                            "vatRate": 26.9,
+                                            "revenueAccount": "3440"
                                         },
                                         {
                                             "id": 4,
-                                            "name": "est",
-                                            "vatRate": 28.53,
-                                            "revenueAccount": "7208"
+                                            "name": "expedita",
+                                            "vatRate": 8.74,
+                                            "revenueAccount": "2106"
                                         },
                                         {
                                             "id": 5,
-                                            "name": "esse",
-                                            "vatRate": 25.62,
-                                            "revenueAccount": "9445"
+                                            "name": "ea",
+                                            "vatRate": 14.93,
+                                            "revenueAccount": "3073"
                                         }
                                     ]
                                 }
@@ -2028,48 +2274,48 @@
                         "examples": {
                             "application/json": {
                                 "taxIdNumber": "DE123456789",
-                                "startedAt": "1991-01-10T00:00:00+01:00",
-                                "invalidFrom": "1973-12-09T00:00:00+01:00",
+                                "startedAt": "1982-01-26T00:00:00+01:00",
+                                "invalidFrom": "2010-09-29T00:00:00+02:00",
                                 "isRestrictedToDigitalItems": false,
-                                "marginScheme": "vat3",
-                                "locationId": 23,
-                                "countryId": 311,
+                                "marginScheme": "vat1",
+                                "locationId": 95,
+                                "countryId": 475,
                                 "vatRates": [
                                     {
                                         "id": 0,
-                                        "name": "at",
-                                        "vatRate": 17.89,
-                                        "revenueAccount": "8179"
+                                        "name": "voluptas",
+                                        "vatRate": 21.87,
+                                        "revenueAccount": "2883"
                                     },
                                     {
                                         "id": 1,
-                                        "name": "repudiandae",
-                                        "vatRate": 20.06,
-                                        "revenueAccount": "1771"
+                                        "name": "unde",
+                                        "vatRate": 7.35,
+                                        "revenueAccount": "9095"
                                     },
                                     {
                                         "id": 2,
-                                        "name": "natus",
-                                        "vatRate": 10.91,
-                                        "revenueAccount": "6613"
+                                        "name": "ad",
+                                        "vatRate": 12.63,
+                                        "revenueAccount": "2828"
                                     },
                                     {
                                         "id": 3,
-                                        "name": "non",
-                                        "vatRate": 6.06,
-                                        "revenueAccount": "9237"
+                                        "name": "et",
+                                        "vatRate": 5.36,
+                                        "revenueAccount": "2808"
                                     },
                                     {
                                         "id": 4,
-                                        "name": "autem",
-                                        "vatRate": 27.83,
-                                        "revenueAccount": "5973"
+                                        "name": "in",
+                                        "vatRate": 4.22,
+                                        "revenueAccount": "5511"
                                     },
                                     {
                                         "id": 5,
-                                        "name": "dolorem",
-                                        "vatRate": 19.1,
-                                        "revenueAccount": "9628"
+                                        "name": "magni",
+                                        "vatRate": 18.1,
+                                        "revenueAccount": "3932"
                                     }
                                 ]
                             }
@@ -2158,48 +2404,48 @@
                         "examples": {
                             "application/json": {
                                 "taxIdNumber": "DE123456789",
-                                "startedAt": "1980-08-04T00:00:00+02:00",
-                                "invalidFrom": "2000-02-27T00:00:00+01:00",
+                                "startedAt": "1975-07-09T00:00:00+01:00",
+                                "invalidFrom": "1988-01-24T00:00:00+01:00",
                                 "isRestrictedToDigitalItems": false,
-                                "marginScheme": "vat0",
-                                "locationId": 26,
-                                "countryId": 314,
+                                "marginScheme": "vat5",
+                                "locationId": 98,
+                                "countryId": 478,
                                 "vatRates": [
                                     {
                                         "id": 0,
-                                        "name": "quod",
-                                        "vatRate": 20.85,
-                                        "revenueAccount": "9969"
+                                        "name": "omnis",
+                                        "vatRate": 14.5,
+                                        "revenueAccount": "5383"
                                     },
                                     {
                                         "id": 1,
-                                        "name": "quibusdam",
-                                        "vatRate": 15.55,
-                                        "revenueAccount": "7668"
+                                        "name": "qui",
+                                        "vatRate": 20.47,
+                                        "revenueAccount": "6527"
                                     },
                                     {
                                         "id": 2,
-                                        "name": "qui",
-                                        "vatRate": 19.88,
-                                        "revenueAccount": "7900"
+                                        "name": "dolorem",
+                                        "vatRate": 16.7,
+                                        "revenueAccount": "6607"
                                     },
                                     {
                                         "id": 3,
-                                        "name": "voluptas",
-                                        "vatRate": 24.09,
-                                        "revenueAccount": "8415"
+                                        "name": "iusto",
+                                        "vatRate": 27.26,
+                                        "revenueAccount": "6062"
                                     },
                                     {
                                         "id": 4,
-                                        "name": "molestiae",
-                                        "vatRate": 15,
-                                        "revenueAccount": "8297"
+                                        "name": "et",
+                                        "vatRate": 13.37,
+                                        "revenueAccount": "4044"
                                     },
                                     {
                                         "id": 5,
                                         "name": "voluptatem",
-                                        "vatRate": 10.95,
-                                        "revenueAccount": "8495"
+                                        "vatRate": 11.51,
+                                        "revenueAccount": "5431"
                                     }
                                 ]
                             }
@@ -2230,6 +2476,39 @@
             }
         },
         "/rest/vat/{vatId}": {
+            "delete": {
+                "summary": "Delete a VAT configuration",
+                "description": "Deletes a VAT configuration. The VAT ID must be specified.",
+                "tags": [
+                    "Accounting"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SimpleRestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "vatId",
+                        "type": "integer",
+                        "required": true,
+                        "description": "",
+                        "format": "integer",
+                        "in": "path"
+                    }
+                ]
+            },
             "get": {
                 "summary": "Get a VAT configuration by id",
                 "description": "Get a VAT configuration by id.",
@@ -2250,48 +2529,48 @@
                         "examples": {
                             "application/json": {
                                 "taxIdNumber": "DE123456789",
-                                "startedAt": "2015-01-03T00:00:00+01:00",
-                                "invalidFrom": "1995-03-23T00:00:00+01:00",
+                                "startedAt": "1970-08-23T00:00:00+01:00",
+                                "invalidFrom": "2013-02-05T00:00:00+01:00",
                                 "isRestrictedToDigitalItems": false,
-                                "marginScheme": "vat0",
-                                "locationId": 27,
-                                "countryId": 315,
+                                "marginScheme": "vat5",
+                                "locationId": 99,
+                                "countryId": 479,
                                 "vatRates": [
                                     {
                                         "id": 0,
-                                        "name": "aut",
-                                        "vatRate": 18.35,
-                                        "revenueAccount": "7647"
+                                        "name": "ipsum",
+                                        "vatRate": 24.21,
+                                        "revenueAccount": "4436"
                                     },
                                     {
                                         "id": 1,
-                                        "name": "aliquam",
-                                        "vatRate": 15.45,
-                                        "revenueAccount": "1019"
+                                        "name": "odit",
+                                        "vatRate": 8.89,
+                                        "revenueAccount": "2373"
                                     },
                                     {
                                         "id": 2,
-                                        "name": "saepe",
-                                        "vatRate": 24.3,
-                                        "revenueAccount": "7415"
+                                        "name": "illo",
+                                        "vatRate": 29.84,
+                                        "revenueAccount": "3754"
                                     },
                                     {
                                         "id": 3,
-                                        "name": "nulla",
-                                        "vatRate": 16.97,
-                                        "revenueAccount": "3461"
+                                        "name": "sunt",
+                                        "vatRate": 17.43,
+                                        "revenueAccount": "5130"
                                     },
                                     {
                                         "id": 4,
-                                        "name": "iste",
-                                        "vatRate": 13.49,
-                                        "revenueAccount": "1782"
+                                        "name": "nemo",
+                                        "vatRate": 9.07,
+                                        "revenueAccount": "2113"
                                     },
                                     {
                                         "id": 5,
-                                        "name": "excepturi",
-                                        "vatRate": 17.33,
-                                        "revenueAccount": "2063"
+                                        "name": "amet",
+                                        "vatRate": 20.54,
+                                        "revenueAccount": "8413"
                                     }
                                 ]
                             }
@@ -2332,48 +2611,48 @@
                         "examples": {
                             "application/json": {
                                 "taxIdNumber": "DE123456789",
-                                "startedAt": "2003-07-17T00:00:00+02:00",
-                                "invalidFrom": "2001-12-02T00:00:00+01:00",
+                                "startedAt": "1990-05-14T00:00:00+02:00",
+                                "invalidFrom": "1978-06-04T00:00:00+01:00",
                                 "isRestrictedToDigitalItems": false,
-                                "marginScheme": "vat1",
-                                "locationId": 29,
-                                "countryId": 317,
+                                "marginScheme": "vat4",
+                                "locationId": 101,
+                                "countryId": 481,
                                 "vatRates": [
                                     {
                                         "id": 0,
-                                        "name": "corporis",
-                                        "vatRate": 16.09,
-                                        "revenueAccount": "6088"
+                                        "name": "qui",
+                                        "vatRate": 10.35,
+                                        "revenueAccount": "9306"
                                     },
                                     {
                                         "id": 1,
-                                        "name": "et",
-                                        "vatRate": 23.38,
-                                        "revenueAccount": "2693"
+                                        "name": "sequi",
+                                        "vatRate": 19.29,
+                                        "revenueAccount": "9599"
                                     },
                                     {
                                         "id": 2,
-                                        "name": "ut",
-                                        "vatRate": 20.85,
-                                        "revenueAccount": "4101"
+                                        "name": "totam",
+                                        "vatRate": 24.5,
+                                        "revenueAccount": "1946"
                                     },
                                     {
                                         "id": 3,
-                                        "name": "id",
-                                        "vatRate": 21.97,
-                                        "revenueAccount": "3619"
+                                        "name": "eligendi",
+                                        "vatRate": 14.54,
+                                        "revenueAccount": "3942"
                                     },
                                     {
                                         "id": 4,
-                                        "name": "minus",
-                                        "vatRate": 23.36,
-                                        "revenueAccount": "4825"
+                                        "name": "dolores",
+                                        "vatRate": 10.43,
+                                        "revenueAccount": "8179"
                                     },
                                     {
                                         "id": 5,
-                                        "name": "eaque",
-                                        "vatRate": 7.53,
-                                        "revenueAccount": "9933"
+                                        "name": "explicabo",
+                                        "vatRate": 16.91,
+                                        "revenueAccount": "6190"
                                     }
                                 ]
                             }
@@ -3248,6 +3527,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -3336,9 +3619,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -3560,6 +4057,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -3610,6 +4111,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -4565,6 +5087,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -4633,6 +5159,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -5056,10 +5586,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -5148,6 +5674,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -5163,12 +5694,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -5224,6 +5800,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -5267,48 +5864,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -5334,6 +5893,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -6503,6 +7083,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -7365,6 +7977,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -8734,6 +9350,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -8758,6 +9394,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -8814,7 +9465,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -8852,6 +9503,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -8976,6 +9652,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -9594,6 +10371,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -10416,6 +11201,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -12047,6 +12836,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

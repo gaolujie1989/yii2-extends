@@ -159,14 +159,6 @@
             }
         },
         {
-            "name": "CustomerContract",
-            "description": "Routes for CustomerContract",
-            "externalDocs": {
-                "description": "For the old documentation click here",
-                "url": "https://developers.plentymarkets.com/rest-doc/customer_contract"
-            }
-        },
-        {
             "name": "Document",
             "description": "Routes for Document",
             "externalDocs": {
@@ -244,6 +236,14 @@
             "externalDocs": {
                 "description": "For the old documentation click here",
                 "url": "https://developers.plentymarkets.com/rest-doc/log"
+            }
+        },
+        {
+            "name": "MailTemplates",
+            "description": "Routes for MailTemplates",
+            "externalDocs": {
+                "description": "For the old documentation click here",
+                "url": "https://developers.plentymarkets.com/rest-doc/mail_templates"
             }
         },
         {
@@ -506,25 +506,25 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "type": "pro_forma_invoice",
-                                        "number": 93795,
-                                        "numberWithPrefix": "similique",
+                                        "type": "incoming_items_receipt",
+                                        "number": 975927213,
+                                        "numberWithPrefix": "ullam",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 10,
-                                        "source": "hitmeister",
-                                        "displayDate": "1980-02-28T01:45:32+01:00",
+                                        "userId": 167,
+                                        "source": "klarna",
+                                        "displayDate": "2023-03-20T21:07:30+01:00",
                                         "status": "done"
                                     },
                                     {
-                                        "type": "reversal_dunning_letter",
-                                        "number": 2904438,
-                                        "numberWithPrefix": "rerum",
+                                        "type": "facet",
+                                        "number": 974509,
+                                        "numberWithPrefix": "possimus",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 8,
-                                        "source": "soap",
-                                        "displayDate": "2004-04-11T04:53:47+02:00",
+                                        "userId": 107,
+                                        "source": "klarna",
+                                        "displayDate": "2003-04-11T16:22:13+02:00",
                                         "status": "done"
                                     }
                                 ],
@@ -573,25 +573,25 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "type": "receipt",
-                                    "number": 135,
-                                    "numberWithPrefix": "sint",
+                                    "type": "po_delivery_note",
+                                    "number": 963501710,
+                                    "numberWithPrefix": "vero",
                                     "directoryId": null,
                                     "path": "/some/path/on/the/server/document.pdf",
-                                    "userId": 9,
-                                    "source": "soap",
-                                    "displayDate": "1985-04-06T19:52:51+02:00",
+                                    "userId": 110,
+                                    "source": "paypal",
+                                    "displayDate": "2013-01-04T10:54:33+01:00",
                                     "status": "done"
                                 },
                                 {
-                                    "type": "settlement_report",
-                                    "number": 56,
-                                    "numberWithPrefix": "reiciendis",
+                                    "type": "customer",
+                                    "number": 803608,
+                                    "numberWithPrefix": "dolores",
                                     "directoryId": null,
                                     "path": "/some/path/on/the/server/document.pdf",
-                                    "userId": 8,
-                                    "source": "admin",
-                                    "displayDate": "2001-06-05T06:31:54+02:00",
+                                    "userId": 114,
+                                    "source": "soap",
+                                    "displayDate": "2000-01-10T03:45:41+01:00",
                                     "status": "done"
                                 }
                             ]
@@ -665,7 +665,7 @@
                                 },
                                 "type": {
                                     "type": "string",
-                                    "description": "The type of the document. The following types are available:\n                           \n    admin\n    blog\n category\n correction_document\n credit_note\n    credit_note_external\n       customer\n delivery_note\n    dunning_letter\n       ebics_hash\n    facet\n    invoice\n    invoice_external\n                               pos_invoice\n                               pos_invoice_cancellation\n item\n multi_credit_note\n    multi_invoice\n       offer\n    order_confirmation\n       pickup_delivery\n    receipt\n                               refund_reversal\n    reorder\n    repair_bill\n    return_note\n       reversal_document\n       settlement_report\n    success_confirmation\n    ticket\n    webshop\n  webshop_customer\n    z_report\n    shipping_label\n    shipping_export_label\n    returns_label\n                               reversal_dunning_letter\n  allowed values are receipt, z_report, invoice_external, invoice, pos_invoice, pos_coupon_receipt, delivery_note, credit_note, order_confirmation, offer, cancellation, reorder, dunning_letter, repair_bill, pickup_delivery, till_count, return_note, success_confirmation, multi_invoice, multi_credit_note, customer, ticket, item, webshop, pos_invoice_cancellation, webshop_customer, blog, admin, correction_document, ebics_hash, category, facet, settlement_report, reversal_document, reversal_dunning_letter, reversal_refund, shipping_label, shipping_export_label, pro_forma_invoice, returns_label, po_delivery_note, credit_note_external, uploaded, order_custom"
+                                    "description": "The type of the document. The following types are available:\n                           \n    admin\n    blog\n category\n correction_document\n credit_note\n    credit_note_external\n       customer\n delivery_note\n    dunning_letter\n       ebics_hash\n    facet\n    invoice\n    invoice_external\n                               pos_invoice\n                               pos_invoice_cancellation\n item\n multi_credit_note\n    multi_invoice\n       offer\n    order_confirmation\n       pickup_delivery\n    receipt\n                               refund_reversal\n    reorder\n    repair_bill\n    return_note\n       reversal_document\n       settlement_report\n    success_confirmation\n    ticket\n    webshop\n  webshop_customer\n    z_report\n    shipping_label\n    shipping_export_label\n    returns_label\n                               reversal_dunning_letter\n  allowed values are receipt, z_report, invoice_external, invoice, pos_invoice, pos_coupon_receipt, delivery_note, credit_note, order_confirmation, offer, cancellation, reorder, dunning_letter, repair_bill, pickup_delivery, till_count, return_note, success_confirmation, multi_invoice, multi_credit_note, customer, ticket, item, webshop, pos_invoice_cancellation, webshop_customer, blog, admin, correction_document, ebics_hash, category, facet, settlement_report, reversal_document, reversal_dunning_letter, reversal_refund, shipping_label, shipping_export_label, pro_forma_invoice, returns_label, po_delivery_note, credit_note_external, uploaded, order_custom, incoming_items_receipt"
                                 },
                                 "number": {
                                     "type": "integer",
@@ -769,6 +769,56 @@
                         "in": "path"
                     }
                 ]
+            }
+        },
+        "/rest/documents/incoming_items_receipt/generate": {
+            "post": {
+                "summary": "Generate a document of an \"stockIntake\".",
+                "description": "Generates a receipt that contains a least information about a stockIntake.\nTherefore at least the \"receiptId\" must be specified.",
+                "tags": [
+                    "Document"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SimpleRestResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                }
+            }
+        },
+        "/rest/documents/incoming_items_receipt/generate/preview": {
+            "post": {
+                "summary": "Generates a preview of the \"incoming items receipt\".",
+                "description": "Currently only supports generating the document as html.",
+                "tags": [
+                    "Document"
+                ],
+                "security": [
+                    {
+                        "oAuth2": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/StockIntakeDocumentGenerationPreview"
+                        }
+                    },
+                    "401": {
+                        "description": "The resource owner or authorization server denied the request. - The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+                    }
+                }
             }
         },
         "/rest/documents/preview/generate/{previewType}": {
@@ -973,25 +1023,25 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "type": "pos_invoice_cancellation",
-                                        "number": 7739220,
-                                        "numberWithPrefix": "incidunt",
+                                        "type": "till_count",
+                                        "number": 33689,
+                                        "numberWithPrefix": "ipsum",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 3,
-                                        "source": "klarna",
-                                        "displayDate": "1997-01-23T00:55:20+01:00",
+                                        "userId": 67,
+                                        "source": "admin",
+                                        "displayDate": "2007-02-26T06:21:35+01:00",
                                         "status": "done"
                                     },
                                     {
-                                        "type": "shipping_label",
-                                        "number": 46,
-                                        "numberWithPrefix": "et",
+                                        "type": "returns_label",
+                                        "number": 687,
+                                        "numberWithPrefix": "quis",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 7,
+                                        "userId": 130,
                                         "source": "admin",
-                                        "displayDate": "2022-04-19T02:55:39+02:00",
+                                        "displayDate": "1994-04-09T05:31:14+02:00",
                                         "status": "done"
                                     }
                                 ],
@@ -1308,25 +1358,25 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "type": "receipt",
-                                        "number": 44881,
-                                        "numberWithPrefix": "blanditiis",
+                                        "type": "po_delivery_note",
+                                        "number": 45778909,
+                                        "numberWithPrefix": "earum",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 8,
-                                        "source": "paypal",
-                                        "displayDate": "2023-02-14T07:08:28+01:00",
+                                        "userId": 168,
+                                        "source": "admin",
+                                        "displayDate": "1986-07-01T14:59:17+02:00",
                                         "status": "done"
                                     },
                                     {
-                                        "type": "pos_invoice_cancellation",
-                                        "number": 21201002,
-                                        "numberWithPrefix": "porro",
+                                        "type": "incoming_items_receipt",
+                                        "number": 5927294,
+                                        "numberWithPrefix": "labore",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 8,
-                                        "source": "klarna",
-                                        "displayDate": "2002-05-29T02:13:04+02:00",
+                                        "userId": 169,
+                                        "source": "paypal",
+                                        "displayDate": "1992-10-06T07:36:59+01:00",
                                         "status": "done"
                                     }
                                 ],
@@ -1461,14 +1511,14 @@
                         },
                         "examples": {
                             "application/json": {
-                                "type": "dunning_letter",
-                                "number": 306307149,
-                                "numberWithPrefix": "ipsam",
+                                "type": "category",
+                                "number": 238,
+                                "numberWithPrefix": "dolor",
                                 "directoryId": null,
                                 "path": "/some/path/on/the/server/document.pdf",
-                                "userId": 12,
-                                "source": "soap",
-                                "displayDate": "1995-10-14T05:33:43+01:00",
+                                "userId": 155,
+                                "source": "paypal",
+                                "displayDate": "1973-10-06T07:37:04+01:00",
                                 "status": "done"
                             }
                         }
@@ -1551,25 +1601,25 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "type": "blog",
-                                        "number": 317796,
-                                        "numberWithPrefix": "enim",
+                                        "type": "ebics_hash",
+                                        "number": 234424084,
+                                        "numberWithPrefix": "ipsa",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 12,
-                                        "source": "paypal",
-                                        "displayDate": "1984-08-23T05:02:25+02:00",
+                                        "userId": 140,
+                                        "source": "klarna",
+                                        "displayDate": "1994-07-29T06:02:20+02:00",
                                         "status": "done"
                                     },
                                     {
-                                        "type": "item",
-                                        "number": 555281037,
-                                        "numberWithPrefix": "autem",
+                                        "type": "webshop_customer",
+                                        "number": 81,
+                                        "numberWithPrefix": "quis",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 7,
-                                        "source": "admin",
-                                        "displayDate": "2002-04-12T23:00:15+02:00",
+                                        "userId": 153,
+                                        "source": "klarna",
+                                        "displayDate": "1983-02-27T16:16:19+01:00",
                                         "status": "done"
                                     }
                                 ],
@@ -3074,25 +3124,25 @@
                                 "isLastPage": true,
                                 "entries": [
                                     {
-                                        "type": "delivery_note",
-                                        "number": 880,
-                                        "numberWithPrefix": "quis",
+                                        "type": "po_delivery_note",
+                                        "number": 694612,
+                                        "numberWithPrefix": "velit",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 13,
-                                        "source": "soap",
-                                        "displayDate": "2020-02-10T11:47:26+01:00",
+                                        "userId": 172,
+                                        "source": "paypal",
+                                        "displayDate": "1983-05-07T06:34:24+02:00",
                                         "status": "done"
                                     },
                                     {
-                                        "type": "shipping_label",
-                                        "number": 266497,
-                                        "numberWithPrefix": "nostrum",
+                                        "type": "order_confirmation",
+                                        "number": 13229,
+                                        "numberWithPrefix": "totam",
                                         "directoryId": null,
                                         "path": "/some/path/on/the/server/document.pdf",
-                                        "userId": 9,
-                                        "source": "paypal",
-                                        "displayDate": "1996-02-16T18:22:42+01:00",
+                                        "userId": 150,
+                                        "source": "admin",
+                                        "displayDate": "1974-02-06T20:28:12+01:00",
                                         "status": "done"
                                     }
                                 ],
@@ -3218,25 +3268,25 @@
                         "examples": {
                             "application/json": [
                                 {
-                                    "type": "pos_invoice_cancellation",
-                                    "number": 7442,
-                                    "numberWithPrefix": "ea",
+                                    "type": "ticket",
+                                    "number": 45096,
+                                    "numberWithPrefix": "a",
                                     "directoryId": null,
                                     "path": "/some/path/on/the/server/document.pdf",
-                                    "userId": 7,
-                                    "source": "klarna",
-                                    "displayDate": "1970-04-30T07:22:21+01:00",
+                                    "userId": 139,
+                                    "source": "paypal",
+                                    "displayDate": "1972-09-28T17:15:14+01:00",
                                     "status": "done"
                                 },
                                 {
-                                    "type": "multi_credit_note",
-                                    "number": 904590,
-                                    "numberWithPrefix": "veritatis",
+                                    "type": "incoming_items_receipt",
+                                    "number": 23613162,
+                                    "numberWithPrefix": "sint",
                                     "directoryId": null,
                                     "path": "/some/path/on/the/server/document.pdf",
-                                    "userId": 12,
-                                    "source": "klarna",
-                                    "displayDate": "1978-06-14T16:27:01+01:00",
+                                    "userId": 148,
+                                    "source": "paypal",
+                                    "displayDate": "1994-08-11T05:02:43+02:00",
                                     "status": "done"
                                 }
                             ]
@@ -3321,14 +3371,14 @@
                         },
                         "examples": {
                             "application/json": {
-                                "type": "uploaded",
-                                "number": 129867103,
-                                "numberWithPrefix": "deleniti",
+                                "type": "returns_label",
+                                "number": 301,
+                                "numberWithPrefix": "ut",
                                 "directoryId": null,
                                 "path": "/some/path/on/the/server/document.pdf",
-                                "userId": 11,
-                                "source": "hitmeister",
-                                "displayDate": "1993-08-28T00:17:50+02:00",
+                                "userId": 67,
+                                "source": "klarna",
+                                "displayDate": "1995-06-15T23:08:04+02:00",
                                 "status": "done"
                             }
                         }
@@ -3428,14 +3478,14 @@
                         },
                         "examples": {
                             "application/json": {
-                                "type": "receipt",
-                                "number": 8580172,
+                                "type": "reorder",
+                                "number": 532,
                                 "numberWithPrefix": "quos",
                                 "directoryId": null,
                                 "path": "/some/path/on/the/server/document.pdf",
-                                "userId": 8,
-                                "source": "soap",
-                                "displayDate": "2000-05-29T14:57:02+02:00",
+                                "userId": 165,
+                                "source": "klarna",
+                                "displayDate": "1984-11-14T05:42:43+01:00",
                                 "status": "done"
                             }
                         }
@@ -4266,6 +4316,10 @@
                 "leadStatusUpdateAt": {
                     "type": "string",
                     "description": "DEPRECATED - See leadStatusUpdatedAt"
+                },
+                "position_id": {
+                    "type": "integer",
+                    "description": "The job position ID of the contact"
                 }
             }
         },
@@ -4354,9 +4408,223 @@
                 }
             }
         },
+        "bool": {
+            "type": "object",
+            "properties": []
+        },
         "string": {
             "type": "object",
             "properties": []
+        },
+        "ContactClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the contact class"
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "priceColumn": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "showPrice": {
+                    "type": "integer",
+                    "description": "Flag to display price in the online store as Gross(1) or Net(2)"
+                },
+                "discountType": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pqsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "": {
+                    "type": "number",
+                    "description": "pqsDiscount10"
+                },
+                "pqsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity6": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity7": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity8": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity9": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pqsQuantity10": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pnsDiscount5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pmsMop": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pmsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "paqsDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "payableDueWithin": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "minQuantity": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "dontUseItemPriceRebates": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "allowedMops": {
+                    "type": "string",
+                    "description": "The list of allowed payment methods"
+                },
+                "pdwQuantity1": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays1": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity2": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays2": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity3": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays3": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity4": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays4": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "pdwQuantity5": {
+                    "type": "number",
+                    "description": ""
+                },
+                "pdwDays5": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "customerGroupsPaymentNotice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "earlyPaymentDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "earlyPaymentDiscountDays": {
+                    "type": "number",
+                    "description": ""
+                },
+                "valuta": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "manualDiscount": {
+                    "type": "number",
+                    "description": ""
+                },
+                "allowedMethodOfPaymentIdsList": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                }
+            }
         },
         "ContactEvent": {
             "type": "object",
@@ -4578,6 +4846,10 @@
                     "type": "string",
                     "description": ""
                 },
+                "path": {
+                    "type": "string",
+                    "description": ""
+                },
                 "lastModified": {
                     "type": "string",
                     "description": ""
@@ -4628,6 +4900,27 @@
                     "type": "array",
                     "items": [],
                     "description": ""
+                }
+            }
+        },
+        "Job": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the job"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position ID"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": "The date the contact was created"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date the contact was last updated"
                 }
             }
         },
@@ -5583,6 +5876,10 @@
                 }
             }
         },
+        "int": {
+            "type": "object",
+            "properties": []
+        },
         "KeyFigureResultSearchResponse": {
             "type": "object",
             "properties": []
@@ -5651,6 +5948,10 @@
                     "type": "array",
                     "items": [],
                     "description": "Sort the results options."
+                },
+                "displayZeroPrimaryValue": {
+                    "type": "boolean",
+                    "description": "Display zero results on the UI"
                 }
             }
         },
@@ -6074,10 +6375,6 @@
             "type": "object",
             "properties": []
         },
-        "int": {
-            "type": "object",
-            "properties": []
-        },
         "Conversation": {
             "type": "object",
             "properties": {
@@ -6166,6 +6463,11 @@
                     "items": [],
                     "description": "Array with all tag ID's from all messages"
                 },
+                "replyTo": {
+                    "type": "array",
+                    "items": [],
+                    "description": ""
+                },
                 "messagesPaths": {
                     "type": "array",
                     "description": "Array with s3 messages paths"
@@ -6181,12 +6483,57 @@
                 "isArchived": {
                     "type": "boolean",
                     "description": "Flag that indicates if the conversation is archived"
+                },
+                "conversationPreview": {
+                    "type": "string",
+                    "description": "Strip last the message from messagesBodies to 200 characters, used for preview."
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "Flag that indicates if the conversation is archived"
+                },
+                "linkedFolders": {
+                    "type": "array",
+                    "description": "List of linked folders"
+                },
+                "marketplacesMetadata": {
+                    "type": "array",
+                    "description": "marketplaces Meta data"
                 }
             }
         },
-        "bool": {
+        "ConversationCategory": {
             "type": "object",
-            "properties": []
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of the type"
+                },
+                "position": {
+                    "type": "integer",
+                    "description": "The position of the type (used in sorting)"
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "The user ID which performed the last update"
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "The icon for messenger tab"
+                },
+                "iconType": {
+                    "type": "string",
+                    "description": "The icon type"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type was deleted"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if the type is enabled"
+                }
+            }
         },
         "ConversationEvent": {
             "type": "object",
@@ -6242,6 +6589,27 @@
                 }
             }
         },
+        "ConversationRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "position": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
         "ConversationStatus": {
             "type": "object",
             "properties": {
@@ -6285,48 +6653,10 @@
                 "isDeleted": {
                     "type": "boolean",
                     "description": "Flag that indicates if the type was deleted"
-                }
-            }
-        },
-        "CustomerContract": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": ""
                 },
-                "contractLang": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contractVisible": {
+                "categoryId": {
                     "type": "boolean",
-                    "description": ""
-                }
-            }
-        },
-        "Signing": {
-            "type": "object",
-            "properties": {
-                "contractId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "contactId": {
-                    "type": "string",
-                    "description": ""
-                },
-                "signerName": {
-                    "type": "string",
-                    "description": ""
-                },
-                "createdAt": {
-                    "type": "string",
-                    "description": ""
+                    "description": "The ID of the parent category"
                 }
             }
         },
@@ -6352,6 +6682,27 @@
                 "userId": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the record"
+                }
+            }
+        },
+        "StockIntakeDocumentGenerationPreview": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string",
+                    "description": ""
+                },
+                "content": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "integer",
+                    "description": ""
                 }
             }
         },
@@ -7521,6 +7872,38 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The time the manufacturer information was last updated."
+                },
+                "responsibleName": {
+                    "type": "string",
+                    "description": "The name of the EU-Responsible person"
+                },
+                "responsibleStreet": {
+                    "type": "string",
+                    "description": "The street of the EU-Responsible person"
+                },
+                "responsibleHouseNo": {
+                    "type": "string",
+                    "description": "The house number of the EU-Responsible person"
+                },
+                "responsiblePostCode": {
+                    "type": "string",
+                    "description": "The postal code of the EU-Responsible person"
+                },
+                "responsibleTown": {
+                    "type": "string",
+                    "description": "The town of the EU-Responsible person"
+                },
+                "responsibleCountry": {
+                    "type": "integer",
+                    "description": "The country of the EU-Responsible person"
+                },
+                "responsibleEmail": {
+                    "type": "string",
+                    "description": "The email address of the EU-Responsible person"
+                },
+                "responsiblePhoneNo": {
+                    "type": "string",
+                    "description": "The phone number of the EU-Responsible person"
                 }
             }
         },
@@ -8383,6 +8766,10 @@
                 "name": {
                     "type": "string",
                     "description": "The default name of the item. By default, this name is displayed in the online store. For Default items, this name is also used for markets. Character limit: max. 240 characters."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The html title for webshop of the item. By default, this title is displayed in the online store html. Character limit: max. 240 characters."
                 },
                 "name2": {
                     "type": "string",
@@ -9752,6 +10139,26 @@
                 "deletedBy": {
                     "type": "integer",
                     "description": "The ID of the user who deleted the message"
+                },
+                "categoryId": {
+                    "type": "integer",
+                    "description": "The categoryID of the message/conversation"
+                },
+                "typeId": {
+                    "type": "integer",
+                    "description": "The typeID of the conversation"
+                },
+                "typePosition": {
+                    "type": "integer",
+                    "description": "The typePosition of the typeID"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "description": "The statusID of the conversation"
+                },
+                "statusPosition": {
+                    "type": "integer",
+                    "description": "The statusPosition of statusID"
                 }
             }
         },
@@ -9776,6 +10183,21 @@
                 "allUsers": {
                     "type": "boolean",
                     "description": "Flag indicating that all system users receive the message"
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the contacts from conversation->conversationRecipients"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the orders from conversation->conversationRecipients"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": [],
+                    "description": "A snapshot of the emails from conversation->conversationRecipients"
                 }
             }
         },
@@ -9832,7 +10254,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST}\nand {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
+                    "description": "The type of the from instance (one of {@link MessageTypesService::REFERRER_TYPE_SYSTEM},\n{@link MessageTypesService::REFERRER_TYPE_BACKEND}, {@link MessageTypesService::REFERRER_TYPE_REST},\n{@link MessageTypesService::REFERRER_TYPE_EMAIL} and {@link MessageTypesService::REFERRER_TYPE_PLUGIN})"
                 },
                 "value": {
                     "type": "string",
@@ -9870,6 +10292,31 @@
                 "createdAt": {
                     "type": "string",
                     "description": "The createdAt date of the attachment"
+                }
+            }
+        },
+        "EbayAccount": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The id of the messenger ebay settings account"
+                },
+                "ebayAccountId": {
+                    "type": "integer",
+                    "description": "The id of the ebay account"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the ebay account"
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "The status of the messenger ebay settings account"
+                },
+                "isDeleted": {
+                    "type": "boolean",
+                    "description": "The deleted status of the messenger ebay settings account"
                 }
             }
         },
@@ -9994,6 +10441,107 @@
                 "addressId": {
                     "type": "integer",
                     "description": "The ID of the address"
+                }
+            }
+        },
+        "CouponCampaign": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of a coupon campaign"
+                },
+                "externalId": {
+                    "type": "string",
+                    "description": "DEPRECATED! The external ID of a coupon campaign"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the coupon campaign"
+                },
+                "variable": {
+                    "type": "integer",
+                    "description": "The variable to display coupon codes in emails. There are only 10 variables available. A variable may only be used for one campaign. The variable names follow this pattern: CouponCode + Number e.g. CouponCode1."
+                },
+                "isPermittedForExternalReferrers": {
+                    "type": "boolean",
+                    "description": "Flag that indicates whether or not coupons can be redeemed if a customer enters the online store from an external referrer.\n<ul><li>TRUE = The coupon can be redeemed if the customer enters the online store from an external referrer\u2028</li>\n<li>FALSE = The coupon can not be redeemed</li></ul>"
+                },
+                "includeShipping": {
+                    "type": "boolean",
+                    "description": "The discount also applies to shipping costs. The property will be only be set if the discount type fixed is set."
+                },
+                "unusedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have been redeemed"
+                },
+                "usedCodesCount": {
+                    "type": "integer",
+                    "description": "The number of codes that have not been redeemed"
+                },
+                "endsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign ends"
+                },
+                "startsAt": {
+                    "type": "string",
+                    "description": "The date that the campaign starts"
+                },
+                "minOrderValue": {
+                    "type": "number",
+                    "description": "The minimum order value that needs to be reached for the coupon to be redeemed. If the value is not reached the coupon will not be redeemed."
+                },
+                "codeDurationWeeks": {
+                    "type": "integer",
+                    "description": "The number of weeks that codes of this campaign can be redeemed after they have been generated."
+                },
+                "codeAssignment": {
+                    "type": "string",
+                    "description": "The code assignment is only relevant for vouchers. Codes can either be generated every time a voucher is bought or a code from a previously created list of codes can be used. The three options available are generate, use_existing and only_use_existing.\n<ul><li>generate = a new code is generated on demand</li>\n<li>use_existing = the code already exists and is taken from a previously entered list of codes, in case of vouchers a new code will be generated for each item purchased that has associated a campaign ID</li>\n<li>only_use_existing = the code already exists and is taken from a previously entered list of codes, for vouchers no additional code will be generated for items purchased, only existing codes will be used</li></ul>"
+                },
+                "codeLength": {
+                    "type": "string",
+                    "description": "There are 3 different length available. The code can be 6, 16, 24 or 32 characters long."
+                },
+                "usage": {
+                    "type": "string",
+                    "description": "The usage defines what the coupon codes from this campaign can be used for. There are three options available:\n<ul><li>single_and_subscription = The codes can be used for single orders and subscription orders</li>\n<li>single_order = The codes can be used for single orders only</li>\n<li>subscription = The codes can be used for subscriptions only</li></ul>"
+                },
+                "concept": {
+                    "type": "string",
+                    "description": "The campaign concept defines how many codes belong to a campaign. The concept interacts with the redeem type that is explained next. There are two concept options available:\n<ul><li>single_code = The campaign has only one code</li>\n<li>multi_code = The campaign has several codes</li></ul>"
+                },
+                "redeemType": {
+                    "type": "string",
+                    "description": "The redeem type defines how many times a code of a campaign can be redeemed. There are 4 redeem types available:\n<ul><li>multi_redeem_per_user = Each customer is allowed to redeem the same code several times</li>\n<li>single_redeem_per_user =  Each customer can only redeem the same code once</li>\n<li>redeem_until_value_reached = A code can be entered several times by the same customer or by different customers, but only until the coupon value is depleted</li>\n<li>unique_redeem = The code can be redeemed once. If several customers get the same code, only the first customer to enter the code can use it.</li></ul>\nThe redeem type interacts with the concept. Pay attention to the combination these two options form."
+                },
+                "discountType": {
+                    "type": "string",
+                    "description": "There are 4 discount types available:\n<ul><li>fixed = The coupon value is a fixed amount of money. This discount type is the only one that makes sense for coupons that are sold in the online store. The actual amount of money needs to be set with the value property.</li>\n<li>percent = The discount is given as percentage and the actual value depends on the purchase. The actual number of percent need to be set with the value property.</li>\n<li>item = The discount applies to entire items. A typical example would be - Buy 1 get 1 free - or in other words - Get 2 for the price of 1. The number of items the customer gets and the number of items the customer has to pay for need to be set with itemDiscountToPay and itemDiscountToBuy.</li>\n<li>shipping = The shipping does not cost anything. The cost will be set to zero no matter what the actual shipping costs are.</li></ul>"
+                },
+                "itemDiscountToPay": {
+                    "type": "integer",
+                    "description": "The number of items that the customer has to pay for. This number needs to be compared to the number of items the customer receives, itemDiscountToBuy"
+                },
+                "itemDiscountToBuy": {
+                    "type": "integer",
+                    "description": "The number of items that the customer receives, but he or she only has to pay for the number of items set with itemDiscountToPay."
+                },
+                "campaignType": {
+                    "type": "string",
+                    "description": "The two campaign types available are coupon or voucher."
+                },
+                "couponType": {
+                    "type": "string",
+                    "description": "The coupon type is only for campaigns that have the campaign type coupon. The two coupon types available are promotion and sales."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the campaign"
+                },
+                "value": {
+                    "type": "number",
+                    "description": "The actual discount value of a coupon. The value needs to be set for the two discount types fixed and percent."
                 }
             }
         },
@@ -10612,6 +11160,14 @@
                 "packageSscc": {
                     "type": "string",
                     "description": "Amazon Vendor PackageSscc"
+                },
+                "mrn": {
+                    "type": "string",
+                    "description": "Movement Reference Number (MRN)"
+                },
+                "atlasRegistration": {
+                    "type": "integer",
+                    "description": "ATLAS export declaration"
                 }
             }
         },
@@ -11434,6 +11990,10 @@
                 "name": {
                     "type": "string",
                     "description": "The name of the payment method"
+                },
+                "isDocumentBuilderActive": {
+                    "type": "boolean",
+                    "description": "Flag that indicates if payment method is checked for document builder"
                 }
             }
         },
@@ -13065,6 +13625,10 @@
                 "updatedAt": {
                     "type": "string",
                     "description": "The date that the VAT configuration was last updated."
+                },
+                "isActive": {
+                    "type": "boolean",
+                    "description": "Is this the active VAT configuration for this location and country? (read-only)"
                 }
             }
         },

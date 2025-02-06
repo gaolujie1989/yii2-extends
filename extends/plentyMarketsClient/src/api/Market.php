@@ -132,6 +132,16 @@ class Market extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                     
     /**
+     * @description Lists all credentials - no pagination - usual filters: market and data['authType']
+     * @tag Market
+     * @return array
+     */
+    public function getMarketsCredentialsAll(): array
+    {
+        return $this->api("/rest/markets/credentials/all");
+    }
+                    
+    /**
      * @description Deletes a credential by given ID.
      * @tag Market
      * @param int $credentialsId 

@@ -442,6 +442,8 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The payment key of the payment method
      *      - *name* - string
      *          - The name of the payment method
+     *      - *isDocumentBuilderActive* - boolean
+     *          - Flag that indicates if payment method is checked for document builder
      */
     public function createPaymentsMethod(array $data): array
     {
@@ -449,7 +451,7 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     }
                 
     /**
-     * @description Updates the name of the payment method. The name of the payment method must be specified.
+     * @description Updates the name and isDocumentBuilderActive of the payment method.
      * @tag Payment
      * @param array $data 
      * @return array
@@ -461,10 +463,22 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
      *          - The payment key of the payment method
      *      - *name* - string
      *          - The name of the payment method
+     *      - *isDocumentBuilderActive* - boolean
+     *          - Flag that indicates if payment method is checked for document builder
      */
     public function updatePaymentsMethod(array $data): array
     {
         return $this->api("/rest/payments/methods", 'PUT', $data);
+    }
+                    
+    /**
+     * @description Updates multiple payment methods by id
+     * @tag Payment
+     * @return array
+     */
+    public function updatePaymentsMethodsBulk(): array
+    {
+        return $this->api("/rest/payments/methods/bulk", 'PUT');
     }
                     
     /**
@@ -507,6 +521,17 @@ class Payment extends \lujie\plentyMarkets\BasePlentyMarketsRestClient
     public function getPaymentsMethodsListBackendSearchableByLanguage(string $language): array
     {
         return $this->api("/rest/payments/methods/list/backend_searchable/{$language}");
+    }
+                    
+    /**
+     * @description Get DocumenBuilder active payment methods
+     * @tag Payment
+     * @param int $language 
+     * @return array
+     */
+    public function getPaymentsMethodsListDocumentbuilderActiveByLanguage(int $language): array
+    {
+        return $this->api("/rest/payments/methods/list/documentbuilder_active/{$language}");
     }
                     
     /**

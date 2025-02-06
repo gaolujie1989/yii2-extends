@@ -1,0 +1,17 @@
+parameters:
+    ignoreErrors:
+        - '#Cannot access property \$[\w]+ on array|yii\\db\\ActiveRecord#'
+        - '#Method yii\\db\\ActiveQueryInterface::with\(\) invoked with 1 parameter, 0 required#'
+        - '#(object|null|BaseActiveRecord) is not subtype of native type#'
+        -
+            message: "#^Call to an undefined static method object\\|string\\:\\:getCollection\\(\\)\\.$#"
+            path: ../../src/authclient/BaseSoapClient.php
+        -
+            message: "#^Static call to instance method stdClass\\:\\:sorts\\(\\)\\.$#"
+            path: ../../src/data/ActiveArrayDataProvider.php
+        -
+            message: "#^Static call to instance method stdClass\\:\\:prepare#"
+            path: ../../src/helpers/ModelHelper.php
+        -
+            message: "#^Call to an undefined method yii\\\\queue\\\\cli\\\\Queue#"
+            path: ../../src/queue/rest/Command.php

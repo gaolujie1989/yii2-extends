@@ -6,8 +6,12 @@
 namespace lujie\extend\mutex;
 
 use lujie\extend\helpers\ClassHelper;
+use lujie\extend\helpers\ExceptionHelper;
+use Yii;
+use yii\authclient\InvalidResponseException;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
+use yii\httpclient\Exception;
 use yii\mutex\Mutex;
 
 /**
@@ -99,27 +103,41 @@ trait LockingTrait
     /**
      * @param string $name
      * @param callable $onSuccess
-     * @param callable|null $onFailure
+     * @param bool $logException
+     * @param array $throwExceptions
      * @return mixed
+     * @throws InvalidConfigException
      * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
-    public function lockingRun(string $name, callable $onSuccess, ?callable $onFailure = null)
+    public function lockingRun(string $name, callable $onSuccess, bool $logException = true)
     {
         if ($this->mutex) {
             $this->initMutex();
-            $name = $this->keyPrefix . $name;
-            if ($this->mutex->acquire($name, $this->timeout)) {
+            $lockName = $this->keyPrefix . $name;
+            if ($this->mutex->acquire($lockName, $this->timeout)) {
                 try {
                     return $onSuccess();
                 } catch (\Throwable $e) {
+                    if ($logException) {
+                        if ($e instanceof InvalidResponseException) {
+                            $statusCode = (string)$e->response->getStatusCode();
+                            if ($statusCode === '429') {
+                                throw $e;
+                            }
+                        }
+                        $error = $e->getMessage();
+                        if ($e instanceof Exception && str_contains($error, 'Curl error')) {
+                            Yii::warning($e, $name);
+                        } else {
+                            Yii::error($e, $name);
+                        }
+                        return false;
+                    }
                     throw $e;
                 } finally {
-                    $this->mutex->release($name);
+                    $this->mutex->release($lockName);
                 }
-            } elseif ($onFailure && is_callable($onFailure)) {
-                return $onFailure();
             } else {
                 return false;
             }

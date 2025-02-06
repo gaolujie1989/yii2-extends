@@ -102,7 +102,6 @@ trait SearchTrait
      */
     protected function searchQuery(ActiveQueryInterface $query = null, string $alias = ''): ActiveQueryInterface
     {
-        /** @var BaseActiveRecord $this */
         $query = ModelHelper::query($this, $query, $alias, $this->filterKeySuffixes());
         $keyAttributes = $this->searchKeyAttributes();
         if ($this->key && $keyAttributes) {
@@ -123,7 +122,7 @@ trait SearchTrait
     }
 
     /**
-     * @param array $row
+     * @param array $rows
      * @return array
      * @throws \Exception
      * @inheritdoc

@@ -5,11 +5,13 @@
 
 namespace lujie\extend\flysystem;
 
+use League\Flysystem\Config;
 use League\Flysystem\DirectoryListing;
 use League\Flysystem\Filesystem as LeagueFilesystem;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UrlGeneration\PublicUrlGenerator;
 use yii\base\Component;
 
 /**
@@ -77,7 +79,7 @@ abstract class Filesystem extends Component implements FilesystemOperator
     }
 
     /**
-     * @return LeagueFilesystem
+     * @return FilesystemAdapter
      * @inheritdoc
      */
     public function getFilesystemAdapter(): FilesystemAdapter
@@ -93,7 +95,14 @@ abstract class Filesystem extends Component implements FilesystemOperator
      */
     public function publicUrl(string $path, array $config = []): string
     {
-        return rtrim($this->cdn, '/') . '/' . ltrim($path, '/');
+        $adapter = $this->getFilesystemAdapter();
+        if ($adapter instanceof PublicUrlGenerator) {
+            return $adapter->publicUrl($path, new Config($config));
+        }
+        if ($this->cdn) {
+            return rtrim($this->cdn, '/') . '/' . ltrim($path, '/');
+        }
+        return '';
     }
 
     /**
@@ -232,11 +241,11 @@ abstract class Filesystem extends Component implements FilesystemOperator
 
     /**
      * @param string $path
-     * @return string
+     * @return int
      * @throws FilesystemException
      * @deprecated Use `fileSize` instead
      */
-    public function getSize(string $path): string
+    public function getSize(string $path): int
     {
         return $this->fileSize($path);
     }
@@ -254,11 +263,11 @@ abstract class Filesystem extends Component implements FilesystemOperator
 
     /**
      * @param string $path
-     * @return string
+     * @return int
      * @throws FilesystemException
      * @deprecated Use `lastModified` instead
      */
-    public function getTimestamp(string $path): string
+    public function getTimestamp(string $path): int
     {
         return $this->lastModified($path);
     }

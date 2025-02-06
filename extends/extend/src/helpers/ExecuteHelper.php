@@ -7,6 +7,8 @@ namespace lujie\extend\helpers;
 
 use lujie\extend\constants\ExecStatusConst;
 use Yii;
+use yii\authclient\InvalidResponseException;
+use yii\base\UserException;
 use yii\db\BaseActiveRecord;
 use yii\db\Query;
 use yii\helpers\Json;
@@ -80,7 +82,7 @@ class ExecuteHelper
         string           $statusAttribute = 'execute_status',
         string           $resultAttribute = 'execute_result',
         bool             $throwException = false,
-        array            $warningExceptions = [Exception::class],
+        array            $warningExceptions = [Exception::class, InvalidResponseException::class, UserException::class],
         ?string          $memoryLimit = null
     ): bool
     {
@@ -111,7 +113,7 @@ class ExecuteHelper
                     $modelClass = get_class($model);
                     $primaryKey = implode(',', $model->getPrimaryKey(true));
                     $message = "Execute {$modelClass}:{$primaryKey} with errors: " . Json::encode($model->getErrors());
-                    Yii::error($message, __METHOD__);
+                    Yii::warning($message, __METHOD__);
                 }
             } else {
                 $timeAttribute && $model->setAttribute($timeAttribute, time());
@@ -131,7 +133,7 @@ class ExecuteHelper
                 $model->setAttribute($resultAttribute, $resultValue);
             }
             $model->save(false);
-            Yii::error($message, __METHOD__);
+            Yii::error($exception, __METHOD__);
             return false;
         } catch (\Throwable $exception) {
             $statusAttribute && $model->setAttribute($statusAttribute, ExecStatusConst::EXEC_STATUS_FAILED);
@@ -147,14 +149,14 @@ class ExecuteHelper
             $model->save(false);
             foreach ($warningExceptions as $warningException) {
                 if ($exception instanceof $warningException) {
-                    Yii::warning($message, __METHOD__);
+                    Yii::warning($exception, __METHOD__);
                     return false;
                 }
             }
             if ($throwException) {
                 throw $exception;
             }
-            Yii::error($message, __METHOD__);
+            Yii::error($exception, __METHOD__);
             return false;
         } finally {
             if (isset($oldMemoryLimit)) {

@@ -5,11 +5,8 @@
 
 namespace lujie\extend\flysystem;
 
-use DateTimeInterface;
 use League\Flysystem\FilesystemAdapter;
-use League\Flysystem\Local\LocalFilesystemAdapter;
 use Overtrue\Flysystem\Cos\CosAdapter;
-use Yii;
 
 /**
  * Class LocalFilesystem
@@ -87,19 +84,5 @@ class QCosFilesystem extends Filesystem
     public function thumbnailUrl(string $path, int $width, int $height, array $config = []): string
     {
         return $this->publicUrl($path, $config) . '?imageMogr2/thumbnail/' . $width . 'x' . $height;
-    }
-
-    /**
-     * @param string $path
-     * @param DateTimeInterface $expiresAt
-     * @param array $config
-     * @return string
-     * @inheritdoc
-     */
-    public function temporaryUrl(string $path, DateTimeInterface $expiresAt, array $config = []): string
-    {
-        /** @var CosAdapter $adapter */
-        $adapter = $this->getFilesystemAdapter();
-        return $adapter->getTemporaryUrl($path, $expiresAt);
     }
 }

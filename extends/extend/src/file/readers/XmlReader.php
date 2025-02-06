@@ -5,16 +5,14 @@
 
 namespace lujie\extend\file\readers;
 
-use lujie\extend\file\FileReaderInterface;
 use SimpleXMLElement;
-use yii\base\BaseObject;
 
 /**
  * Class XmlReader
  * @package lujie\extend\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class XmlReader extends BaseObject implements FileReaderInterface
+class XmlReader extends BaseFileReader
 {
     /**
      * @var int
@@ -25,17 +23,6 @@ class XmlReader extends BaseObject implements FileReaderInterface
      * @var string
      */
     public $valueKey = 'value';
-
-    /**
-     * @param string $file
-     * @return array
-     * @inheritdoc
-     */
-    public function read(string $file): array
-    {
-        $content = file_get_contents($file);
-        return $this->readContent($content);
-    }
 
     /**
      * @param string $content

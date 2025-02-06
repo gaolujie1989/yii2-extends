@@ -15,6 +15,7 @@ use lujie\extend\validators\NumberValidator;
 use lujie\extend\validators\SkipValidator;
 use lujie\extend\validators\StringValidator;
 use Yii;
+use yii\base\Application;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\console\Application as YiiConsoleApplication;
@@ -44,7 +45,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
     public $memoryLimit = '256M';
 
     /**
-     * @param \yii\base\Application $app
+     * @param Application $app
      * @inheritdoc
      */
     public function bootstrap($app): void
@@ -55,6 +56,7 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
         if ($this->memoryLimit) {
             MemoryHelper::setMemoryLimit($this->memoryLimit);
         }
+        $app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'setRequestId']);
     }
 
     public function setDefinitions(): void
@@ -125,8 +127,8 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
             ]);
         } else {
             $curlOptions = [
-                CURLOPT_SSL_VERIFYHOST => 0,
-                CURLOPT_SSL_VERIFYPEER => 0,
+//                CURLOPT_SSL_VERIFYHOST => 0,
+//                CURLOPT_SSL_VERIFYPEER => 0,
                 CURLOPT_CONNECTTIMEOUT => 15,
                 CURLOPT_TIMEOUT => 75,
             ];
@@ -145,5 +147,13 @@ class ExtendInitBootstrap extends BaseObject implements BootstrapInterface
                 ],
             ]);
         }
+    }
+
+    /**
+     * @throws \yii\base\Exception
+     */
+    public function setRequestId(): void
+    {
+        Yii::$app->params['requestId'] = Yii::$app->security->generateRandomString();
     }
 }

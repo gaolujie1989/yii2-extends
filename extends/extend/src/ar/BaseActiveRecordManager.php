@@ -9,10 +9,9 @@ use lujie\extend\helpers\ClassHelper;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
-use yii\base\Event;
 use yii\db\BaseActiveRecord;
 use yii\helpers\StringHelper;
-use yii\web\Application;
+use yii\web\Application as WebApplication;
 
 /**
  * Class ActiveRecordSnapshotManager
@@ -44,7 +43,7 @@ abstract class BaseActiveRecordManager extends BaseObject implements BootstrapIn
     /**
      * @var bool
      */
-    public $onlyOnUserChanged = true;
+    public $onlyOnUserChanged = false;
 
     /**
      * @param BaseActiveRecord $model
@@ -54,7 +53,8 @@ abstract class BaseActiveRecordManager extends BaseObject implements BootstrapIn
     protected function isActive(BaseActiveRecord $model): bool
     {
         if ($this->onlyOnUserChanged) {
-            if (!(Yii::$app instanceof Application) || Yii::$app->getUser()->getIsGuest()) {
+            $isLogin = Yii::$app instanceof WebApplication && Yii::$app->getUser()->getIsGuest();
+            if (!$isLogin) {
                 return false;
             }
         }

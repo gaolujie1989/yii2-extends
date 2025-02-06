@@ -5,8 +5,6 @@
 
 namespace lujie\extend\log\targets;
 
-use BackupManager\Databases\PostgresqlDatabase;
-use Yii;
 use yii\db\Exception;
 use yii\helpers\VarDumper;
 use yii\log\Logger;
@@ -19,14 +17,15 @@ use yii\log\LogRuntimeException;
  */
 class ExtendDbTarget extends \yii\log\DbTarget
 {
-    use LogContextMassageTrait;
+    use LogContextMassageTrait, LogProfilingTrait;
 
     /**
      * @var array the messages that need to be profiled on duration bigger.
      */
     public $profilingOn = [
-        'yii\db\Command::query' => 0.1,
+        'yii\db\Command::query' => 0.5,
         'yii\db\Command::execute' => 0.05,
+        'yii\httpclient\CurlTransport::send' => 5,
         '*' => 1,
     ];
 
@@ -37,6 +36,7 @@ class ExtendDbTarget extends \yii\log\DbTarget
      */
     public function export(): void
     {
+        $this->calculateProfiling();
         if ($this->db->getTransaction()) {
             // create new database connection, if there is an open transaction
             // to ensure insert statement is not affected by a rollback
@@ -64,34 +64,12 @@ class ExtendDbTarget extends \yii\log\DbTarget
                     ':level' => $level,
                     ':category' => $category,
                     ':log_at' => $timestamp,
-                    ':duration' => 0,
                     ':prefix' => $this->getMessagePrefix($message),
                     ':message' => $text,
                     ':summary' => substr($this->getSummary($message), 0, 200),
                     ':memory_usage' => $message[5] ?? 0,
-                    ':memory_diff' => 0,
-                ])->execute() > 0) {
-                continue;
-            }
-
-            throw new LogRuntimeException('Unable to export log through database!');
-        }
-
-        $calculateTimings = Yii::getLogger()->calculateTimings($this->messages);
-        foreach ($calculateTimings as $timing) {
-            if (!$this->isProfiling($timing)) {
-                continue;
-            }
-            if ($command->bindValues([
-                    ':level' => Logger::LEVEL_PROFILE,
-                    ':category' => $timing['category'],
-                    ':log_at' => $timing['timestamp'],
-                    ':duration' => $timing['duration'],
-                    ':prefix' => '',
-                    ':message' => $timing['info'],
-                    ':summary' => substr($timing['info'], 0, 200),
-                    ':memory_usage' => $timing['memory'],
-                    ':memory_diff' => $timing['memoryDiff'],
+                    ':memory_diff' => $message[6] ?? 0,
+                    ':duration' => $message[7] ?? 0,
                 ])->execute() > 0) {
                 continue;
             }
@@ -112,32 +90,11 @@ class ExtendDbTarget extends \yii\log\DbTarget
             return $text;
         }
         if ($text instanceof \Throwable) {
-            return $text->getMessage();
+            return $text->getMessage() ?: '';
         }
         if (is_array($text) && isset($text[0])) {
             return $text[0];
         }
         return '';
-    }
-
-    /**
-     * @param array $timing
-     * @return bool
-     * @inheritdoc
-     */
-    private function isProfiling(array $timing): bool
-    {
-        if (empty($this->profilingOn)) {
-            return true;
-        }
-        $category = $timing['category'];
-        $duration = $timing['duration'];
-        foreach ($this->profilingOn as $profilingCategory => $profilingDuration) {
-            if ($category === $profilingCategory
-                || (str_ends_with($profilingCategory, '*') && str_starts_with($category, rtrim($profilingCategory, '*')))) {
-                return $duration >= $profilingDuration;
-            }
-        }
-        return false;
     }
 }

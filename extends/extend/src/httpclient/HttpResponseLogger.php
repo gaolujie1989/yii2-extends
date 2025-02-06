@@ -12,16 +12,22 @@ use yii\base\Event;
 use yii\helpers\FileHelper;
 use yii\helpers\StringHelper;
 use yii\httpclient\Client;
+use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
 use yii\web\HeaderCollection;
 
 /**
- * Class ResponseLogger
+ * Class HttpResponseLogger
  * @package lujie\extend\httpclient
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
 class HttpResponseLogger extends BaseObject implements BootstrapInterface
 {
+    /**
+     * @var int
+     */
+    public $contentLoggingMaxSize = 20000;
+
     /**
      * @var string
      */
@@ -48,6 +54,21 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
         $logContent = $this->createLogContent($request->getMethod(), $request->getFullUrl(), $this->getHeaders($request->getHeaders()), print_r($request->getContent(), true))
             . "\n\n"
             . $this->createLogContent('', '', $this->getHeaders($response->getHeaders()), print_r($response->getContent(), true));
+        if (YII_DEBUG) {
+            $this->saveRequestFile($request, $logContent);
+        } else {
+            Yii::info($logContent, Client::class);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param string $logContent
+     * @throws \yii\base\Exception
+     * @inheritdoc
+     */
+    public function saveRequestFile(Request $request, string $logContent): void
+    {
         $fileName = substr(strtr($request->getFullUrl(), ["://" => "_", '.' => '_', '/' => '_', '?' => '_', '=' => '_']), 0, 200);
         $fileName = date('YmdHis') . '_' . $request->getMethod() . '_' . $fileName . '.log';
         $path = rtrim(Yii::getAlias($this->logPath), '/') . '/';
@@ -79,12 +100,12 @@ class HttpResponseLogger extends BaseObject implements BootstrapInterface
      */
     public function createLogContent(string $method, string $url, array $headers, ?string $content): string
     {
-        $token = strtoupper($method) . ' ' . $url;
+        $token = trim(strtoupper($method) . ' ' . $url);
         if (!empty($headers)) {
             $token .= "\n" . implode("\n", $headers);
         }
         if ($content !== null) {
-            $token .= "\n\n" . $content;
+            $token .= "\n\n" . (YII_DEBUG ? $content : StringHelper::truncate($content, $this->contentLoggingMaxSize));
         }
         return $token;
     }

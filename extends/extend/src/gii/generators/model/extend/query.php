@@ -27,7 +27,7 @@ $orderByFields = [];
 $indexByFields = [];
 $returnByFields = [];
 foreach ($labels as $name => $label) {
-    if (in_array($name, ['key', 'sku', 'asin', 'code', 'type', 'status'], true)
+    if (in_array($name, ['key', 'sku', 'asin', 'code', 'type', 'state', 'status'], true)
         || in_array(substr($name, -3), ['_id', '_no', 'sku'], true)
         || in_array(substr($name, -4), ['_key'], true)
         || in_array(substr($name, -5), ['_code', '_type'], true)
@@ -36,13 +36,13 @@ foreach ($labels as $name => $label) {
         $queryFields[lcfirst(Inflector::camelize($name))] = $name;
     }
     if (in_array(substr($name, -3), ['_at'], true)
-        || in_array(substr($name, -5), ['_date'], true)
+        || in_array(substr($name, -5), ['_date', '_time'], true)
     ) {
         $queryBetweenFields[lcfirst(Inflector::camelize($name)) . 'Between'] = $name;
     }
     if (in_array($name, ['position', 'priority'], true)
         || in_array(substr($name, -3), ['_id', '_at'], true)
-        || in_array(substr($name, -5), ['_date'], true)
+        || in_array(substr($name, -5), ['_date', '_time'], true)
     ) {
         $orderByFields['orderBy' . Inflector::camelize($name)] = $name;
     }
@@ -74,7 +74,8 @@ use lujie\db\fieldQuery\behaviors\FieldQueryBehavior;
  *
 <?php
 foreach ($queryFields as $name => $field) {
-    if (substr($field, -3) === '_no' || substr($field, -4) === '_key' || substr($field, -5) === '_code') {
+    $fieldType = $tableSchema->columns[$field]->type;
+    if ($fieldType === \yii\db\Schema::TYPE_STRING) {
         echo " * @method $className $name(\$$name, bool|string \$like = false)\n";
     } else {
         echo " * @method $className $name(\$$name)\n";

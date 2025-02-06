@@ -275,7 +275,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         }
         foreach ($this->defaultTargets as $key => $target) {
             if ($target['class'] === EmailTarget::class || $target['class'] === ExtendEmailTarget::class) {
-                $this->defaultTargets[$key] = array_merge($target, $this->emailTargetConfig);
+                $this->defaultTargets[$key] = array_merge($this->emailTargetConfig, $target);
             }
         }
         foreach ($this->scenarioTargets as $scenario => $scenarioTargets) {
@@ -283,7 +283,7 @@ class LogTargetAdjuster extends BaseObject implements BootstrapInterface
         }
         foreach ($this->targets as $key => $target) {
             if ($target['class'] === EmailTarget::class || $target['class'] === ExtendEmailTarget::class) {
-                $this->targets[$key] = array_merge($target, $this->emailTargetConfig);
+                $this->targets[$key] = array_merge($this->emailTargetConfig, $target);
             }
         }
     }

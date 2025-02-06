@@ -134,8 +134,6 @@ class BaseSoapClient extends Component
      * @param string $wsdl
      * @param string $clientClass
      * @param string|object $classMapClass
-     * @param array $plugins
-     * @param string $cacheDir
      * @return mixed
      * @throws \yii\base\Exception
      * @inheritdoc

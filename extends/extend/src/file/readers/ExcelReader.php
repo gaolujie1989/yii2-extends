@@ -13,8 +13,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Yii;
 use yii\base\BaseObject;
+use yii\base\NotSupportedException;
 use yii\helpers\FileHelper;
-use yii\helpers\VarDumper;
 
 /**
  * Class ExcelReader
@@ -160,5 +160,16 @@ class ExcelReader extends BaseObject implements FileReaderInterface
             $ten += ($int - 64) * (26 ** ($len - $i));
         }
         return $ten;
+    }
+
+    /**
+     * @param string $content
+     * @return array
+     * @throws NotSupportedException
+     * @inheritdoc
+     */
+    public function readContent(string $content): array
+    {
+        throw new NotSupportedException('Not support read content for excel file.');
     }
 }

@@ -28,6 +28,8 @@ class Generator extends \yii\gii\Generator
 
     public $factoryNs = '';
 
+    public $generateConstant = true;
+
     /**
      * @return string
      * @inheritdoc
@@ -55,6 +57,7 @@ class Generator extends \yii\gii\Generator
             [['ns', 'baseClass', 'openapiJsonPath'], 'required'],
             [['ns', 'baseClass', 'openapiJsonPath', 'factoryClass', 'factoryNs'], 'trim'],
             [['ns', 'baseClass', 'openapiJsonPath', 'factoryClass', 'factoryNs'], 'string'],
+            [['generateConstant'], 'boolean'],
         ]);
     }
 
@@ -70,6 +73,7 @@ class Generator extends \yii\gii\Generator
             'openapiJsonPath' => 'OpenAPI Json Path',
             'factoryClass' => 'Factory Class',
             'factoryNs' => 'Factory Namespace',
+            'generateConstant' => 'Generate Constant',
         ];
     }
 
@@ -103,6 +107,16 @@ class Generator extends \yii\gii\Generator
                 Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $apiClassName . '.php',
                 $this->render('openapi.php', $params)
             );
+            if ($this->generateConstant) {
+                $params = [
+                    'className' => $apiClassName . 'Const',
+                    'openapi' => Json::decode(file_get_contents($openApiJsonFile)),
+                ];
+                $files[] = new CodeFile(
+                    Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $apiClassName . 'Const.php',
+                    $this->render('constant.php', $params)
+                );
+            }
         }
         if ($this->factoryClass) {
             $this->factoryNs = $this->factoryNs ?: $this->ns;

@@ -84,7 +84,6 @@ trait RestApiTrait
      */
     protected function initRest(): void
     {
-        Yii::info('Init rest config and api methods', __METHOD__);
         $this->setStateStorage($this->cacheStorage ?? CacheStateStorage::class);
         $this->setHttpClient(array_merge(
             [

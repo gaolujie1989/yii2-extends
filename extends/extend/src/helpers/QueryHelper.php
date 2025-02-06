@@ -168,16 +168,21 @@ class QueryHelper
             }
             $aliasAttribute = $alias . $attribute;
             if ($like) {
+                $andOrLike = 'OR Like';
+                if (is_string($like) && str_contains($like, 'A')) {
+                    $andOrLike = 'Like';
+                    $like = str_replace('A', '', $like);
+                }
                 if ($like === 'L') {
                     $valuesL = array_map(static function ($v) {
                         return $v . '%';
                     }, $values);
-                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $valuesL, false]);
+                    $query->andFilterWhere([$andOrLike, $aliasAttribute, $valuesL, false]);
                 } elseif ($like === 'R') {
                     $valuesR = array_map(static function ($v) {
                         return '%' . $v;
                     }, $values);
-                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $valuesR, false]);
+                    $query->andFilterWhere([$andOrLike, $aliasAttribute, $valuesR, false]);
                 } elseif ($like === 'LR') {
                     $valuesL = array_map(static function ($v) {
                         return $v . '%';
@@ -185,9 +190,9 @@ class QueryHelper
                     $valuesR = array_map(static function ($v) {
                         return '%' . $v;
                     }, $values);
-                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, array_merge($valuesL, $valuesR), false]);
+                    $query->andFilterWhere([$andOrLike, $aliasAttribute, array_merge($valuesL, $valuesR), false]);
                 } else {
-                    $query->andFilterWhere(['OR LIKE', $aliasAttribute, $values]);
+                    $query->andFilterWhere([$andOrLike, $aliasAttribute, $values]);
                 }
             } else {
                 $query->andFilterWhere([$aliasAttribute => $values]);
@@ -227,18 +232,23 @@ class QueryHelper
         $alias = $alias ? $alias . '.' : '';
         $condition = ['OR'];
         if ($like) {
+            $andOrLike = 'OR Like';
+            if (is_string($like) && str_contains($like, 'A')) {
+                $andOrLike = 'Like';
+                $like = str_replace('A', '', $like);
+            }
             foreach ($attributes as $attribute) {
                 $aliasAttribute = $alias . $attribute;
                 if ($like === 'L') {
                     $valuesL = array_map(static function ($v) {
                         return $v . '%';
                     }, $values);
-                    $condition[] = ['OR LIKE', $aliasAttribute, $valuesL, false];
+                    $condition[] = [$andOrLike, $aliasAttribute, $valuesL, false];
                 } elseif ($like === 'R') {
                     $valuesR = array_map(static function ($v) {
                         return '%' . $v;
                     }, $values);
-                    $condition[] = ['OR LIKE', $aliasAttribute, $valuesR, false];
+                    $condition[] = [$andOrLike, $aliasAttribute, $valuesR, false];
                 } elseif ($like === 'LR') {
                     $valuesL = array_map(static function ($v) {
                         return $v . '%';
@@ -246,9 +256,9 @@ class QueryHelper
                     $valuesR = array_map(static function ($v) {
                         return '%' . $v;
                     }, $values);
-                    $condition[] = ['OR LIKE', $aliasAttribute, array_merge($valuesL, $valuesR), false];
+                    $condition[] = [$andOrLike, $aliasAttribute, array_merge($valuesL, $valuesR), false];
                 } else {
-                    $condition[] = ['OR LIKE', $aliasAttribute, $values];
+                    $condition[] = [$andOrLike, $aliasAttribute, $values];
                 }
             }
         } else {

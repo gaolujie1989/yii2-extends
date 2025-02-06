@@ -17,4 +17,11 @@ interface FileReaderInterface
      * @inheritdoc
      */
     public function read(string $file): array;
+
+    /**
+     * @param string $content
+     * @return array
+     * @inheritdoc
+     */
+    public function readContent(string $content): array;
 }

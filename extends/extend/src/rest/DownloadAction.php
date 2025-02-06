@@ -107,8 +107,8 @@ class DownloadAction extends Action
     }
 
     /**
-     * @param mixed $fileName
-     * @param mixed $filePath
+     * @param string $fileName
+     * @param string $filePath
      * @param array $options
      * @return Response
      * @throws \League\Flysystem\FilesystemException

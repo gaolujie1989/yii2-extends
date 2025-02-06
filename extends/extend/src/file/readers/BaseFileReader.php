@@ -7,14 +7,13 @@ namespace lujie\extend\file\readers;
 
 use lujie\extend\file\FileReaderInterface;
 use yii\base\BaseObject;
-use yii\base\NotSupportedException;
 
 /**
- * Class PhpReader
+ * Class BaseReader
  * @package lujie\extend\file\readers
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class PhpReader extends BaseObject implements FileReaderInterface
+abstract class BaseFileReader extends BaseObject implements FileReaderInterface
 {
     /**
      * @param string $file
@@ -24,19 +23,9 @@ class PhpReader extends BaseObject implements FileReaderInterface
     public function read(string $file): array
     {
         if (file_exists($file)) {
-            return (array)require($file);
+            $content = file_get_contents($file);
+            return $this->readContent($content);
         }
         return [];
-    }
-
-    /**
-     * @param string $content
-     * @return array
-     * @throws NotSupportedException
-     * @inheritdoc
-     */
-    public function readContent(string $content): array
-    {
-        throw new NotSupportedException('Not support read content for excel file.');
     }
 }

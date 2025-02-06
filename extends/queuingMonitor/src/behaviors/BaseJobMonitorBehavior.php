@@ -193,12 +193,12 @@ abstract class BaseJobMonitorBehavior extends Behavior
         /** @var ?BaseWorkerMonitorBehavior $workerMonitor */
         $workerMonitor = $event->sender->getBehavior($this->workerMonitorBehavior);
         if ($workerMonitor === null) {
-            Yii::info('WorkerMonitor is null', __METHOD__);
+            Yii::warning('WorkerMonitor is null', __METHOD__);
             return;
         }
         $workerPid = $event->sender->getWorkerPid();
         if ($workerPid === null) {
-            Yii::info('WorkerPid is empty', __METHOD__);
+            Yii::warning('WorkerPid is empty', __METHOD__);
             return;
         }
         $workerMonitor->updateCount($workerPid, $success);

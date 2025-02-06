@@ -28,7 +28,7 @@ class ActiveRecordJobMonitorBehavior extends BaseJobMonitorBehavior
     public $jobExecClass = QueueJobExec::class;
 
     /**
-     * @var QueueJobExec
+     * @var QueueJobExec|null
      */
     private $jobExec;
 

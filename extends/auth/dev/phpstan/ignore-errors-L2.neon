@@ -1,0 +1,4 @@
+parameters:
+    ignoreErrors:
+        - '#Call to an undefined method yii\\db\\ActiveQueryInterface::select#'
+        - '#Unsafe access to private property lujie\\auth\\helpers\\AuthHelper#'

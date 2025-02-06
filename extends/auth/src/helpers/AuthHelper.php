@@ -25,25 +25,49 @@ class AuthHelper
      * @var array[]
      */
     public static $defaultActionPermissions = [
+        'display' => [
+            'label' => 'Display',
+            'sort' => 1,
+        ],
         'index' => [
             'label' => 'List',
             'sort' => 10,
-            'actionKeys' => ['export'],
+        ],
+        'export' => [
+            'label' => 'Export',
+            'sort' => 11,
         ],
         'view' => [
             'label' => 'View',
             'sort' => 20,
-            'actionKeys' => ['download']
         ],
-        'edit' => [
-            'label' => 'Edit',
+        'download' => [
+            'label' => 'Download',
+            'sort' => 21,
+        ],
+        'create' => [
+            'label' => 'Create',
             'sort' => 30,
-            'actionKeys' => ['create', 'update', 'upload', 'import', 'batch-update'],
+        ],
+        'update' => [
+            'label' => 'Update',
+            'sort' => 31,
+        ],
+        'batchUpdate' => [
+            'label' => 'Batch Update',
+            'sort' => 32,
+        ],
+        'import' => [
+            'label' => 'Import',
+            'sort' => 33,
         ],
         'delete' => [
             'label' => 'Delete',
             'sort' => 40,
-            'actionKeys' => ['batch-delete']
+        ],
+        'batchDelete' => [
+            'label' => 'Batch Delete',
+            'sort' => 41,
         ],
     ];
 
@@ -61,6 +85,37 @@ class AuthHelper
      * @var string[]
      */
     public static $replaceKeys = ['/', '.'];
+
+    /**
+     * @param bool $create
+     * @param bool $update
+     * @param bool $delete
+     * @return array[]
+     * @inheritdoc
+     */
+    public static function getDefaultActionPermissions(bool $create = true, bool $update = true, bool $delete = true): array
+    {
+        $includes = [
+            'display',
+            'index',
+            'export',
+            'view',
+            'download',
+        ];
+        if ($create) {
+            $includes[] = 'create';
+            $includes[] = 'import';
+        }
+        if ($update) {
+            $includes[] = 'update';
+            $includes[] = 'batchUpdate';
+        }
+        if ($delete) {
+            $includes[] = 'delete';
+            $includes[] = 'batchDelete';
+        }
+        return array_intersect_key(self::$defaultActionPermissions, array_flip($includes));
+    }
 
     /**
      * @param $config
@@ -161,7 +216,6 @@ class AuthHelper
     /**
      * @param array $permissionTree
      * @param ManagerInterface $manager
-     * @param string $prefix
      * @param string $separator
      * @param array $replaces
      * @throws \yii\base\Exception
@@ -169,11 +223,11 @@ class AuthHelper
      * @inheritdoc
      */
     public static function syncPermissions(
-        array       $permissionTree,
+        array            $permissionTree,
         ManagerInterface $manager,
-        array       $childrenKeys = ['modules', 'groups', 'permissions'],
-        string      $separator = '_',
-        array       $replaces = []
+        array            $childrenKeys = ['modules', 'groups', 'permissions'],
+        string           $separator = '_',
+        array            $replaces = []
     ): void
     {
         [$permissions, $childPermissions, $permissionChildren] = static::createPermissions($permissionTree, $childrenKeys, '', '', $separator, $replaces);
@@ -319,7 +373,7 @@ class AuthHelper
                 $permissionTree[$parent][$childrenKey] = $subTree;
             }
         }
-        uasort($permissionTree, static function($a, $b) {
+        uasort($permissionTree, static function ($a, $b) {
             return $a['sort'] <=> $b['sort'];
         });
         return array_values($permissionTree);

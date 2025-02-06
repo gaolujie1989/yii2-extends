@@ -36,7 +36,7 @@ interface DataStorageInterface extends DataLoaderInterface
     public function remove($key);
 
     /**
-     * @param array $key
+     * @param array $keys
      * @return mixed
      * @inheritdoc
      */

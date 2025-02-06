@@ -20,7 +20,6 @@ use yii\db\BaseActiveRecord;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
-use function RingCentral\Psr7\str;
 
 /**
  * Class FieldQueryBehavior
@@ -329,14 +328,32 @@ class FieldQueryBehavior extends Behavior
             } else {
                 $like = $allowLike && $params ? array_shift($params) : null;
                 if ($like) {
-                    if ($like === 'L') {
-                        $owner->andWhere(['LIKE', $field, $value . '%', false]);
-                    } else if ($like === 'R') {
-                        $owner->andWhere(['LIKE', $field, '%' . $value, false]);
-                    } else if (str_contains($value, '%')) {
-                        $owner->andWhere(['LIKE', $field, $value, false]);
+                    if (is_array($value)) {
+                        if ($like === 'L') {
+                            $value = array_map(static function ($v) {
+                                return $v . '%';
+                            }, $value);
+                            $owner->andWhere(['OR LIKE', $field, $value, false]);
+                        } else if ($like === 'R') {
+                            $value = array_map(static function ($v) {
+                                return '%' . $v;
+                            }, $value);
+                            $owner->andWhere(['OR LIKE', $field, $value, false]);
+                        } else if (str_contains(reset($value), '%')) {
+                            $owner->andWhere(['OR LIKE', $field, $value, false]);
+                        } else {
+                            $owner->andWhere(['OR LIKE', $field, $value]);
+                        }
                     } else {
-                        $owner->andWhere(['LIKE', $field, $value]);
+                        if ($like === 'L') {
+                            $owner->andWhere(['LIKE', $field, $value . '%', false]);
+                        } else if ($like === 'R') {
+                            $owner->andWhere(['LIKE', $field, '%' . $value, false]);
+                        } else if (str_contains($value, '%')) {
+                            $owner->andWhere(['LIKE', $field, $value, false]);
+                        } else {
+                            $owner->andWhere(['LIKE', $field, $value]);
+                        }
                     }
                 } else {
                     $owner->andWhere([$field => $value]);

@@ -67,7 +67,6 @@ class ChargeTableCalculator extends BaseChargeCalculator
 
     /**
      * @param ChargeableItem $chargeableItem
-     * @param string $chargeType
      * @return ChargeTable|null
      * @inheritdoc
      */

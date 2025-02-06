@@ -84,7 +84,7 @@ class ShippingItem extends BaseChargeItem
         ?string $itemKey = null,
     ): static
     {
-        $shippingItem = new ShippingItem();
+        $shippingItem = new static();
         $shippingItem->weightG = $weightG;
         $shippingItem->lengthMM = $lengthMM;
         $shippingItem->widthMM = $widthMM;

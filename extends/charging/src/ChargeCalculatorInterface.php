@@ -16,7 +16,6 @@ interface ChargeCalculatorInterface
 {
     /**
      * @param BaseActiveRecord $model
-     * @param string $chargeType
      * @return CalculatedPrice[]
      * @inheritdoc
      */

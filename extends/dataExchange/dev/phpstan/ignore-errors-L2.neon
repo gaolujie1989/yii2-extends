@@ -1,0 +1,5 @@
+parameters:
+    ignoreErrors:
+        -
+            message: "#RestClientTrait#"
+            path: ../../src/sources/RestClientSource.php

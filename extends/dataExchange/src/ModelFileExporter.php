@@ -18,7 +18,7 @@ use yii\db\BaseActiveRecord;
 class ModelFileExporter extends FileExporter
 {
     /**
-     * @var BaseActiveRecord
+     * @var string
      */
     public $modelClass;
 

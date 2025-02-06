@@ -7,7 +7,7 @@ namespace lujie\data\exchange\sources;
 
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQueryInterface;
-use yii\db\BaseActiveRecord;
+use yii\db\ActiveRecord;
 
 /**
  * Class ActiveRecordSource
@@ -17,7 +17,7 @@ use yii\db\BaseActiveRecord;
 class ActiveRecordSource extends QuerySource
 {
     /**
-     * @var BaseActiveRecord
+     * @var ActiveRecord
      */
     public $modelClass;
 

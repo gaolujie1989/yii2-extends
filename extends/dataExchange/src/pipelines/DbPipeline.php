@@ -101,12 +101,6 @@ class DbPipeline extends BaseDbPipeline
             $insertRows = array_values($data);
             $updateRows = [];
         }
-        if (!$this->insert) {
-            $insertRows = [];
-        }
-        if (!$this->update) {
-            $updateRows = [];
-        }
 
         $this->appendTraceableToRows($insertRows, $updateRows);
 
@@ -144,6 +138,8 @@ class DbPipeline extends BaseDbPipeline
     {
         $insertRows = [];
         $updateRows = [];
+        $filterInsertAttributes = $this->insertOnlyAttributes || $this->insertExceptAttributes;
+        $filterUpdateAttributes = $this->updateOnlyAttributes || $this->updateExceptAttributes;
         $dataChunks = array_chunk($data, $this->chunkSize, true);
         $primaryKeys = $this->updateByPrimaryKey ? $this->db->getTableSchema($this->table)->primaryKey : [];
         $selectColumns = array_unique(array_merge($this->indexKeys, $primaryKeys));
@@ -170,6 +166,12 @@ class DbPipeline extends BaseDbPipeline
             }
             foreach ($chunkedData as $indexValue => $values) {
                 if ($this->indexKeys && isset($existRows[$indexValue])) {
+                    if (!$this->update) {
+                        continue;
+                    }
+                    if ($filterUpdateAttributes) {
+                        $values = $this->filterValues($values, $this->updateOnlyAttributes, $this->updateExceptAttributes);
+                    }
                     if ($this->skipIfEqual) {
                         $existValues = array_intersect_key($existRows[$indexValue], $values);
                         if (ValueHelper::isArrayEqual($existValues, $values, $this->skipEqualStrict)) {
@@ -184,6 +186,12 @@ class DbPipeline extends BaseDbPipeline
                     }
                     $updateRows[] = [$values, $condition];
                 } else {
+                    if (!$this->insert) {
+                        continue;
+                    }
+                    if ($filterInsertAttributes) {
+                        $values = $this->filterValues($values, $this->insertOnlyAttributes, $this->insertExceptAttributes);
+                    }
                     $insertRows[] = $values;
                 }
             }

@@ -15,6 +15,7 @@ use yii\di\Instance;
  * Class ClientSource
  * @package lujie\data\exchange\sources
  * @author Lujie Zhou <gao_lujie@live.cn>
+ * @deprecated
  */
 class RestClientSource extends BaseObject implements BatchSourceInterface, ConditionSourceInterface
 {

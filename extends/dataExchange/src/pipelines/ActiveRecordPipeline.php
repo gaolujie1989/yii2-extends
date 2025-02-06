@@ -80,16 +80,6 @@ class ActiveRecordPipeline extends BaseDbPipeline
             }
             return false;
         }
-        if (!$this->insert) {
-            $models = array_filter($models, static function($model) {
-                return !$model->getIsNewRecord();
-            });
-        }
-        if (!$this->update) {
-            $models = array_filter($models, static function($model) {
-                return $model->getIsNewRecord();
-            });
-        }
 
         $callable = function () use ($models) {
             $affectedRowCounts = $this->affectedRowCounts;
@@ -122,13 +112,16 @@ class ActiveRecordPipeline extends BaseDbPipeline
     protected function createModels(array $data): array
     {
         $models = [];
+        $filterInsertAttributes = $this->insertOnlyAttributes || $this->insertExceptAttributes;
+        $filterUpdateAttributes = $this->updateOnlyAttributes || $this->updateExceptAttributes;
         $modelClass = $this->modelClass;
         $dataChunks = array_chunk($data, $this->chunkSize, true);
         foreach ($dataChunks as $chunkedData) {
             $existModels = [];
             if ($this->indexKeys) {
                 $conditions = ArrayHelper::getColumn($chunkedData, function ($values) {
-                    return array_intersect_key($values, array_flip($this->indexKeys));
+                    $array = is_array($values) ? $values : ArrayHelper::toArray($values, [], false);
+                    return array_intersect_key($array, array_flip($this->indexKeys));
                 }, false);
                 array_unshift($conditions, 'OR');
                 $existModels = $modelClass::find()
@@ -143,6 +136,30 @@ class ActiveRecordPipeline extends BaseDbPipeline
                     $model = $existModels[$indexValue] ?? new $modelClass();
                 } else {
                     $model = new $modelClass();
+                }
+                if ($values instanceof BaseActiveRecord) {
+                    if (!$model->getIsNewRecord()) {
+                        $values->setIsNewRecord(false);
+                        $values->setOldAttributes($model->getOldAttributes());
+                        $values->setAttributes($model->getPrimaryKey(true), false);
+                    }
+                    $models[] = $values;
+                    continue;
+                }
+                if ($model->getIsNewRecord()) {
+                    if (!$this->insert) {
+                        continue;
+                    }
+                    if ($filterInsertAttributes) {
+                        $values = $this->filterValues($values, $this->insertOnlyAttributes, $this->insertExceptAttributes);
+                    }
+                } else {
+                    if (!$this->update) {
+                        continue;
+                    }
+                    if ($filterUpdateAttributes) {
+                        $values = $this->filterValues($values, $this->updateOnlyAttributes, $this->updateExceptAttributes);
+                    }
                 }
                 if ($this->modelScenario) {
                     $model->setScenario($this->modelScenario);

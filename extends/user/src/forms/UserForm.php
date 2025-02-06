@@ -5,6 +5,7 @@
 
 namespace lujie\user\forms;
 
+use lujie\extend\db\FormTrait;
 use lujie\user\models\User;
 
 /**
@@ -14,6 +15,8 @@ use lujie\user\models\User;
  */
 class UserForm extends User
 {
+    use FormTrait;
+
     public $password;
 
     /**
@@ -22,8 +25,12 @@ class UserForm extends User
      */
     public function rules(): array
     {
-        return array_merge(parent::rules(), [
-            [['password'], 'string', 'min' => 6]
+        return array_merge($this->formRules(), [
+            [['password'], 'string', 'min' => 8],
+            [['password'], 'match', 'pattern' => '/[0-9]+/', 'message' => 'New password needs number.'],
+            [['password'], 'match', 'pattern' => '/[a-z]+/', 'message' => 'New password needs lowercase letters.'],
+            [['password'], 'match', 'pattern' => '/[A-Z]+/', 'message' => 'New password needs uppercase letters.'],
+            [['password'], 'match', 'pattern' => '/[~!@#$%^&*()_+`,.]+/', 'message' => 'New password needs special characters: [~!@#$%^&*()_+`,.].'],
         ]);
     }
 

@@ -18,7 +18,7 @@ use yii\mail\MailerInterface;
  * @package lujie\user\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class ResetPasswordByEmailForm extends ResetPasswordForm
+class PasswordResetByEmailForm extends PasswordResetForm
 {
     /**
      * @var string

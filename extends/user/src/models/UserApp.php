@@ -4,8 +4,10 @@ namespace lujie\user\models;
 
 use lujie\extend\constants\StatusConst;
 use Yii;
+use yii\caching\CacheInterface;
 use yii\caching\TagDependency;
 use yii\db\ActiveQuery;
+use yii\di\Instance;
 
 /**
  * This is the model class for table "{{%user_app}}".
@@ -22,8 +24,6 @@ use yii\db\ActiveQuery;
  */
 class UserApp extends \lujie\extend\db\ActiveRecord
 {
-    public const LOGIN_TYPE = 'AppLogin';
-
     /**
      * {@inheritdoc}
      */
@@ -71,27 +71,39 @@ class UserApp extends \lujie\extend\db\ActiveRecord
     }
 
     /**
-     * @param bool $insert
-     * @param array $changedAttributes
+     * @param $insert
+     * @param $changedAttributes
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function afterSave($insert, $changedAttributes): void
     {
         parent::afterSave($insert, $changedAttributes);
-        if ($this->status === StatusConst::STATUS_INACTIVE || isset($changedAttributes['secret'])) {
-            $tags = User::getUserIdTokenTags($this->user_id, static::LOGIN_TYPE);
-            TagDependency::invalidate(User::getCache(), [$tags[1]]);
-        }
+        $this->invalidateCache();
     }
 
     /**
+     * @throws \yii\base\InvalidConfigException
      * @inheritdoc
      */
     public function afterDelete(): void
     {
         parent::afterDelete();
-        $tags = User::getUserIdTokenTags($this->user_id, static::LOGIN_TYPE);
-        TagDependency::invalidate(User::getCache(), [$tags[1]]);
+        $this->invalidateCache();
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
+     */
+    public function invalidateCache(): void
+    {
+        $connection = static::getDb();
+        if ($connection->enableQueryCache && $connection->queryCache) {
+            /** @var CacheInterface $queryCache */
+            $queryCache = Instance::ensure($connection->queryCache);
+            TagDependency::invalidate($queryCache, User::$userCacheTags);
+        }
     }
 
     /**

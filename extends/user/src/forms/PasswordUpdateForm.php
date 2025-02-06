@@ -8,13 +8,14 @@ namespace lujie\user\forms;
 use lujie\user\models\User;
 use Yii;
 use yii\base\Model;
+use yii\caching\TagDependency;
 
 /**
  * Class UpdatePasswordForm
  * @package lujie\user\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-class UpdatePasswordForm extends Model
+class PasswordUpdateForm extends Model
 {
     public $oldPassword;
     public $newPassword;
@@ -33,7 +34,11 @@ class UpdatePasswordForm extends Model
         return [
             [['oldPassword', 'newPassword'], 'required'],
             [['oldPassword'], 'validateOldPassword'],
-            ['newPassword', 'string', 'min' => 6],
+            [['newPassword'], 'string', 'min' => 8],
+            [['newPassword'], 'match', 'pattern' => '/[0-9]+/', 'message' => 'New password needs number.'],
+            [['newPassword'], 'match', 'pattern' => '/[a-z]+/', 'message' => 'New password needs lowercase letters.'],
+            [['newPassword'], 'match', 'pattern' => '/[A-Z]+/', 'message' => 'New password needs uppercase letters.'],
+            [['newPassword'], 'match', 'pattern' => '/[~!@#$%^&*()_+`,.]+/', 'message' => 'New password needs special characters: [~!@#$%^&*()_+`,.].'],
         ];
     }
 
@@ -66,12 +71,13 @@ class UpdatePasswordForm extends Model
     }
 
     /**
-     * @return mixed
+     * @return bool
      * @throws \Throwable
      * @throws \yii\base\Exception
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function updatePassword()
+    public function update(): bool
     {
         if (!$this->validate()) {
             return false;
@@ -80,6 +86,7 @@ class UpdatePasswordForm extends Model
         /** @var User $user */
         $user = Yii::$app->getUser()->getIdentity();
         $user->setPassword($this->newPassword);
+        TagDependency::invalidate(Yii::$app->cache, User::$userCacheTags);
         return $user->save(false);
     }
 

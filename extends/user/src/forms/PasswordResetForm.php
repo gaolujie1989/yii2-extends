@@ -17,7 +17,7 @@ use yii\base\Model;
  * @package lujie\user\forms
  * @author Lujie Zhou <gao_lujie@live.cn>
  */
-abstract class ResetPasswordForm extends Model
+abstract class PasswordResetForm extends Model
 {
     use CachingTrait;
 

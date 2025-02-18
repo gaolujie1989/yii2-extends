@@ -68,8 +68,12 @@ trait CronScheduleTrait
      * @return bool
      * @inheritdoc
      */
-    public function isInTime(int|array|null $hours, int $minute = 4): bool
+    public function isInTime(int|array|null $hours, ?int $minute = null): bool
     {
+        if ($minute === null) {
+            $intervalMinutes = $this->getIntervalMinutes();
+            $minute = $intervalMinutes - 1;
+        }
         $currentMinute = (int)date('i');
         if ($hours === null) {
             return $currentMinute <= $minute;
@@ -80,5 +84,22 @@ trait CronScheduleTrait
         }
         $currentHour = (int)date('H');
         return in_array($currentHour, $hours, true) && $currentMinute <= $minute;
+    }
+
+    /**
+     * @return int
+     * @inheritdoc
+     */
+    public function getIntervalMinutes(): int
+    {
+        $expressionParts = explode(' ', $this->expression);
+        $firstPart = reset($expressionParts);
+        if ($firstPart === '*') {
+            return 1;
+        }
+        if (str_starts_with($firstPart, '*/')) {
+            return ((int)substr($firstPart, 2));
+        }
+        return 60;
     }
 }

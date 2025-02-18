@@ -5,6 +5,7 @@
 
 namespace lujie\common\deleted\backup\tasks\onetime;
 
+use Generator;
 use lujie\common\deleted\backup\DeletedBackupManager;
 use lujie\common\deleted\backup\models\DeletedBackup;
 use lujie\executing\ProgressInterface;
@@ -34,16 +35,18 @@ class DeletedBackupRestoreTask extends CronTask implements ProgressInterface
     }
 
     /**
-     * @return \Generator
+     * @return Generator
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      * @inheritdoc
      */
-    public function execute(): \Generator
+    public function execute(): Generator
     {
         $this->deletedBackupManager = Instance::ensure($this->deletedBackupManager, DeletedBackupManager::class);
         $deletedBackupQuery = DeletedBackup::find()->deletedBackupId($this->deletedBackupIds);
         $progress = $this->getProgress($deletedBackupQuery->count());
         foreach ($deletedBackupQuery->each() as $deletedBackup) {
-            $this->deletedBackupManager->restore($deletedBackup);
+            $this->deletedBackupManager->restoreDeleted($deletedBackup);
             yield ++$progress->done;
         }
         yield;

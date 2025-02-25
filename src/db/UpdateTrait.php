@@ -5,8 +5,6 @@
 
 namespace lujie\extend\db;
 
-use Illuminate\Support\Str;
-use phpseclib3\Net\SFTP\Stream;
 use yii\db\ActiveQuery;
 
 /**

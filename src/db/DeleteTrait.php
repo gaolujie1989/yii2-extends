@@ -24,7 +24,7 @@ trait DeleteTrait
      */
     public static function deleteAll($condition = null, $params = []): int
     {
-        return static::deleteAll($condition, $params);
+        return static::deleteAllByPk($condition, $params);
     }
 
     /**

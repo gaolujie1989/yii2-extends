@@ -393,6 +393,7 @@ class PlentyMarketBatchRequest extends BaseObject
                 throw new InvalidResponseException($invalidResponse, 'Batch request with errors: ' . Json::encode($errors));
             }
             $chunkedResponses[] = $batchResponse;
+            sleep(count($payloads));
         }
         return array_merge(...$chunkedResponses);
     }

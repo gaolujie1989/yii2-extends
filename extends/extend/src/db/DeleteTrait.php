@@ -24,6 +24,17 @@ trait DeleteTrait
      */
     public static function deleteAll($condition = null, $params = []): int
     {
+        return static::deleteAllByPk($condition, $params);
+    }
+
+    /**
+     * @param array|string|null $condition
+     * @param array $params
+     * @return int
+     * @inheritdoc
+     */
+    public static function deleteAllByPk(array|string|null $condition = null, array $params = []): int
+    {
         $primaryKey = static::primaryKey();
         if (count($primaryKey) > 1) {
             return parent::deleteAll($condition, $params);
